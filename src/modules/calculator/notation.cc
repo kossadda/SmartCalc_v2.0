@@ -12,16 +12,43 @@
 #include "./notation.h"
 
 PolishNotation::PolishNotation(std::string infix) : infix_{infix}, size_{infix_.size()} {
-  infixToPostfix();
+  if(validate()) {
+    infixToPostfix();
+  } else {
+    throw std::invalid_argument("PolishNotation: invalid infix expression");
+  }
+}
+
+void PolishNotation::replaceSubStr(std::string from, std::string to) {
+  size_t start_pos = 0;
+
+  while ((start_pos = infix_.find(from, start_pos)) != std::string::npos) {
+    infix_.replace(start_pos, from.length(), to);
+    start_pos += to.length();
+  }
 }
 
 bool PolishNotation::validate() {
-  for(std::size_t i{}; i < size_; ++i) {
-    // char c = infix_[i];
-    // valid.
+  replaceSubStr(std::string{"asin("}, std::string{"S("});
+  replaceSubStr(std::string{"acos("}, std::string{"C("});
+  replaceSubStr(std::string{"atan("}, std::string{"T("});
+  replaceSubStr(std::string{"sqrt("}, std::string{"Q("});
+  replaceSubStr(std::string{"sin("}, std::string{"s("});
+  replaceSubStr(std::string{"cos("}, std::string{"c("});
+  replaceSubStr(std::string{"tan("}, std::string{"t("});
+  replaceSubStr(std::string{"log("}, std::string{"L("});
+  replaceSubStr(std::string{"mod("}, std::string{"m("});
+  replaceSubStr(std::string{"ln("}, std::string{"l("});
+
+  bool valid = true;
+
+  for(auto i : infix_) {
+    if(kValidCh.find(i) == std::string::npos) {
+      valid = false;
+    }
   }
 
-  return true;
+  return valid;
 }
 
 void PolishNotation::infixToPostfix() {
@@ -121,5 +148,9 @@ int PolishNotation::getPrecedence(char op) {
 
 bool PolishNotation::isOperator(char c) {
   return c == '+' || c == '-' || c == '*' || c == '/';
+}
+
+bool PolishNotation::isFunction(char c) {
+  return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T';
 }
 

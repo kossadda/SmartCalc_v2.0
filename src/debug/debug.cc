@@ -15,9 +15,10 @@
 int main() {
   setlocale(LC_NUMERIC, "C");
 
-  std::string infix = "((3.123 / (5.12 - 23.55 + 12.01 * 11.11 * (2.93 - 1.21))) + 5.56) * 7.63";
+  std::string infix = "ln(log(2.5)*cos(0.5)/(sin(1.2) + tan(0.75))) - "
+      "sqrt(ln(-2.5*log(0.75)/ln(1.2)))";
   PolishNotation pol{infix};
-  std::cout << "Result: " << pol.evaluate() << std::endl;
+  // std::cout << "Result: " << pol.evaluate() << std::endl;
 
   return 0;
 }

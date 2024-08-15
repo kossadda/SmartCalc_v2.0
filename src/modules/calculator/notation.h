@@ -18,6 +18,13 @@
 #include <sstream>
 #include <cctype>
 
+class test {
+  int t;
+
+ public:
+  test(int k) : t{k} {}
+};
+
 class PolishNotation {
  public:
   PolishNotation(std::string infix);
@@ -28,10 +35,12 @@ class PolishNotation {
   void infixToPostfix();
   int getPrecedence(char op);
   bool isOperator(char c);
+  bool isFunction(char c);
   bool validate();
 
-  static constexpr std::string_view valid = "()^+-*/ modsinctaqrlgePx.0123456789";
-  // static constexpr std::string_view 
+  void replaceSubStr(std::string from, std::string to);
+
+  static inline const std::string kValidCh = "()^+-*/msctSCTQLlPxe 1234567890.";
 
   std::string infix_;
   std::string postfix_;
