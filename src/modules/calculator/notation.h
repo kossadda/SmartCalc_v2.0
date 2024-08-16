@@ -17,19 +17,13 @@
 #include <stack>
 #include <sstream>
 #include <cctype>
+#include <cmath>
 
-class test {
-  int t;
-
+class Polish {
  public:
-  test(int k) : t{k} {}
-};
+  Polish(std::string infix);
 
-class PolishNotation {
- public:
-  PolishNotation(std::string infix);
-
-  double evaluate();
+  long double evaluate();
   
  private:
   void infixToPostfix();

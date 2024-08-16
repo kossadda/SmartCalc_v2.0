@@ -101,8 +101,8 @@ $(LIBRARY): $(OBJ_DIR) $(MODULES_O) $(MODULES_H) $(MAIN_H)
 	ar rcs $@ $(addprefix $(OBJ_DIR)/, $(notdir $(MODULES_O)))
 	ranlib $@
 
-test: clean $(OBJ_DIR) $(TEST_O)
-	@$(CXX) $(TEST_CC) $(LDFLAGS) -o $@
+test: clean $(LIBRARY)
+	@$(CXX) $(TEST_CC) $(LIBRARY) $(LDFLAGS) -o $@
 	@-./$@
 
 dvi:
