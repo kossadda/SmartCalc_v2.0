@@ -1,18 +1,24 @@
 /**
  * @file notation.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief 
+ * @brief
  * @version 1.0
  * @date 2024-08-13
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #include "./notation.h"
 
-Polish::Polish(std::string infix) : infix_{infix}, size_{infix_.size()} {
-  if(validate()) {
+Polish::Polish(std::string infix) {
+  for (auto i : infix) {
+    if (i != ' ') {
+      infix_ += i;
+    }
+  }
+
+  if (validate()) {
     infixToPostfix();
   } else {
     throw std::invalid_argument("Polish: invalid infix expression");
@@ -29,6 +35,12 @@ void Polish::replaceSubStr(std::string from, std::string to) {
 }
 
 bool Polish::validate() {
+  if (infix_[0] == '-') {
+    infix_[0] = 'u';
+  }
+
+  // replaceSubStr(std::string{"e"}, std::string{"(2.7182818284590452)"});
+  replaceSubStr(std::string{"P"}, std::string{"(3.1415926535897932)"});
   replaceSubStr(std::string{"asin("}, std::string{"S("});
   replaceSubStr(std::string{"acos("}, std::string{"C("});
   replaceSubStr(std::string{"atan("}, std::string{"T("});
@@ -39,11 +51,20 @@ bool Polish::validate() {
   replaceSubStr(std::string{"log("}, std::string{"L("});
   replaceSubStr(std::string{"ln("}, std::string{"l("});
   replaceSubStr(std::string{"mod"}, std::string{"m"});
+  replaceSubStr(std::string{")("}, std::string{")*("});
+  replaceSubStr(std::string{"(+"}, std::string{"("});
+  replaceSubStr(std::string{"(-"}, std::string{"(u"});
+
+  // std::regex digit_function("(\\d)(\\w\\()");
+  // infix_ = std::regex_replace(infix_, digit_function, "$1*$2");
+
+  std::regex digit_bracket("(\\d)\\(");
+  infix_ = std::regex_replace(infix_, digit_bracket, "$1*(");
 
   bool valid = true;
 
-  for(auto i : infix_) {
-    if(kValidCh.find(i) == std::string::npos) {
+  for (auto i : infix_) {
+    if (kValidCh.find(i) == std::string::npos) {
       valid = false;
     }
   }
@@ -57,14 +78,20 @@ void Polish::infixToPostfix() {
 
   for (std::size_t i{}; i < size_; ++i) {
     char c = infix_[i];
-    if (isspace(c)) {
-      continue;
-    } else if (isdigit(c)) {
+
+    if (isdigit(c)) {
       std::string num;
 
-      while (i < size_ && (isdigit(infix_[i]) || infix_[i] == '.')) {
+      bool science{false};
+      while (i < size_ &&
+             (isdigit(infix_[i]) || infix_[i] == '.' || infix_[i] == 'e' ||
+              (science && (infix_[i] == '+' || infix_[i] == '-')))) {
         num += infix_[i];
         ++i;
+
+        if (i < size_ && infix_[i] == 'e') {
+          science = true;
+        }
       }
 
       postfix_ += num + ' ';
@@ -78,12 +105,14 @@ void Polish::infixToPostfix() {
         ops.pop();
       }
 
-      if(!ops.empty() && isFunction(ops.top())) {
+      if (!ops.empty() && isFunction(ops.top())) {
         postfix_ += ops.top();
         postfix_ += ' ';
       }
 
-      ops.pop();
+      if (ops.size()) {
+        ops.pop();
+      }
     } else if (isOperator(c) || isFunction(c)) {
       while (!ops.empty() && getPrecedence(ops.top()) >= getPrecedence(c)) {
         postfix_ += ops.top();
@@ -104,77 +133,90 @@ void Polish::infixToPostfix() {
 
 long double Polish::evaluate() {
   std::stack<long double> operands;
-  std::istringstream iss(postfix_);
+  std::istringstream iss{postfix_};
   std::string token;
 
   while (iss >> token) {
-    if (isdigit(token[0]) || (token[0] == '.' && token.size() > 1 && isdigit(token[1]))) {
-      operands.push(std::stof(token));
+    if (isdigit(token[0]) ||
+        (token[0] == '.' && token.size() && isdigit(token[1]))) {
+      operands.push(std::stold(token));
     } else if (isOperator(token[0])) {
       long double right = operands.top();
       operands.pop();
       long double left = operands.top();
       operands.pop();
 
-      long double result;
       switch (token[0]) {
         case '+':
-          result = left + right;
+          left += right;
           break;
         case '-':
-          result = left - right;
+          left -= right;
           break;
         case '*':
-          result = left * right;
+          left *= right;
           break;
         case '/':
-          result = left / right;
+          left /= right;
           break;
         case 'm':
-          result = std::fmod(left, right);
+          left = std::fmod(left, right);
+
+          if (left < 0) {
+            left += right;
+          }
           break;
         case '^':
-          result = std::pow(left, right);
+          left = std::pow(left, right);
           break;
       }
 
-      operands.push(result);
+      operands.push((std::fabs(left) > 1.0e-15) ? left : 0);
     } else if (isFunction(token[0])) {
       long double top = operands.top();
       operands.pop();
 
-      long double result;
       switch (token[0]) {
         case 's':
-          result = std::sin(top);
+          top = std::sin(top);
           break;
         case 'c':
-          result = std::cos(top);
+          top = std::cos(top);
           break;
         case 't':
-          result = std::tan(top);
+          top = std::tan(top);
           break;
         case 'S':
-          result = std::asin(top);
+          top = std::asin(top);
           break;
         case 'C':
-          result = std::acos(top);
+          top = std::acos(top);
           break;
         case 'T':
-          result = std::atan(top);
+          top = std::atan(top);
           break;
         case 'l':
-          result = std::log(top);
+          top = std::log(top);
+
+          // if(top < 0)
+          //   throw std::invalid_argument("log: negative number");
+
           break;
         case 'L':
-          result = std::log10(top);
+          top = std::log10(top);
+
+          // if(top < 0)
+          //   throw std::invalid_argument("log: negative number");
+
           break;
         case 'Q':
-          result = std::sqrt(top);
+          top = std::sqrt(top);
           break;
+        case 'u':
+          top *= -1.0L;
       }
 
-      operands.push(result);
+      operands.push((std::fabs(top) > 1.0e-15) ? top : 0);
     }
   }
 
@@ -190,7 +232,8 @@ int Polish::getPrecedence(char op) {
     priority = 2;
   } else if (op == '^') {
     priority = 3;
-  } else if (op == 's' || op == 'c' || op == 't' || op == 'S' || op == 'C' || op == 'T' || op == 'l' || op == 'L' || op == 'Q') {
+  } else if (op == 's' || op == 'c' || op == 't' || op == 'S' || op == 'C' ||
+             op == 'T' || op == 'l' || op == 'L' || op == 'Q' || op == 'u') {
     priority = 4;
   }
 
@@ -202,6 +245,6 @@ bool Polish::isOperator(char c) {
 }
 
 bool Polish::isFunction(char c) {
-  return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' || c == 'l' || c == 'L' || c == 'Q';
+  return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' ||
+         c == 'l' || c == 'L' || c == 'Q' || c == 'u';
 }
-

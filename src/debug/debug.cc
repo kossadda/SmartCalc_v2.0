@@ -14,12 +14,14 @@
 
 int main() {
   setlocale(LC_NUMERIC, "C");
-
-  std::string infix = "(((1.123*213.5555-((217.12354))*1/2)/4/6*(5632.57-123.344)/(23.12346)/(4.213*(((653.13*(14.123*121.2345+2/(23.123+9*0.213))))/((237.12*21.8888))/(1.888+92.14)))))";
+  
+  std::string infix = "log(2.5-3) * ln(1000) / P";
   Polish pol{infix};
 
-  printf("%.7Lf", pol.evaluate());
-  std::cout << std::endl;
+  long double exp = -5.72142719L;
+  long double res = pol.evaluate();
+
+  printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
 
   return 0;
 }
