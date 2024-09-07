@@ -1,90 +1,36 @@
-# cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.5)
 
-# project(smartcalc VERSION 1.0 LANGUAGES CXX)
+project(smartcalc VERSION 0.1 LANGUAGES CXX)
 
-# set(CMAKE_AUTOUIC ON)
-# set(CMAKE_AUTOMOC ON)
-# set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
-# set(CMAKE_CXX_STANDARD 17)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-# find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-# set(SMARTCALC_LIB ${CMAKE_CURRENT_SOURCE_DIR}/smartcalc.a)
+set(MODEL_LIB ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.a)
 
-# set(PROJECT_SOURCES
-#     ./gui_modules/cpp_modules/main.cpp
-#     ./gui_modules/cpp_modules/smartcalc.cpp
-#     ./gui_modules/cpp_modules/deposit.cpp
-#     ./gui_modules/cpp_modules/credit.cpp
-#     ./gui_modules/cpp_modules/qcustomplot.cpp
-#     ./gui_modules/cpp_modules/my_widget.cpp
-#     ./gui_modules/cpp_modules/graphics.cpp
-#     ./gui_modules/cpp_modules/credit_table.cpp
-#     ./gui_modules/ui_modules/smartcalc.ui
-#     ./gui_modules/ui_modules/my_widget.ui
-#     ./gui_modules/ui_modules/graphics.ui
-#     ./gui_modules/ui_modules/deposit.ui
-#     ./gui_modules/ui_modules/credit.ui
-#     ./gui_modules/ui_modules/credit_table.ui
-#     ./resources/resource.qrc
-# )
+set(PROJECT_SOURCES
+  ./modules/calculator/include/calculator_model.h
+  ./modules/calculator/calculator_model.cc
+  ./debug/debug.cc
+)
 
-# set(PROJECT_HEADERS
-#     ./gui_modules/include/smartcalc.h
-#     ./gui_modules/include/deposit.h
-#     ./gui_modules/include/credit.h
-#     ./gui_modules/include/qcustomplot.h
-#     ./gui_modules/include/my_widget.h
-#     ./gui_modules/include/graphics.h
-#     ./gui_modules/include/credit_table.h
-# )
+set(CMAKE_AUTOUIC_SEARCH_PATHS
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-# set(CMAKE_AUTOUIC_SEARCH_PATHS
-#     ${CMAKE_CURRENT_SOURCE_DIR}/gui_modules/ui_modules
-# )
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
-# if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-#     qt_add_executable(smartcalc
-#         MANUAL_FINALIZATION
-#         ${PROJECT_SOURCES}
-#         ${PROJECT_HEADERS}
-#     )
-# else()
-#     add_executable(smartcalc
-#         ${PROJECT_SOURCES}
-#         ${PROJECT_HEADERS}
-#     )
-# endif()
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${MODEL_LIB})
 
-# target_include_directories(smartcalc PRIVATE
-#     ./gui_modules/include
-#     ./modules
-# )
+target_include_directories(${PROJECT_NAME} PRIVATE
+  ./modules/calculator/include
+)
 
-# target_link_libraries(smartcalc PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${SMARTCALC_LIB})
-
-# if(${QT_VERSION} VERSION_LESS 6.1.0)
-#     set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.smartcalc)
-# endif()
-
-# set_target_properties(smartcalc PROPERTIES
-#     ${BUNDLE_ID_OPTION}
-#     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-#     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-#     MACOSX_BUNDLE TRUE
-#     WIN32_EXECUTABLE TRUE
-# )
-
-# include(GNUInstallDirs)
-# install(TARGETS smartcalc
-#     BUNDLE DESTINATION .
-#     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-# )
-
-# if(QT_VERSION_MAJOR EQUAL 6)
-#     qt_finalize_executable(smartcalc)
-# endif()
+qt_finalize_executable(${PROJECT_NAME})

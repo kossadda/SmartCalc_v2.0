@@ -115,6 +115,8 @@ clean:
 	rm -rf $(REPORT_DIR)
 	rm -rf $(DVI_DIR)
 	rm -rf gcov_report
+	rm -rf ../build-src-*
+	rm -f *.txt.user
 	rm -f test
 	rm -f *.a *.o
 	rm -f *.gc*
@@ -135,9 +137,6 @@ $(REPORT_DIR):
 
 #============================== OBJECTIVE TARGETS =============================#
 %.o: %.cc ${MODULES_H}
-	$(CXX) $(CXXFLAGS) $(OPTIMIZE) -c -o $(addprefix ${OBJ_DIR}/, $@) $<
-
-%_test.o: %_test.cc
 	$(CXX) $(CXXFLAGS) -c -o $(addprefix ${OBJ_DIR}/, $@) $<
 #==============================================================================#
 
