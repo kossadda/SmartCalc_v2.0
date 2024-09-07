@@ -151,7 +151,7 @@ clang_check:
 	clang-format -style=Google -n $(ALL_FILES)
 
 cpplint:
-	cpplint $(MODULES_H)
+	cpplint $(ALL_FILES)
 
 valgrind: test
 	$@ $(VAL) ./test

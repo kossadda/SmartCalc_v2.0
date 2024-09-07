@@ -15,10 +15,11 @@
 int main() {
   setlocale(LC_NUMERIC, "C");
   
-  std::string infix = "log(2.5-3) * ln(1000) / P";
-  Polish pol{infix};
+  std::string infix =
+      "asin(0.123*(asin(0.999)*acos(0.9995)))+(atan(34.12)*acos(0.4323))";
+  Model pol{infix};
 
-  long double exp = -5.72142719L;
+  long double exp = 1.73819952L;
   long double res = pol.evaluate();
 
   printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);

@@ -9,9 +9,9 @@
  *
  */
 
-#ifndef SMARTCALC_H_
-#define SMARTCALC_H_
+#ifndef SRC_MODULES_SMARTCALC_H_
+#define SRC_MODULES_SMARTCALC_H_
 
-#include "./calculator/notation.h"
+#include "calculator/include/calculator_model.h"
 
-#endif  // SMARTCALC_H_
+#endif  // SRC_MODULES_SMARTCALC_H_

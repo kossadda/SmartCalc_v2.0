@@ -1,5 +1,5 @@
 /**
- * @file notation.cc
+ * @file calculator_model.cc
  * @author kossadda (https://github.com/kossadda)
  * @brief
  * @version 1.0
@@ -9,38 +9,40 @@
  *
  */
 
-#include "./notation.h"
+#include "include/calculator_model.h"
 
-Polish::Polish(std::string infix) {
+Model::Model(std::string infix, long double var) : variable_{var} {
   for (auto i : infix) {
-    if (i != ' ') {
-      infix_ += i;
-    }
+    if (i != ' ') infix_ += i;
   }
 
   if (validate()) {
     infixToPostfix();
   } else {
-    throw std::invalid_argument("Polish: invalid infix expression");
+    throw std::invalid_argument("Model: invalid infix expression");
   }
 }
 
-void Polish::replaceSubStr(std::string from, std::string to) {
-  size_t start_pos = 0;
+bool Model::validate() {
+  const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
+  std::stringstream ss;
+  ss << "(" << variable_ << ")";
 
-  while ((start_pos = infix_.find(from, start_pos)) != std::string::npos) {
-    infix_.replace(start_pos, from.length(), to);
-    start_pos += to.length();
-  }
-}
-
-bool Polish::validate() {
   if (infix_[0] == '-') {
     infix_[0] = 'u';
   }
 
-  // replaceSubStr(std::string{"e"}, std::string{"(2.7182818284590452)"});
-  replaceSubStr(std::string{"P"}, std::string{"(3.1415926535897932)"});
+  std::regex number_x_pattern{"(\\d+)x"};
+  infix_ = std::regex_replace(infix_, number_x_pattern, "$1*x");
+
+  std::regex x_number_pattern{"x(\\d+)"};
+  infix_ = std::regex_replace(infix_, x_number_pattern, "x*$1");
+
+  std::regex number_e_pattern{"(\\d+)e(\\d+|[+-])"};
+  infix_ = std::regex_replace(infix_, number_e_pattern, "$1E$2");
+
+  replaceSubStr(std::string{"x"}, ss.str());
+  replaceSubStr(std::string{"P"}, std::string{"(3.1415926535897932384626433)"});
   replaceSubStr(std::string{"asin("}, std::string{"S("});
   replaceSubStr(std::string{"acos("}, std::string{"C("});
   replaceSubStr(std::string{"atan("}, std::string{"T("});
@@ -53,18 +55,20 @@ bool Polish::validate() {
   replaceSubStr(std::string{"mod"}, std::string{"m"});
   replaceSubStr(std::string{")("}, std::string{")*("});
   replaceSubStr(std::string{"(+"}, std::string{"("});
-  replaceSubStr(std::string{"(-"}, std::string{"(u"});
+  replaceSubStr(std::string{"(-"}, std::string{"((u1)*"});
 
-  // std::regex digit_function("(\\d)(\\w\\()");
-  // infix_ = std::regex_replace(infix_, digit_function, "$1*$2");
-
-  std::regex digit_bracket("(\\d)\\(");
+  std::regex digit_bracket{"(\\d)\\("};
   infix_ = std::regex_replace(infix_, digit_bracket, "$1*(");
 
-  bool valid = true;
+  std::regex bracket_digit{"\\)(\\d)"};
+  infix_ = std::regex_replace(infix_, bracket_digit, ")*$1");
 
+  replaceSubStr(std::string{"e"}, std::string{"(2.7182818284590452353671352)"});
+  replaceSubStr(std::string{"E"}, std::string{"e"});
+
+  bool valid{true};
   for (auto i : infix_) {
-    if (kValidCh.find(i) == std::string::npos) {
+    if (valid_chars.find(i) == std::string::npos) {
       valid = false;
     }
   }
@@ -72,7 +76,7 @@ bool Polish::validate() {
   return valid;
 }
 
-void Polish::infixToPostfix() {
+void Model::infixToPostfix() {
   std::stack<char> ops;
   size_ = infix_.size();
 
@@ -131,7 +135,7 @@ void Polish::infixToPostfix() {
   }
 }
 
-long double Polish::evaluate() {
+long double Model::evaluate() {
   std::stack<long double> operands;
   std::istringstream iss{postfix_};
   std::string token;
@@ -157,14 +161,12 @@ long double Polish::evaluate() {
           left *= right;
           break;
         case '/':
+          if (!right) throw std::invalid_argument("divide to zero");
           left /= right;
           break;
         case 'm':
           left = std::fmod(left, right);
-
-          if (left < 0) {
-            left += right;
-          }
+          if (left < 0) left += right;
           break;
         case '^':
           left = std::pow(left, right);
@@ -187,29 +189,28 @@ long double Polish::evaluate() {
           top = std::tan(top);
           break;
         case 'S':
+          if (std::fabs(top) > 1.0L)
+            throw std::invalid_argument("asin: wrong range");
           top = std::asin(top);
           break;
         case 'C':
+          if (std::fabs(top) > 1.0L)
+            throw std::invalid_argument("acos: wrong range");
           top = std::acos(top);
           break;
         case 'T':
           top = std::atan(top);
           break;
         case 'l':
+          if (top < 0) throw std::invalid_argument("ln: negative number");
           top = std::log(top);
-
-          // if(top < 0)
-          //   throw std::invalid_argument("log: negative number");
-
           break;
         case 'L':
+          if (top < 0) throw std::invalid_argument("log: negative number");
           top = std::log10(top);
-
-          // if(top < 0)
-          //   throw std::invalid_argument("log: negative number");
-
           break;
         case 'Q':
+          if (top < 0) throw std::invalid_argument("sqrt: negative number");
           top = std::sqrt(top);
           break;
         case 'u':
@@ -223,8 +224,17 @@ long double Polish::evaluate() {
   return operands.top();
 }
 
-int Polish::getPrecedence(char op) {
-  int priority = 0;
+void Model::replaceSubStr(std::string from, std::string to) {
+  size_t start_pos{};
+
+  while ((start_pos = infix_.find(from, start_pos)) != std::string::npos) {
+    infix_.replace(start_pos, from.length(), to);
+    start_pos += to.length();
+  }
+}
+
+int Model::getPrecedence(char op) {
+  int priority{};
 
   if (op == '+' || op == '-') {
     priority = 1;
@@ -240,11 +250,11 @@ int Polish::getPrecedence(char op) {
   return priority;
 }
 
-bool Polish::isOperator(char c) {
+bool Model::isOperator(char c) {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == 'm';
 }
 
-bool Polish::isFunction(char c) {
+bool Model::isFunction(char c) {
   return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' ||
          c == 'l' || c == 'L' || c == 'Q' || c == 'u';
 }

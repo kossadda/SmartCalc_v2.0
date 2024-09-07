@@ -1,5 +1,5 @@
 /**
- * @file notation.h
+ * @file calculator_model.h
  * @author kossadda (https://github.com/kossadda)
  * @brief
  * @version 1.0
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef NOTATION_H_
-#define NOTATION_H_
+#ifndef SRC_MODULES_CALCULATOR_INCLUDE_CALCULATOR_MODEL_H_
+#define SRC_MODULES_CALCULATOR_INCLUDE_CALCULATOR_MODEL_H_
 
 #include <cctype>
 #include <cmath>
@@ -20,9 +20,9 @@
 #include <stack>
 #include <string>
 
-class Polish {
+class Model {
  public:
-  Polish(std::string infix);
+  explicit Model(std::string infix, long double var = 0);
 
   long double evaluate();
 
@@ -32,14 +32,12 @@ class Polish {
   bool isOperator(char c);
   bool isFunction(char c);
   bool validate();
-
   void replaceSubStr(std::string from, std::string to);
-
-  static inline const std::string kValidCh = "()^+-*/umsctSCTQLlPxe1234567890.";
 
   std::string infix_;
   std::string postfix_;
   std::size_t size_;
+  long double variable_;
 };
 
-#endif  // NOTATION_H_
+#endif  // SRC_MODULES_CALCULATOR_INCLUDE_CALCULATOR_MODEL_H_
