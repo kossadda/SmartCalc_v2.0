@@ -13,6 +13,7 @@
 #define CALCULATOR_VIEW_H
 
 #include <QWidget>
+#include <QPropertyAnimation>
 
 namespace Ui {
 class CalculatorView;
