@@ -12,12 +12,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-add_library(MODEL_LIB STATIC ${SOURCES} ${HEADERS})
+add_library(MODEL_LIB STATIC ${MODELS})
 
-set(PROJECT_SOURCES
+set(MODELS
   ./modules/include/calculator_model.h
   ./modules/model/calculator_model.cc
+)
+
+set(VIEWS
+  ./modules/include/calculator_view.h
+  ./modules/view/calculator_view.cc
+  ./modules/view/calculator_view.ui
+)
+
+set(MAIN
   ./modules/main.cc
+)
+
+set(PROJECT_SOURCES
+  ${MODELS} ${VIEWS} ${MAIN}
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS
