@@ -1,22 +1,33 @@
+/**
+ * @file calculator_view.h
+ * @author kossadda (https://github.com/kossadda)
+ * @brief 
+ * @version 1.0
+ * @date 2024-09-08
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef CALCULATOR_VIEW_H
 #define CALCULATOR_VIEW_H
 
 #include <QWidget>
 
 namespace Ui {
-class calculator_view;
+class CalculatorView;
 }
 
-class calculator_view : public QWidget
+class CalculatorView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit calculator_view(QWidget *parent = nullptr);
-    ~calculator_view();
+    explicit CalculatorView(QWidget *parent = nullptr);
+    ~CalculatorView();
 
 private:
-    Ui::calculator_view *ui;
+    Ui::CalculatorView *ui;
 };
 
 #endif // CALCULATOR_VIEW_H

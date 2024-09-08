@@ -11,7 +11,7 @@
 
 #include "../include/calculator_model.h"
 
-Model::Model(std::string infix, long double var) : variable_{var} {
+CalculatorModel::CalculatorModel(std::string infix, long double var) : variable_{var} {
   for (auto i : infix) {
     if (i != ' ') infix_ += i;
   }
@@ -19,11 +19,11 @@ Model::Model(std::string infix, long double var) : variable_{var} {
   if (validate()) {
     infixToPostfix();
   } else {
-    throw std::invalid_argument("Model: invalid infix expression");
+    throw std::invalid_argument("CalculatorModel: invalid infix expression");
   }
 }
 
-bool Model::validate() {
+bool CalculatorModel::validate() {
   const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
   std::stringstream ss;
   ss << "(" << variable_ << ")";
@@ -76,7 +76,7 @@ bool Model::validate() {
   return valid;
 }
 
-void Model::infixToPostfix() {
+void CalculatorModel::infixToPostfix() {
   std::stack<char> ops;
   size_ = infix_.size();
 
@@ -135,7 +135,7 @@ void Model::infixToPostfix() {
   }
 }
 
-long double Model::evaluate() {
+long double CalculatorModel::evaluate() {
   std::stack<long double> operands;
   std::istringstream iss{postfix_};
   std::string token;
@@ -224,7 +224,7 @@ long double Model::evaluate() {
   return operands.top();
 }
 
-void Model::replaceSubStr(std::string from, std::string to) {
+void CalculatorModel::replaceSubStr(std::string from, std::string to) {
   size_t start_pos{};
 
   while ((start_pos = infix_.find(from, start_pos)) != std::string::npos) {
@@ -233,7 +233,7 @@ void Model::replaceSubStr(std::string from, std::string to) {
   }
 }
 
-int Model::getPrecedence(char op) {
+int CalculatorModel::getPrecedence(char op) {
   int priority{};
 
   if (op == '+' || op == '-') {
@@ -250,11 +250,11 @@ int Model::getPrecedence(char op) {
   return priority;
 }
 
-bool Model::isOperator(char c) {
+bool CalculatorModel::isOperator(char c) {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == 'm';
 }
 
-bool Model::isFunction(char c) {
+bool CalculatorModel::isFunction(char c) {
   return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' ||
          c == 'l' || c == 'L' || c == 'Q' || c == 'u';
 }

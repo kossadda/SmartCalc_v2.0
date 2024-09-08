@@ -20,9 +20,9 @@
 #include <stack>
 #include <string>
 
-class Model {
+class CalculatorModel {
  public:
-  explicit Model(std::string infix, long double var = 0);
+  explicit CalculatorModel(std::string infix, long double var = 0);
 
   long double evaluate();
 

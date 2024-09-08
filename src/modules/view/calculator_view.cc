@@ -1,14 +1,25 @@
-#include "calculator_view.h"
+/**
+ * @file calculator_view.cc
+ * @author kossadda (https://github.com/kossadda)
+ * @brief 
+ * @version 1.0
+ * @date 2024-09-08
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
+#include "../include/calculator_view.h"
 #include "ui_calculator_view.h"
 
-calculator_view::calculator_view(QWidget *parent) :
+CalculatorView::CalculatorView(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::calculator_view)
+    ui(new Ui::CalculatorView)
 {
     ui->setupUi(this);
 }
 
-calculator_view::~calculator_view()
+CalculatorView::~CalculatorView()
 {
     delete ui;
 }

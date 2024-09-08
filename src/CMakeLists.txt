@@ -26,11 +26,13 @@ set(VIEWS
 )
 
 set(MAIN
+  ./modules/include/main.h
   ./modules/main.cc
 )
 
 set(PROJECT_SOURCES
   ${MODELS} ${VIEWS} ${MAIN}
+  ./resources/resource.qrc
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS
