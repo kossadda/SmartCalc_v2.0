@@ -23,10 +23,12 @@ set(VIEWS
   ./modules/include/calculator_view.h
   ./modules/view/calculator_view.cc
   ./modules/view/calculator_view.ui
+  ./modules/include/mainwindow.h
+  ./modules/view/mainwindow.cc
+  ./modules/view/mainwindow.ui
 )
 
 set(MAIN
-  ./modules/include/main.h
   ./modules/main.cc
 )
 

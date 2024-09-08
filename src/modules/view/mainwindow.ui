@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+  background-color: rgba(10, 10, 10, 0.5);
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="TabCalcs">
+      <property name="styleSheet">
+       <string notr="true">QTabWidget {
+  background-color: rgba(10, 10, 10, 0.5);
+}
+
+QTabWidget::pane {
+  border-top: 1px solid rgba(40, 100, 180, 0.7);
+}
+
+QTabWidget::tab-bar {
+  left: 14px;
+}
+
+QTabBar::tab {
+  background: rgb(40, 40, 40);
+  color: rgb(255, 255, 255);
+  border: 1px solid rgba(40, 100, 180, 0.7);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  min-width: 23ex;
+  padding: 7px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+QTabBar::tab:selected {
+  border: 1px solid rgba(40, 100, 180, 1.0);
+  font-size: 14px;
+}
+
+QTabBar::tab:!selected {
+  margin-top: 10px;
+}</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="CalculatorView" name="Calculator">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <attribute name="title">
+        <string>Calculator</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Credit">
+       <attribute name="title">
+        <string>Credit</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Deposit">
+       <attribute name="title">
+        <string>Deposit</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CalculatorView</class>
+   <extends>QWidget</extends>
+   <header>calculator_view.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
