@@ -9,7 +9,7 @@
  *
  */
 
-#include "include/calculator_model.h"
+#include "../include/calculator_model.h"
 
 Model::Model(std::string infix, long double var) : variable_{var} {
   for (auto i : infix) {

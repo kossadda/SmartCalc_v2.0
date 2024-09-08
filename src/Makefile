@@ -12,7 +12,6 @@
 
 #================================== PROJECT ===================================#
 PROJECT_NAME = smartcalc
-LIBRARY = $(PROJECT_NAME).a
 #==============================================================================#
 
 #================================== COMPILER ==================================#
@@ -20,65 +19,41 @@ CXX = g++
 #==============================================================================#
 
 #=============================== DIRECTORY NAMES ==============================#
-OBJ_DIR = ./obj
-MODULES_DIR = ./modules
+MAIN_DIR = ./modules
+MODULES_DIR = ./modules/model
 TEST_DIR = ./tests
-REPORT_DIR = ./report
-DVI_DIR = ./../docs
-DIST_DIR = ./../dist
+DVI_DIR = ../docs
+DIST_DIR = ../dist
+BUILD = ../bin
 #==============================================================================#
 
 #==================================== FLAGS ===================================#
 # MAIN FLAGS FOR COMPILER
-CXXFLAGS = -Wall -Werror -Wextra -pedantic -g -std=c++17
+CXXFLAGS = -Wall -Wextra -pedantic -std=c++17 -g
 
 # CHECK LIBRARY FOR LINKING
 LDFLAGS = -lgtest -lgtest_main
-
-# CHECK & GCOV LIBRARY FOR LINKING
-LDGCOV = $(LDFLAGS) -lgcov
-
-# FLAGS FOR COVERING MODULES
-GCOV_FLAGS = -fprofile-arcs -ftest-coverage
 
 # FLAGS FOR VALGRING TEST
 VAL = --tool=memcheck --leak-check=yes
 #==============================================================================#
 
-
-#================================ MAIN HEADER =================================#
-MAIN_H = $(shell find ./ -maxdepth 1 -name "*.h")
-#==============================================================================#
-
-
 #====================== LIST OF FILE AND DIRS IN MODULES ======================#
 MODULES_DIRS = $(shell find $(MODULES_DIR) -type d)
-MODULES_CC = $(shell find $(MODULES_DIR) -type f -name "*.cc")
-MODULES_H = $(shell find $(MODULES_DIR) -type f -name "*.h")
-MODULES_O = $(notdir $(MODULES_CC:%.cc=%.o))
-MODULES_OBJ_PATH = $(addprefix $(OBJ_DIR)/, $(MODULES_O))
+MODULES = $(shell find $(MODULES_DIR) -type f -name "*.cc")
 #==============================================================================#
 
 
 #==================== LIST OF FILE AND DIRS IN TEST MODULES ===================#
 TEST_DIRS = $(shell find $(TEST_DIR) -type d)
-TEST_CC = $(shell find $(TEST_DIR) -type f -name "*.cc")
-TEST_H = $(shell find $(TEST_DIR) -type f -name "*.h")
-TEST_O = $(notdir $(TEST_CC:%.cc=%.o))
-TEST_OBJ_PATH = $(OBJ_DIR)/*_test.o
+TEST = $(shell find $(TEST_DIR) -type f -name "*.cc")
 #==============================================================================#
 
 
 #======================== LIST OF FILES TO CLANG-FORMAT =======================#
-ALL_FILES = $(MODULES_CC) $(TEST_CC) $(MODULES_H) $(MAIN_H) $(TEST_H)
+ALL_FILES = $(shell find $(MAIN_DIR) -type f -name "*.cc")
+ALL_FILES += $(shell find $(MAIN_DIR) -type f -name "*.h")
 #==============================================================================#
-
-
-#=============== CONFIGURING PATH TO SEARH FOR UNPREFIXED PATHS ===============#
-vpath %.cc $(MODULES_DIRS) : $(TEST_DIRS)
-vpath %.o $(OBJ_DIR)
-#==============================================================================#
-
 
 ################################################################################
 #                      _                       _                               #
@@ -93,57 +68,46 @@ vpath %.o $(OBJ_DIR)
 
 
 #================================= MAIN TARGETS ===============================#
-.PHONY: test
+.PHONY: all install uninstall test dvi clean
 
-all: dvi test
+all: install run
 
-$(LIBRARY): $(OBJ_DIR) $(MODULES_O) $(MODULES_H) $(MAIN_H)
-	ar rcs $@ $(addprefix $(OBJ_DIR)/, $(notdir $(MODULES_O)))
-	ranlib $@
+install:
+	mkdir -p $(BUILD)
+	cd $(BUILD) && cmake ./../src && make
 
-test: clean $(LIBRARY)
-	@$(CXX) $(TEST_CC) $(LIBRARY) $(LDFLAGS) -o $@
-	@-./$@
-
-dvi:
-	rm -rf $(DVI_DIR)
-	doxygen Doxyfile
-	xdg-open $(DVI_DIR)/html/index.html
+uninstall: clean
+	rm -rf $(BUILD)
 
 clean:
-	rm -rf $(OBJ_DIR)
-	rm -rf $(REPORT_DIR)
+	rm -rf $(DIST_DIR)
 	rm -rf $(DVI_DIR)
-	rm -rf gcov_report
 	rm -rf ../build-src-*
 	rm -f *.txt.user
 	rm -f test
-	rm -f *.a *.o
-	rm -f *.gc*
-	rm -f val.txt
 
-rebuild: clean all
+dvi:
+	rm -rf $(DVI_DIR)
+	doxygen ./Doxyfile
+	xdg-open $(DVI_DIR)/html/index.html
+
+dist: uninstall
+	@rm -rf $(DIST_DIR)
+	@echo "Creating a distribution..."
+	@mkdir -p $(DIST_DIR)/$(PROJECT_NAME)
+	@cp -r ./ $(DIST_DIR)/$(PROJECT_NAME) && rm -rf $(DIST_DIR)/$(PROJECT_NAME)/tests
+	@tar -czf $(DIST_DIR)/$(PROJECT_NAME).tar.gz -C $(DIST_DIR) $(PROJECT_NAME)
+	@echo "Distribution created: $(DIST_DIR)/$(PROJECT_NAME).tar.gz"
+	@rm -rf $(DIST_DIR)/$(PROJECT_NAME)
+
+test: clean
+	$(CXX) $(MODULES) $(TEST) $(LDFLAGS) -o $@
+	./$@
 #==============================================================================#
-
-
-#============================== CREATE DIRECTORIES ============================#
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-
-$(REPORT_DIR):
-	@mkdir -p $(REPORT_DIR)
-#==============================================================================#
-
-
-#============================== OBJECTIVE TARGETS =============================#
-%.o: %.cc ${MODULES_H}
-	$(CXX) $(CXXFLAGS) -c -o $(addprefix ${OBJ_DIR}/, $@) $<
-#==============================================================================#
-
 
 #=============================== CHECKS TARGETS ===============================#
 deb:
-	@$(CXX) -Wall -Wextra -pedantic -g -std=c++17 ./debug/debug.cc $(MODULES_CC) -o test
+	@$(CXX) $(CXXFLAGS) ./debug/debug.cc $(MODULES) -o test
 	@valgrind $(VAL) ./test
 	
 clang_check:
@@ -158,10 +122,16 @@ valgrind: test
 
 
 #============================= ADDITIONAL TARGETS =============================#
+run:
+	@./$(BUILD)/$(PROJECT_NAME)
+
 clang_fix:
 	clang-format -style=Google -i $(ALL_FILES)
 
 dependencies:
+	sudo apt install cmake
+	sudo apt install qtbase5-dev
+	sudo apt install qt6-base-dev
 	sudo apt-get install libgtest-dev
 	sudo apt install doxygen
 	sudo apt-get install graphviz

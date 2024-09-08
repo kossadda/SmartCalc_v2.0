@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_CALCULATOR_INCLUDE_CALCULATOR_MODEL_H_
-#define SRC_MODULES_CALCULATOR_INCLUDE_CALCULATOR_MODEL_H_
+#ifndef SRC_MODULES_INCLUDE_CALCULATOR_MODEL_H_
+#define SRC_MODULES_INCLUDE_CALCULATOR_MODEL_H_
 
 #include <cctype>
 #include <cmath>
@@ -27,12 +27,12 @@ class Model {
   long double evaluate();
 
  private:
-  void infixToPostfix();
-  int getPrecedence(char op);
-  bool isOperator(char c);
-  bool isFunction(char c);
-  bool validate();
   void replaceSubStr(std::string from, std::string to);
+  int getPrecedence(char op);
+  bool isFunction(char c);
+  bool isOperator(char c);
+  void infixToPostfix();
+  bool validate();
 
   std::string infix_;
   std::string postfix_;
@@ -40,4 +40,4 @@ class Model {
   long double variable_;
 };
 
-#endif  // SRC_MODULES_CALCULATOR_INCLUDE_CALCULATOR_MODEL_H_
+#endif  // SRC_MODULES_INCLUDE_CALCULATOR_MODEL_H_

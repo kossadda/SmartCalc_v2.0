@@ -14,6 +14,6 @@
 
 #include <gtest/gtest.h>
 
-#include "../modules/smartcalc.h"
+#include "../modules/include/calculator_model.h"
 
 #endif  // SRC_TESTS_MAIN_TEST_H_
