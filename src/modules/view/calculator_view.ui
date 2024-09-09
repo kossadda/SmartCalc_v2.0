@@ -33,7 +33,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
-  background-color: rgba(10, 10, 10, 0.5);
+  background-color: rgba(0, 0, 0, 0.0);
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -41,7 +41,7 @@
     <widget class="QFrame" name="FrameUpPanel">
      <property name="styleSheet">
       <string notr="true">QFrame {
-  background-color: rgba(10, 10, 10, 0.5);
+  background-color: rgba(0, 0, 0, 0.0);
 }</string>
      </property>
      <property name="frameShape">
@@ -67,7 +67,7 @@
        <widget class="QLabel" name="LabelVar">
         <property name="styleSheet">
          <string notr="true">QLabel {
-  background-color: rgba(10, 10, 10, 0.5);
+  background-color: rgba(0, 0, 0, 0.0);
   padding-right: 5px;
   color: rgb(130, 180, 240);
   font-size: 16px;

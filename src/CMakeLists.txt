@@ -31,6 +31,8 @@ set(VIEWS
 set(ADDITIONAL
   ./modules/additional/qcustomplot.cc
   ./modules/include/qcustomplot.h
+  ./modules/include/plot.h
+  ./modules/view/plot.cc
 )
 
 set(MAIN
