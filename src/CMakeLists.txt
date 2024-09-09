@@ -28,12 +28,17 @@ set(VIEWS
   ./modules/view/mainwindow.ui
 )
 
+set(ADDITIONAL
+  ./modules/additional/qcustomplot.cc
+  ./modules/include/qcustomplot.h
+)
+
 set(MAIN
   ./modules/main.cc
 )
 
 set(PROJECT_SOURCES
-  ${MODELS} ${VIEWS} ${MAIN}
+  ${MODELS} ${VIEWS} ${MAIN} ${ADDITIONAL}
   ./resources/resource.qrc
 )
 

@@ -37,31 +37,168 @@
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QLineEdit" name="TextExpr">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>150</height>
-      </size>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
+   <item row="1" column="1">
+    <widget class="QFrame" name="FrameUpPanel">
      <property name="styleSheet">
-      <string notr="true">QLineEdit {
+      <string notr="true">QFrame {
+  background-color: rgba(10, 10, 10, 0.5);
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="LabelVar">
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+  background-color: rgba(10, 10, 10, 0.5);
+  padding-right: 5px;
+  color: rgb(130, 180, 240);
+  font-size: 16px;
+}</string>
+        </property>
+        <property name="text">
+         <string>Value of variable X :</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="SpinBoxVar">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QDoubleSpinBox {
+  border-radius: 10px;
+  background-color:  rgb(47, 47, 47);
+  border: 1px solid rgba(40, 100, 180, 0.7);
+  font-size: 20px;
+}
+
+QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+    background-color: rgba(255, 255, 255, 0.2);
+	border-radius: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+QDoubleSpinBox::up-button::pressed, QDoubleSpinBox::down-button::pressed {
+    background-color: rgb(26, 77, 144);
+}
+
+QDoubleSpinBox::up-arrow {
+    image: url(:up_arrow.png);
+    width: 10px;
+    height: 10px;
+}
+
+QDoubleSpinBox::down-arrow {
+    image: url(:down_arrow.png);
+    width: 10px;
+    height: 10px;
+}</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="decimals">
+         <number>5</number>
+        </property>
+        <property name="minimum">
+         <double>-1000000000000.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>1000000000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="ButtonGraph">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: rgb(47, 47, 47);
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(40, 100, 180, 0.7);
+    padding: 5px;
+    text-align: left; 
+    padding-left: 20px;
+    icon: url(:/plot.png);
+    qproperty-iconSize: 24px 24px;
+}
+
+QPushButton:pressed {
+    background-color: rgb(26, 77, 144);
+}</string>
+        </property>
+        <property name="text">
+         <string>Graph</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="3">
+       <widget class="QLineEdit" name="TextExpr">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
   border-radius: 10px;
   background-color:  rgb(47, 47, 47);
   border: 1px solid rgba(40, 100, 180, 0.7);
   font-size: 30px;
 }</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="3" column="1">
     <widget class="QFrame" name="FrameMainButtons">
      <property name="styleSheet">
       <string notr="true">QFrame {
@@ -974,7 +1111,6 @@ QPushButton {
   <tabstop>Button0</tabstop>
   <tabstop>ButtonDot</tabstop>
   <tabstop>ButtonEq</tabstop>
-  <tabstop>TextExpr</tabstop>
  </tabstops>
  <resources/>
  <connections/>

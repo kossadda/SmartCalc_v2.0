@@ -6,5 +6,6 @@
         <file>down_arrow.png</file>
         <file>plot.png</file>
         <file>table.png</file>
+        <file>up_arrow.png</file>
     </qresource>
 </RCC>
