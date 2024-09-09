@@ -75,19 +75,19 @@ QTabBar::tab:!selected {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
+      <widget class="QWidget" name="Credit">
+       <attribute name="title">
+        <string>Credit</string>
+       </attribute>
+      </widget>
       <widget class="CalculatorView" name="Calculator">
        <property name="styleSheet">
         <string notr="true"/>
        </property>
        <attribute name="title">
-        <string>Calculator</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="Credit">
-       <attribute name="title">
-        <string>Credit</string>
+        <string>Engineer</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="Deposit">

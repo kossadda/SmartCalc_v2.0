@@ -11,7 +11,8 @@
 
 #include "../include/calculator_model.h"
 
-CalculatorModel::CalculatorModel(std::string infix, long double var) : variable_{var} {
+CalculatorModel::CalculatorModel(std::string infix, long double var)
+    : variable_{var} {
   for (auto i : infix) {
     if (i != ' ') infix_ += i;
   }
