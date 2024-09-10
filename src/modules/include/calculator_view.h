@@ -14,6 +14,7 @@
 
 #include <QPropertyAnimation>
 #include <QWidget>
+#include "plot.h"
 
 namespace Ui {
 class CalculatorView;
@@ -31,8 +32,11 @@ class CalculatorView : public QWidget {
   void on_ButtonC_clicked();
   void on_ButtonDel_clicked();
 
- private:
+  void on_ButtonGraph_clicked();
+
+  private:
   Ui::CalculatorView *ui;
+  Plot *plui;
 
   void numberButtonClicked();
   void functionButtonClicked();

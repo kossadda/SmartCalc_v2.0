@@ -66,3 +66,21 @@ void CalculatorView::on_ButtonDel_clicked() {
   expression.chop(1);
   ui->TextExpr->setText(expression);
 }
+
+void CalculatorView::on_ButtonGraph_clicked()
+{
+  if(!plui) {
+    plui = new Plot;
+    plui->show();
+  } else {
+    if(plui->isVisible()) {
+        plui->setVisible(false);
+    } else {
+//        QPoint currentPosGlobal = this->mapToGlobal(QPoint(0, 0));
+//        setGeometry(currentPosGlobal.x() - 600, currentPosGlobal.y(), 600, 700);
+        plui->setVisible(true);
+    }
+  }
+
+}
+

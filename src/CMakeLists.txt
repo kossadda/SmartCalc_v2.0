@@ -33,6 +33,7 @@ set(ADDITIONAL
   ./modules/include/qcustomplot.h
   ./modules/include/plot.h
   ./modules/view/plot.cc
+  ./modules/view/plot.ui
 )
 
 set(MAIN
