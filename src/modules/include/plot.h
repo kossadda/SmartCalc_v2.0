@@ -15,6 +15,12 @@ public:
     explicit Plot(QWidget *parent = nullptr);
     ~Plot();
 
+signals:
+    void windowClosed();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     Ui::Plot *ui;
 };

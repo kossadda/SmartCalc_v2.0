@@ -14,8 +14,8 @@ Plot::Plot(QWidget *parent) :
     ui->PlotWidget->yAxis->setLabelColor(dark_blue);
     ui->PlotWidget->xAxis->setBasePen(QPen{dark_blue});
     ui->PlotWidget->yAxis->setBasePen(QPen{dark_blue});
-    ui->PlotWidget->xAxis->setTickLabelColor(dark_blue);
-    ui->PlotWidget->yAxis->setTickLabelColor(dark_blue);
+    ui->PlotWidget->xAxis->setTickLabelColor(Qt::white);
+    ui->PlotWidget->yAxis->setTickLabelColor(Qt::white);
     ui->PlotWidget->xAxis->setTickPen(QPen{dark_blue});
     ui->PlotWidget->yAxis->setTickPen(QPen{dark_blue});
     ui->PlotWidget->xAxis->setSubTickPen(QPen{dark_blue});
@@ -25,4 +25,9 @@ Plot::Plot(QWidget *parent) :
 Plot::~Plot()
 {
     delete ui;
+}
+
+void Plot::closeEvent(QCloseEvent *event) {
+    emit windowClosed();
+    event->accept();
 }

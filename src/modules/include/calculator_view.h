@@ -12,8 +12,8 @@
 #ifndef CALCULATOR_VIEW_H
 #define CALCULATOR_VIEW_H
 
-#include <QPropertyAnimation>
 #include <QWidget>
+#include <QDebug>
 #include "plot.h"
 
 namespace Ui {
@@ -31,8 +31,7 @@ class CalculatorView : public QWidget {
   void on_ButtonMod_clicked();
   void on_ButtonC_clicked();
   void on_ButtonDel_clicked();
-
-  void on_ButtonGraph_clicked();
+  void on_ButtonPlot_clicked();
 
   private:
   Ui::CalculatorView *ui;
@@ -40,6 +39,7 @@ class CalculatorView : public QWidget {
 
   void numberButtonClicked();
   void functionButtonClicked();
+  void plotWindowClosed();
 };
 
 #endif  // CALCULATOR_VIEW_H
