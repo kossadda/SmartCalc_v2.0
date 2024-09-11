@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(smartcalc VERSION 0.1 LANGUAGES CXX)
+project(smartcalc VERSION 2.0 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -15,39 +15,46 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 add_library(MODEL_LIB STATIC ${MODELS})
 
 set(MODELS
-  ./modules/include/calculator_model.h
-  ./modules/model/calculator_model.cc
+  ${CMAKE_SOURCE_DIR}/modules/include/calculator_model.h
+  ${CMAKE_SOURCE_DIR}/modules/model/calculator_model.cc
 )
 
 set(VIEWS
-  ./modules/include/calculator_view.h
-  ./modules/view/calculator_view.cc
-  ./modules/view/calculator_view.ui
-  ./modules/include/mainwindow.h
-  ./modules/view/mainwindow.cc
-  ./modules/view/mainwindow.ui
+  ${CMAKE_SOURCE_DIR}/modules/include/calculator_view.h
+  ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.cc
+  ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.ui
+  ${CMAKE_SOURCE_DIR}/modules/include/mainwindow.h
+  ${CMAKE_SOURCE_DIR}/modules/view/mainwindow.cc
+  ${CMAKE_SOURCE_DIR}/modules/view/mainwindow.ui
+)
+
+set(CONTROLLERS
+  ${CMAKE_SOURCE_DIR}/modules/include/calculator_controller.h
+  ${CMAKE_SOURCE_DIR}/modules/controller/calculator_controller.cc
 )
 
 set(ADDITIONAL
-  ./modules/additional/qcustomplot.cc
-  ./modules/include/qcustomplot.h
-  ./modules/include/plot.h
-  ./modules/view/plot.cc
-  ./modules/view/plot.ui
+  ${CMAKE_SOURCE_DIR}/modules/additional/qcustomplot.cc
+  ${CMAKE_SOURCE_DIR}/modules/include/qcustomplot.h
+  ${CMAKE_SOURCE_DIR}/modules/include/plot.h
+  ${CMAKE_SOURCE_DIR}/modules/view/plot.cc
+  ${CMAKE_SOURCE_DIR}/modules/view/plot.ui
 )
 
 set(MAIN
-  ./modules/main.cc
+  ${CMAKE_SOURCE_DIR}/modules/main.cc
 )
 
 set(PROJECT_SOURCES
-  ${MODELS} ${VIEWS} ${MAIN} ${ADDITIONAL}
-  ./resources/resource.qrc
+  ${MODELS} ${CONTROLLERS} ${VIEWS} ${ADDITIONAL} ${MAIN}
+  ${CMAKE_SOURCE_DIR}/resources/resource.qrc
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+include_directories(${CMAKE_SOURCE_DIR})
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
@@ -55,7 +62,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${MODEL_LIB})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-  ./modules/include
+  ${CMAKE_SOURCE_DIR}/modules/include
 )
 
 qt_finalize_executable(${PROJECT_NAME})

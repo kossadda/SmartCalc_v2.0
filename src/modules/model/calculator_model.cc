@@ -11,64 +11,76 @@
 
 #include "../include/calculator_model.h"
 
-CalculatorModel::CalculatorModel(std::string infix, long double var)
-    : variable_{var} {
+CalculatorModel::CalculatorModel(std::string infix, long double var) {
   for (auto i : infix) {
     if (i != ' ') infix_ += i;
   }
 
-  if (validate()) {
+  add_infix(infix_, var);
+}
+
+void CalculatorModel::add_infix(std::string infix, long double var) {
+  infix_ = postfix_ = std::string{};
+  variable_ = var;
+
+  for (auto i : infix) {
+    if (i != ' ') infix_ += i;
+  }
+
+  if (validate(infix_, var)) {
     infixToPostfix();
   } else {
     throw std::invalid_argument("CalculatorModel: invalid infix expression");
   }
 }
 
-bool CalculatorModel::validate() {
+bool CalculatorModel::validate(std::string &infix, long double var) {
   const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
   std::stringstream ss;
-  ss << "(" << variable_ << ")";
+  ss << "(" << var << ")";
 
-  if (infix_[0] == '-') {
-    infix_[0] = 'u';
+  if (infix[0] == '-') {
+    infix[0] = 'u';
   }
 
   std::regex number_x_pattern{"(\\d+)x"};
-  infix_ = std::regex_replace(infix_, number_x_pattern, "$1*x");
+  infix = std::regex_replace(infix, number_x_pattern, "$1*x");
 
   std::regex x_number_pattern{"x(\\d+)"};
-  infix_ = std::regex_replace(infix_, x_number_pattern, "x*$1");
+  infix = std::regex_replace(infix, x_number_pattern, "x*$1");
 
   std::regex number_e_pattern{"(\\d+)e(\\d+|[+-])"};
-  infix_ = std::regex_replace(infix_, number_e_pattern, "$1E$2");
+  infix = std::regex_replace(infix, number_e_pattern, "$1E$2");
 
-  replaceSubStr(std::string{"x"}, ss.str());
-  replaceSubStr(std::string{"P"}, std::string{"(3.1415926535897932384626433)"});
-  replaceSubStr(std::string{"asin("}, std::string{"S("});
-  replaceSubStr(std::string{"acos("}, std::string{"C("});
-  replaceSubStr(std::string{"atan("}, std::string{"T("});
-  replaceSubStr(std::string{"sqrt("}, std::string{"Q("});
-  replaceSubStr(std::string{"sin("}, std::string{"s("});
-  replaceSubStr(std::string{"cos("}, std::string{"c("});
-  replaceSubStr(std::string{"tan("}, std::string{"t("});
-  replaceSubStr(std::string{"log("}, std::string{"L("});
-  replaceSubStr(std::string{"ln("}, std::string{"l("});
-  replaceSubStr(std::string{"mod"}, std::string{"m"});
-  replaceSubStr(std::string{")("}, std::string{")*("});
-  replaceSubStr(std::string{"(+"}, std::string{"("});
-  replaceSubStr(std::string{"(-"}, std::string{"((u1)*"});
+  replace_str(infix, std::string{"x"}, ss.str());
+  replace_str(infix, std::string{"P"},
+              std::string{"(3.1415926535897932384626433)"});
+  replace_str(infix, std::string{"asin("}, std::string{"S("});
+  replace_str(infix, std::string{"acos("}, std::string{"C("});
+  replace_str(infix, std::string{"atan("}, std::string{"T("});
+  replace_str(infix, std::string{"sqrt("}, std::string{"Q("});
+  replace_str(infix, std::string{"sin("}, std::string{"s("});
+  replace_str(infix, std::string{"cos("}, std::string{"c("});
+  replace_str(infix, std::string{"tan("}, std::string{"t("});
+  replace_str(infix, std::string{"log("}, std::string{"L("});
+  replace_str(infix, std::string{"ln("}, std::string{"l("});
+  replace_str(infix, std::string{"mod"}, std::string{"m"});
+  replace_str(infix, std::string{")("}, std::string{")*("});
+  replace_str(infix, std::string{"(+"}, std::string{"("});
+  replace_str(infix, std::string{"(-"}, std::string{"((u1)*"});
 
   std::regex digit_bracket{"(\\d)\\("};
-  infix_ = std::regex_replace(infix_, digit_bracket, "$1*(");
+  infix = std::regex_replace(infix, digit_bracket, "$1*(");
 
   std::regex bracket_digit{"\\)(\\d)"};
-  infix_ = std::regex_replace(infix_, bracket_digit, ")*$1");
+  infix = std::regex_replace(infix, bracket_digit, ")*$1");
 
-  replaceSubStr(std::string{"e"}, std::string{"(2.7182818284590452353671352)"});
-  replaceSubStr(std::string{"E"}, std::string{"e"});
+  replace_str(infix, std::string{"e"},
+              std::string{"(2.7182818284590452353671352)"});
+  replace_str(infix, std::string{"E"}, std::string{"e"});
 
   bool valid{true};
-  for (auto i : infix_) {
+  for (auto i : infix) {
     if (valid_chars.find(i) == std::string::npos) {
       valid = false;
     }
@@ -225,11 +237,12 @@ long double CalculatorModel::evaluate() {
   return operands.top();
 }
 
-void CalculatorModel::replaceSubStr(std::string from, std::string to) {
+void CalculatorModel::replace_str(std::string &str, std::string from,
+                                  std::string to) {
   size_t start_pos{};
 
-  while ((start_pos = infix_.find(from, start_pos)) != std::string::npos) {
-    infix_.replace(start_pos, from.length(), to);
+  while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    str.replace(start_pos, from.length(), to);
     start_pos += to.length();
   }
 }

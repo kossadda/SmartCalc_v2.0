@@ -9,9 +9,9 @@
  *
  */
 
-#include "../include/calculator_view.h"
+#include "modules/include/calculator_view.h"
 
-#include "ui_calculator_view.h"
+#include "modules/view/ui_calculator_view.h"
 
 CalculatorView::CalculatorView(QWidget *parent)
     : QWidget(parent), ui{new Ui::CalculatorView}, plui{new Plot} {
@@ -69,21 +69,28 @@ void CalculatorView::on_ButtonDel_clicked() {
   ui->TextExpr->setText(expression);
 }
 
-void CalculatorView::on_ButtonPlot_clicked()
-{
-  if(plui->isVisible()) {
+void CalculatorView::on_ButtonEq_clicked() {
+  controller_.infix_to_postfix(ui->TextExpr->text().toStdString(),
+                               ui->SpinBoxVar->value());
+  ui->TextExpr->setText(QString::fromStdString(controller_.evaluate()));
+}
+
+void CalculatorView::on_ButtonPlot_clicked() {
+  if (plui->isVisible()) {
     plui->close();
   } else {
     QPoint currentPosGlobal = this->mapToGlobal(QPoint(0, 0));
-    plui->setGeometry(currentPosGlobal.x() - 609, currentPosGlobal.y() - 52, 600, 700);
+    plui->setGeometry(currentPosGlobal.x() - 609, currentPosGlobal.y() - 52,
+                      600, 700);
     plui->show();
-    ui->ButtonPlot->setStyleSheet(ui->ButtonPlot->styleSheet().replace("47, 47, 47", "20, 55, 130"));
+    ui->ButtonPlot->setStyleSheet(
+        ui->ButtonPlot->styleSheet().replace("47, 47, 47", "20, 55, 130"));
     ui->ButtonEq->setText("plot");
   }
 }
 
 void CalculatorView::plotWindowClosed() {
-  ui->ButtonPlot->setStyleSheet(ui->ButtonPlot->styleSheet().replace("20, 55, 130", "47, 47, 47"));
+  ui->ButtonPlot->setStyleSheet(
+      ui->ButtonPlot->styleSheet().replace("20, 55, 130", "47, 47, 47"));
   ui->ButtonEq->setText("=");
 }
-

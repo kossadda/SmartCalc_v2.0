@@ -1,6 +1,17 @@
-#include "mainwindow.h"
+/**
+ * @file mainwindow.cc
+ * @author kossadda (https://github.com/kossadda)
+ * @brief
+ * @version 1.0
+ * @date 2024-09-11
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
 
-#include "ui_mainwindow.h"
+#include "modules/include/mainwindow.h"
+
+#include "modules/view/ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {

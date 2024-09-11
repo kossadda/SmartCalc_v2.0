@@ -22,17 +22,20 @@
 
 class CalculatorModel {
  public:
+  CalculatorModel() = default;
   explicit CalculatorModel(std::string infix, long double var = 0);
 
   long double evaluate();
+  void add_infix(std::string infix, long double var = 0);
+
+  static bool validate(std::string &infix, long double var = 0);
+  static void replace_str(std::string &str, std::string from, std::string to);
 
  private:
-  void replaceSubStr(std::string from, std::string to);
   int getPrecedence(char op);
   bool isFunction(char c);
   bool isOperator(char c);
   void infixToPostfix();
-  bool validate();
 
   std::string infix_;
   std::string postfix_;

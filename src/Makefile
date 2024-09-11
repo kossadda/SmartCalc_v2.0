@@ -51,8 +51,8 @@ TEST = $(shell find $(TEST_DIR) -type f -name "*.cc")
 
 
 #======================== LIST OF FILES TO CLANG-FORMAT =======================#
-ALL_FILES = $(shell find $(MAIN_DIR) -type f -name "*.cc")
-ALL_FILES += $(shell find $(MAIN_DIR) -type f -name "*.h")
+ALL_FILES = $(shell find $(MAIN_DIR) -type f -name "*.cc" ! -name "qcustomplot.cc")
+ALL_FILES += $(shell find $(MAIN_DIR) -type f -name "*.h" ! -name "qcustomplot.h")
 #==============================================================================#
 
 ################################################################################

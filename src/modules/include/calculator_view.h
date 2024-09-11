@@ -9,12 +9,14 @@
  *
  */
 
-#ifndef CALCULATOR_VIEW_H
-#define CALCULATOR_VIEW_H
+#ifndef SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
+#define SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
 
-#include <QWidget>
 #include <QDebug>
-#include "plot.h"
+#include <QWidget>
+
+#include "modules/include/calculator_controller.h"
+#include "modules/include/plot.h"
 
 namespace Ui {
 class CalculatorView;
@@ -32,8 +34,10 @@ class CalculatorView : public QWidget {
   void on_ButtonC_clicked();
   void on_ButtonDel_clicked();
   void on_ButtonPlot_clicked();
+  void on_ButtonEq_clicked();
 
-  private:
+ private:
+  CalculatorController controller_;
   Ui::CalculatorView *ui;
   Plot *plui;
 
@@ -42,4 +46,4 @@ class CalculatorView : public QWidget {
   void plotWindowClosed();
 };
 
-#endif  // CALCULATOR_VIEW_H
+#endif  // SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
