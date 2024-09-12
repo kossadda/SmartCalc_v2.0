@@ -15,10 +15,11 @@ int main() {
   setlocale(LC_NUMERIC, "C");
 
   std::string infix =
-      "asin(0.123*(asin(0.999)*acos(0.9995)))+(atan(34.12)*acos(0.4323))";
-  Model pol{infix};
+      "x(((ln(cos(1.5*atan(1)))/(log(x*sqrt(x))))+log((tan(1)-asin(0.25))/"
+      "(ln(x)+sqrt(x)))))";
+  CalculatorModel pol{infix, 50.0L};
 
-  long double exp = 1.73819952L;
+  long double exp = -65.10591506;
   long double res = pol.evaluate();
 
   printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);

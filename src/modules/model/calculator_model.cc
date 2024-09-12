@@ -12,75 +12,27 @@
 #include "../include/calculator_model.h"
 
 CalculatorModel::CalculatorModel(std::string infix, long double var) {
-  for (auto i : infix) {
-    if (i != ' ') infix_ += i;
-  }
-
-  add_infix(infix_, var);
+  add_infix(infix, var);
 }
 
 void CalculatorModel::add_infix(std::string infix, long double var) {
-  infix_ = postfix_ = std::string{};
   variable_ = var;
+  postfix_ = std::string{};
+  infix_ = replaceNames(infix);
 
-  for (auto i : infix) {
-    if (i != ' ') infix_ += i;
-  }
-
-  if (validate(infix_, var)) {
+  if (validate()) {
     infixToPostfix();
   } else {
     throw std::invalid_argument("CalculatorModel: invalid infix expression");
   }
 }
 
-bool CalculatorModel::validate(std::string &infix, long double var) {
+bool CalculatorModel::validate() {
   const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
-  std::stringstream ss;
-  ss << "(" << var << ")";
-
-  if (infix[0] == '-') {
-    infix[0] = 'u';
-  }
-
-  std::regex number_x_pattern{"(\\d+)x"};
-  infix = std::regex_replace(infix, number_x_pattern, "$1*x");
-
-  std::regex x_number_pattern{"x(\\d+)"};
-  infix = std::regex_replace(infix, x_number_pattern, "x*$1");
-
-  std::regex number_e_pattern{"(\\d+)e(\\d+|[+-])"};
-  infix = std::regex_replace(infix, number_e_pattern, "$1E$2");
-
-  replace_str(infix, std::string{"x"}, ss.str());
-  replace_str(infix, std::string{"P"},
-              std::string{"(3.1415926535897932384626433)"});
-  replace_str(infix, std::string{"asin("}, std::string{"S("});
-  replace_str(infix, std::string{"acos("}, std::string{"C("});
-  replace_str(infix, std::string{"atan("}, std::string{"T("});
-  replace_str(infix, std::string{"sqrt("}, std::string{"Q("});
-  replace_str(infix, std::string{"sin("}, std::string{"s("});
-  replace_str(infix, std::string{"cos("}, std::string{"c("});
-  replace_str(infix, std::string{"tan("}, std::string{"t("});
-  replace_str(infix, std::string{"log("}, std::string{"L("});
-  replace_str(infix, std::string{"ln("}, std::string{"l("});
-  replace_str(infix, std::string{"mod"}, std::string{"m"});
-  replace_str(infix, std::string{")("}, std::string{")*("});
-  replace_str(infix, std::string{"(+"}, std::string{"("});
-  replace_str(infix, std::string{"(-"}, std::string{"((u1)*"});
-
-  std::regex digit_bracket{"(\\d)\\("};
-  infix = std::regex_replace(infix, digit_bracket, "$1*(");
-
-  std::regex bracket_digit{"\\)(\\d)"};
-  infix = std::regex_replace(infix, bracket_digit, ")*$1");
-
-  replace_str(infix, std::string{"e"},
-              std::string{"(2.7182818284590452353671352)"});
-  replace_str(infix, std::string{"E"}, std::string{"e"});
-
+  infix_ = replaceNames(infix_);
   bool valid{true};
-  for (auto i : infix) {
+
+  for (auto i : infix_) {
     if (valid_chars.find(i) == std::string::npos) {
       valid = false;
     }
@@ -237,14 +189,68 @@ long double CalculatorModel::evaluate() {
   return operands.top();
 }
 
-void CalculatorModel::replace_str(std::string &str, std::string from,
-                                  std::string to) {
+std::string CalculatorModel::replaceSubstr(std::string str, const char *from, const char *to) {
+  std::string from_{from};
+  std::string to_{to};
   size_t start_pos{};
 
   while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-    str.replace(start_pos, from.length(), to);
-    start_pos += to.length();
+    str.replace(start_pos, from_.length(), to);
+    start_pos += to_.length();
   }
+
+  return str;
+}
+
+std::string CalculatorModel::replaceNames(std::string infix) {
+  std::string result;
+  std::size_t max_length{25};
+  std::unique_ptr<char[]> var_str{new char[max_length]};
+  std::snprintf(var_str.get(), max_length, "(%Lf)", variable_);
+
+  for (auto i : infix) {
+    if (i != ' ') result += i;
+  }
+
+  if (result[0] == '-') {
+    result[0] = 'u';
+  }
+
+  std::regex number_x_pattern{"(\\d+)x"};
+  result = std::regex_replace(result, number_x_pattern, "$1*x");
+
+  std::regex x_number_pattern{"x(\\d+)"};
+  result = std::regex_replace(result, x_number_pattern, "x*$1");
+
+  std::regex number_e_pattern{"(\\d+)e(\\d+|[+-])"};
+  result = std::regex_replace(result, number_e_pattern, "$1E$2");
+
+  result = replaceSubstr(result, "x", var_str.get());
+  result = replaceSubstr(result, "P", "(3.1415926535897932384626433)");
+  result = replaceSubstr(result, "asin(", "S(");
+  result = replaceSubstr(result, "acos(", "C(");
+  result = replaceSubstr(result, "atan(", "T(");
+  result = replaceSubstr(result, "sqrt(", "Q(");
+  result = replaceSubstr(result, "sin(", "s(");
+  result = replaceSubstr(result, "cos(", "c(");
+  result = replaceSubstr(result, "tan(", "t(");
+  result = replaceSubstr(result, "log(", "L(");
+  result = replaceSubstr(result, "ln(", "l(");
+  result = replaceSubstr(result, "mod", "m");
+  result = replaceSubstr(result, ")(", ")*(");
+  result = replaceSubstr(result, "(+", "(");
+  result = replaceSubstr(result, "(-", "((u1)*");
+
+  std::regex digit_bracket{"(\\d)\\("};
+  result = std::regex_replace(result, digit_bracket, "$1*(");
+
+  std::regex bracket_digit{"\\)(\\d)"};
+  result = std::regex_replace(result, bracket_digit, ")*$1");
+
+  result = replaceSubstr(result, "e", "(2.7182818284590452353671352)");
+  result = replaceSubstr(result, "E", "e");
+
+  return result;
 }
 
 int CalculatorModel::getPrecedence(char op) {

@@ -28,10 +28,11 @@ class CalculatorModel {
   long double evaluate();
   void add_infix(std::string infix, long double var = 0);
 
-  static bool validate(std::string &infix, long double var = 0);
-  static void replace_str(std::string &str, std::string from, std::string to);
+  bool validate();
 
  private:
+  std::string replaceNames(std::string infix);
+  std::string replaceSubstr(std::string str, const char *from, const char *to);
   int getPrecedence(char op);
   bool isFunction(char c);
   bool isOperator(char c);
