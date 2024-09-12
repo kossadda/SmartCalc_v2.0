@@ -25,10 +25,10 @@ class CalculatorModel {
   CalculatorModel() = default;
   explicit CalculatorModel(std::string infix, long double var = 0);
 
-  long double evaluate();
-  void add_infix(std::string infix, long double var = 0);
-
+  void add_expression(std::string infix, long double var);
+  void to_postfix();
   bool validate();
+  long double evaluate();
 
  private:
   std::string replaceNames(std::string infix);
@@ -37,6 +37,8 @@ class CalculatorModel {
   bool isFunction(char c);
   bool isOperator(char c);
   void infixToPostfix();
+
+  static constexpr long double kLdoubleMinVal{1.0e-15L}; 
 
   std::string infix_;
   std::string postfix_;

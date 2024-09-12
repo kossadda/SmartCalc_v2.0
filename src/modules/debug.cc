@@ -15,9 +15,10 @@ int main() {
   setlocale(LC_NUMERIC, "C");
 
   std::string infix =
-      "x(((ln(cos(1.5*atan(1)))/(log(x*sqrt(x))))+log((tan(1)-asin(0.25))/"
-      "(ln(x)+sqrt(x)))))";
-  CalculatorModel pol{infix, 50.0L};
+      "log(-102)";
+  CalculatorModel pol;
+  pol.add_expression(infix, 0.0L);
+  pol.to_postfix();
 
   long double exp = -65.10591506;
   long double res = pol.evaluate();

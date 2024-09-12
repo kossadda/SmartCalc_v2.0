@@ -70,9 +70,13 @@ void CalculatorView::on_ButtonDel_clicked() {
 }
 
 void CalculatorView::on_ButtonEq_clicked() {
-  controller_.infix_to_postfix(ui->TextExpr->text().toStdString(),
-                               ui->SpinBoxVar->value());
-  ui->TextExpr->setText(QString::fromStdString(controller_.evaluate()));
+  std::string except{controller_.infix_to_postfix(ui->TextExpr->text().toStdString(), ui->SpinBoxVar->value())};
+
+  if(except == std::string{}) {
+    ui->TextExpr->setText(QString::fromStdString(controller_.evaluate()));
+  } else {
+    ui->TextExpr->setText(QString::fromStdString(except));
+  }
 }
 
 void CalculatorView::on_ButtonPlot_clicked() {

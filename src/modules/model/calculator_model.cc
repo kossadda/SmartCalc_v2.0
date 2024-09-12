@@ -12,24 +12,26 @@
 #include "../include/calculator_model.h"
 
 CalculatorModel::CalculatorModel(std::string infix, long double var) {
-  add_infix(infix, var);
+  add_expression(infix, var);
+  to_postfix();
 }
 
-void CalculatorModel::add_infix(std::string infix, long double var) {
+void CalculatorModel::add_expression(std::string infix, long double var) {
   variable_ = var;
   postfix_ = std::string{};
   infix_ = replaceNames(infix);
+}
 
+void CalculatorModel::to_postfix() {
   if (validate()) {
     infixToPostfix();
   } else {
-    throw std::invalid_argument("CalculatorModel: invalid infix expression");
+    throw std::invalid_argument("invalid expression");
   }
 }
 
 bool CalculatorModel::validate() {
   const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
-  infix_ = replaceNames(infix_);
   bool valid{true};
 
   for (auto i : infix_) {
@@ -138,7 +140,7 @@ long double CalculatorModel::evaluate() {
           break;
       }
 
-      operands.push((std::fabs(left) > 1.0e-15) ? left : 0);
+      operands.push((std::fabs(left) > kLdoubleMinVal) ? left : 0);
     } else if (isFunction(token[0])) {
       long double top = operands.top();
       operands.pop();
@@ -167,22 +169,22 @@ long double CalculatorModel::evaluate() {
           top = std::atan(top);
           break;
         case 'l':
-          if (top < 0) throw std::invalid_argument("ln: negative number");
+          if (top < 0.0L) throw std::invalid_argument("ln: negative number");
           top = std::log(top);
           break;
         case 'L':
-          if (top < 0) throw std::invalid_argument("log: negative number");
+          if (top < 0.0L) throw std::invalid_argument("log: negative number");
           top = std::log10(top);
           break;
         case 'Q':
-          if (top < 0) throw std::invalid_argument("sqrt: negative number");
+          if (top < 0.0L) throw std::invalid_argument("sqrt: negative number");
           top = std::sqrt(top);
           break;
         case 'u':
           top *= -1.0L;
       }
 
-      operands.push((std::fabs(top) > 1.0e-15) ? top : 0);
+      operands.push((std::fabs(top) > kLdoubleMinVal) ? top : 0);
     }
   }
 
@@ -190,6 +192,7 @@ long double CalculatorModel::evaluate() {
 }
 
 std::string CalculatorModel::replaceSubstr(std::string str, const char *from, const char *to) {
+  std::stringstream ss;
   std::string from_{from};
   std::string to_{to};
   size_t start_pos{};
@@ -199,7 +202,9 @@ std::string CalculatorModel::replaceSubstr(std::string str, const char *from, co
     start_pos += to_.length();
   }
 
-  return str;
+  ss << str;
+
+  return ss.str();
 }
 
 std::string CalculatorModel::replaceNames(std::string infix) {
