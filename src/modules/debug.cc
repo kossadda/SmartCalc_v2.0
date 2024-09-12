@@ -15,15 +15,15 @@ int main() {
   setlocale(LC_NUMERIC, "C");
 
   std::string infix =
-      "log(-102)";
+      "584-23";
   CalculatorModel pol;
   pol.add_expression(infix, 0.0L);
-  pol.to_postfix();
 
-  long double exp = -65.10591506;
-  long double res = pol.evaluate();
+  std::cout << ((pol.validate()) ? "\nVALID\n\n" : "\nINVALID\n\n");
+  // long double exp = -65.10591506;
+  // long double res = pol.evaluate();
 
-  printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
+  // printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
 
   return 0;
 }

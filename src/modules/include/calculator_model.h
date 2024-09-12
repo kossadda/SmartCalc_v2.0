@@ -36,7 +36,6 @@ class CalculatorModel {
   int getPrecedence(char op);
   bool isFunction(char c);
   bool isOperator(char c);
-  void infixToPostfix();
 
   static constexpr long double kLdoubleMinVal{1.0e-15L}; 
 

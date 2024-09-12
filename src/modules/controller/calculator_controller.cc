@@ -11,22 +11,14 @@
 
 #include "modules/include/calculator_controller.h"
 
-std::string CalculatorController::infix_to_postfix(std::string infix, long double var) {
-  std::string valid;
-
+void CalculatorController::infix_to_postfix(std::string infix, long double var) {
   model_.add_expression(infix, var);
-
-  try {
-    model_.to_postfix();
-  } catch(const std::invalid_argument& exception) {
-    valid = exception.what();
-  }
-
-  return valid;
+  model_.to_postfix();
 }
 
 bool CalculatorController::validate(std::string infix, long double var) {
   model_.add_expression(infix, var);
+  
   return model_.validate();
 }
 

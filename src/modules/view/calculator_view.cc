@@ -18,6 +18,7 @@ CalculatorView::CalculatorView(QWidget *parent)
   ui->setupUi(this);
 
   connect(plui, &Plot::windowClosed, this, &CalculatorView::plotWindowClosed);
+  connect(ui->TextExpr, &QLineEdit::textChanged, this, &CalculatorView::validateExpression);
 
   QPushButton *numbers[] = {
       ui->ButtonVariable, ui->ButtonCloseBr, ui->ButtonOpenBr, ui->ButtonMinus,
@@ -70,12 +71,9 @@ void CalculatorView::on_ButtonDel_clicked() {
 }
 
 void CalculatorView::on_ButtonEq_clicked() {
-  std::string except{controller_.infix_to_postfix(ui->TextExpr->text().toStdString(), ui->SpinBoxVar->value())};
-
-  if(except == std::string{}) {
+  if(valid) {
+    controller_.infix_to_postfix(ui->TextExpr->text().toStdString(), ui->SpinBoxVar->value());
     ui->TextExpr->setText(QString::fromStdString(controller_.evaluate()));
-  } else {
-    ui->TextExpr->setText(QString::fromStdString(except));
   }
 }
 
@@ -97,4 +95,14 @@ void CalculatorView::plotWindowClosed() {
   ui->ButtonPlot->setStyleSheet(
       ui->ButtonPlot->styleSheet().replace("20, 55, 130", "47, 47, 47"));
   ui->ButtonEq->setText("=");
+}
+
+void CalculatorView::validateExpression() {
+  valid = controller_.validate(ui->TextExpr->text().toStdString());
+
+  if(valid) {
+    ui->TextExpr->setStyleSheet(ui->TextExpr->styleSheet().replace("200, 0, 0", "255, 255, 255"));
+  } else {
+    ui->TextExpr->setStyleSheet(ui->TextExpr->styleSheet().replace("255, 255, 255", "200, 0, 0"));
+  }
 }

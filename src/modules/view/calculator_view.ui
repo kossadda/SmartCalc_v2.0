@@ -188,6 +188,7 @@ QPushButton:pressed {
   background-color:  rgb(47, 47, 47);
   border: 1px solid rgba(40, 100, 180, 0.7);
   font-size: 30px;
+  color: rgb(255, 255, 255);
 }</string>
         </property>
         <property name="alignment">

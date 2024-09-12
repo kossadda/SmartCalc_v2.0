@@ -21,7 +21,7 @@ class CalculatorController {
   CalculatorController() = default;
 
   bool validate(std::string infix, long double var = 0);
-  std::string infix_to_postfix(std::string infix, long double var);
+  void infix_to_postfix(std::string infix, long double var);
   std::string evaluate();
 
  private:

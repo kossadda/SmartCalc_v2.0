@@ -40,10 +40,12 @@ class CalculatorView : public QWidget {
   CalculatorController controller_;
   Ui::CalculatorView *ui;
   Plot *plui;
+  bool valid{false};
 
   void numberButtonClicked();
   void functionButtonClicked();
   void plotWindowClosed();
+  void validateExpression();
 };
 
 #endif  // SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
