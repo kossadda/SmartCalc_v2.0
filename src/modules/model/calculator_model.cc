@@ -32,12 +32,54 @@ void CalculatorModel::to_postfix() {
 
 bool CalculatorModel::validate() {
   const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
-  bool valid{true};
+  std::size_t open_br{};
+  std::size_t close_br{};
+  bool valid{(infix_.size()) ? true : false};
+  bool in_number{false};
+  std::size_t dot_count{};
+  char ch;
 
-  for (auto i : infix_) {
-    if (valid_chars.find(i) == std::string::npos) {
+  for(std::size_t i = 0; i < infix_.size() - 1 && valid; ++i) {
+    ch = infix_[i];
+
+    if(ch == '(') {
+      ++open_br;
+    } else if(ch == ')') {
+      ++close_br;
+    } 
+    
+    if(valid_chars.find(i) == std::string::npos) {
+      valid = false;
+    } else if(isOperator(ch) && i + 1 < infix_.size() && isOperator(infix_[i + 1])) {
+      valid = false;
+    } else if(close_br > open_br) {
       valid = false;
     }
+
+    if(isdigit(ch) || ch == '.') {
+      if(!in_number) {
+        in_number = true;
+        dot_count = 0;
+        
+      }
+      if(ch == '.') {
+        ++dot_count;
+
+        if(dot_count > 1) {
+          valid = false;
+        }
+      }
+    } else {
+      in_number = false;
+    }
+  }
+
+  if(open_br != close_br) {
+    valid = false;
+  }
+
+  if(infix_.find("()") != std::string::npos) {
+    valid = false;
   }
 
   return valid;
