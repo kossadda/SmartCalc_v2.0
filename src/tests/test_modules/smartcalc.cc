@@ -21,6 +21,7 @@ TEST(smartcalc, arifmetic_1) {
   long double exp = 134.97247948L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -31,6 +32,7 @@ TEST(smartcalc, arifmetic_2) {
   long double exp = 4.0L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -41,6 +43,7 @@ TEST(smartcalc, arifmetic_3) {
   long double exp = 810.35L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -51,6 +54,7 @@ TEST(smartcalc, arifmetic_4) {
   long double exp = -1.0L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -61,6 +65,7 @@ TEST(smartcalc, arifmetic_5) {
   long double exp = 11.0L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -71,6 +76,7 @@ TEST(smartcalc, arifmetic_6) {
   long double exp = 11.0L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -81,6 +87,7 @@ TEST(smartcalc, arifmetic_7) {
   long double exp = 0.1269L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -91,6 +98,7 @@ TEST(smartcalc, arifmetic_8) {
   long double exp = 4.5L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -101,6 +109,7 @@ TEST(smartcalc, arifmetic_9) {
   long double exp = 12.0L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -111,6 +120,7 @@ TEST(smartcalc, arifmetic_10) {
   long double exp = 15.0L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -121,6 +131,7 @@ TEST(smartcalc, arifmetic_11) {
   long double exp = 4.5L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -131,6 +142,7 @@ TEST(smartcalc, arifmetic_12) {
   long double exp = -2.82017077L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -141,6 +153,7 @@ TEST(smartcalc, arifmetic_13) {
   long double exp = 2.51429291L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -151,6 +164,7 @@ TEST(smartcalc, arifmetic_14) {
   long double exp = 26.92763754L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -161,6 +175,7 @@ TEST(smartcalc, arifmetic_15) {
   long double exp = 6.75L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -173,6 +188,7 @@ TEST(smartcalc, arifmetic_16) {
   long double exp = 4410.72838720L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -185,6 +201,7 @@ TEST(smartcalc, arifmetic_17) {
   long double exp = 9618.22208480L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -197,6 +214,7 @@ TEST(smartcalc, arifmetic_18) {
   long double exp = 0.00025593L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -208,6 +226,7 @@ TEST(smartcalc, arifmetic_19) {
   long double exp = -4164.18755839L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -220,6 +239,7 @@ TEST(smartcalc, arifmetic_20) {
   long double exp = 302.04350416L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -232,6 +252,7 @@ TEST(smartcalc, arifmetic_21) {
   long double exp = -281.99663138L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -244,6 +265,7 @@ TEST(smartcalc, arifmetic_22) {
   long double exp = -43352.24453277L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -256,6 +278,7 @@ TEST(smartcalc, arifmetic_23) {
   long double exp = 43429718.64983888L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -268,6 +291,7 @@ TEST(smartcalc, arifmetic_24) {
   long double exp = -0.83734470L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -280,6 +304,7 @@ TEST(smartcalc, arifmetic_25) {
   long double exp = 11911.36244976L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -292,6 +317,7 @@ TEST(smartcalc, arifmetic_26) {
   long double exp = 18.65233133L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -304,6 +330,7 @@ TEST(smartcalc, arifmetic_27) {
   long double exp = -5483.00538785L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -316,6 +343,7 @@ TEST(smartcalc, arifmetic_28) {
   long double exp = 1672983604.33760846L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-6) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -326,6 +354,7 @@ TEST(smartcalc, arifmetic_29) {
   long double exp = 586042.77411927L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -338,6 +367,7 @@ TEST(smartcalc, arifmetic_30) {
   long double exp = 13267141.74182536L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -350,6 +380,7 @@ TEST(smartcalc, arifmetic_31) {
   long double exp = 9741.91379147L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -363,6 +394,7 @@ TEST(smartcalc, arifmetic_32) {
   long double exp = -30.68889694L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -376,6 +408,7 @@ TEST(smartcalc, arifmetic_33) {
   long double exp = -3131029812.34034567L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-6) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -388,6 +421,7 @@ TEST(smartcalc, arifmetic_34) {
   long double exp = -10586.27400295L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -400,6 +434,7 @@ TEST(smartcalc, arifmetic_35) {
   long double exp = -5632720.32424436L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -412,6 +447,7 @@ TEST(smartcalc, arifmetic_36) {
   long double exp = -39682001894.71318113L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -424,6 +460,7 @@ TEST(smartcalc, arifmetic_37) {
   long double exp = 85.66615852L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -437,6 +474,7 @@ TEST(smartcalc, arifmetic_38) {
   long double exp = 72710793992.85143845L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -449,6 +487,7 @@ TEST(smartcalc, arifmetic_39) {
   long double exp = 0.65013492L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -461,6 +500,7 @@ TEST(smartcalc, arifmetic_40) {
   long double exp = 0.00676005L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -471,6 +511,7 @@ TEST(smartcalc, trigonometric_1) {
   long double exp = 0.30830568L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -481,6 +522,7 @@ TEST(smartcalc, trigonometric_2) {
   long double exp = 0.31591594L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -492,6 +534,7 @@ TEST(smartcalc, trigonometric_3) {
   long double exp = 0.53712999L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -502,6 +545,7 @@ TEST(smartcalc, trigonometric_4) {
   long double exp = 0.03782026L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -514,6 +558,7 @@ TEST(smartcalc, trigonometric_5) {
   long double exp = 0.71414008L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -526,6 +571,7 @@ TEST(smartcalc, trigonometric_6) {
   long double exp = 6613209.02036235L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-5) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -538,6 +584,7 @@ TEST(smartcalc, trigonometric_7) {
   long double exp = -0.66506188L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -551,6 +598,7 @@ TEST(smartcalc, trigonometric_8) {
   long double exp = -0.70591667L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -564,6 +612,7 @@ TEST(smartcalc, trigonometric_9) {
   long double exp = 0.00004143L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -576,6 +625,7 @@ TEST(smartcalc, trigonometric_10) {
   long double exp = -32945600.78318327L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-5) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -587,6 +637,7 @@ TEST(smartcalc, trigonometric_11) {
   long double exp = -0.04151937L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -597,6 +648,7 @@ TEST(smartcalc, trigonometric_12) {
   long double exp = 0.87951986L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -609,6 +661,7 @@ TEST(smartcalc, trigonometric_13) {
   long double exp = -0.08189528L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -620,6 +673,7 @@ TEST(smartcalc, trigonometric_14) {
   long double exp = 0.23308907L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -633,6 +687,7 @@ TEST(smartcalc, trigonometric_15) {
   long double exp = -0.38600570L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -646,6 +701,7 @@ TEST(smartcalc, trigonometric_16) {
   long double exp = 0.86614354L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -658,6 +714,7 @@ TEST(smartcalc, trigonometric_17) {
   long double exp = 0.37737235L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -669,6 +726,7 @@ TEST(smartcalc, trigonometric_18) {
   long double exp = 1.73819952L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -681,6 +739,7 @@ TEST(smartcalc, trigonometric_19) {
   long double exp = 0.87525383L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -691,6 +750,7 @@ TEST(smartcalc, trigonometric_20) {
   long double exp = 1.22279719L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -703,6 +763,7 @@ TEST(smartcalc, trigonometric_21) {
   long double exp = 0.05848612L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -714,6 +775,7 @@ TEST(smartcalc, trigonometric_22) {
   long double exp = 0.00180589L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -726,6 +788,7 @@ TEST(smartcalc, trigonometric_23) {
   long double exp = 0.97352649L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -740,6 +803,7 @@ TEST(smartcalc, trigonometric_24) {
   long double exp = -0.02763627L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -752,6 +816,7 @@ TEST(smartcalc, trigonometric_25) {
   long double exp = 0.00360114L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -762,6 +827,7 @@ TEST(smartcalc, trigonometric_26) {
   long double exp = 0.90797254L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -774,6 +840,7 @@ TEST(smartcalc, trigonometric_27) {
   long double exp = 0.00073548L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -786,6 +853,7 @@ TEST(smartcalc, trigonometric_28) {
   long double exp = 1.41510909L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -797,6 +865,7 @@ TEST(smartcalc, trigonometric_29) {
   long double exp = 1.77112297L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -809,6 +878,7 @@ TEST(smartcalc, trigonometric_30) {
   long double exp = 0.87525383L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -822,6 +892,7 @@ TEST(smartcalc, combinated_1) {
   long double exp = 161.94271729L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -836,6 +907,7 @@ TEST(smartcalc, combinated_2) {
   long double exp = 0.66053149L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -849,6 +921,7 @@ TEST(smartcalc, combinated_3) {
   long double exp = 2347.50964106L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -859,6 +932,7 @@ TEST(smartcalc, combinated_4) {
   long double exp = 10221.58960857L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -869,6 +943,7 @@ TEST(smartcalc, combinated_5) {
   long double exp = 78.493L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -879,6 +954,7 @@ TEST(smartcalc, combinated_6) {
   long double exp = 3.8665L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -892,6 +968,7 @@ TEST(smartcalc, combinated_7) {
   long double exp = 0.00889416L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -902,6 +979,7 @@ TEST(smartcalc, combinated_8) {
   long double exp = 35.23404963L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -915,6 +993,7 @@ TEST(smartcalc, combinated_9) {
   long double exp = -5633622.49229791L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -927,6 +1006,7 @@ TEST(smartcalc, combinated_10) {
   long double exp = -39743614292.13980964L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -939,6 +1019,7 @@ TEST(smartcalc, combinated_11) {
   long double exp = -85.66615852L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -952,6 +1033,7 @@ TEST(smartcalc, combinated_12) {
   long double exp = -72696476962.15221077L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -964,18 +1046,20 @@ TEST(smartcalc, combinated_13) {
   long double exp = -8.32867356L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
 TEST(smartcalc, combinated_14) {
   std::string infix =
       "sin(-325.5324*(((2.5432*3.432)/(-1342.5+10.5324))-sin((-44325.11123/"
-      "2324.234)-1.234))/(3.234-((-2.7568*1.5234)-0.5324))";
+      "2324.234)-1.234))/(3.234-((-2.7568*1.5234)-0.5324)))";
   CalculatorModel pol{infix};
 
   long double exp = -0.49350345L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -989,6 +1073,7 @@ TEST(smartcalc, combinated_15) {
   long double exp = -5104898.25816558L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-5) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1001,6 +1086,7 @@ TEST(smartcalc, combinated_16) {
   long double exp = -0.66542827L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1014,6 +1100,7 @@ TEST(smartcalc, combinated_17) {
   long double exp = 5.93937361L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1027,6 +1114,7 @@ TEST(smartcalc, combinated_18) {
   long double exp = 0.34943122L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1039,6 +1127,7 @@ TEST(smartcalc, combinated_19) {
   long double exp = 1.61395184L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1049,6 +1138,7 @@ TEST(smartcalc, combinated_20) {
   long double exp = 2L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1061,6 +1151,7 @@ TEST(smartcalc, combinated_21) {
   long double exp = 0.70463403L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1074,6 +1165,7 @@ TEST(smartcalc, combinated_22) {
   long double exp = -1.27864300L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1085,6 +1177,7 @@ TEST(smartcalc, combinated_23) {
   long double exp = 1.07516921L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1096,6 +1189,7 @@ TEST(smartcalc, combinated_24) {
   long double exp = 0.15412291L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1108,6 +1202,7 @@ TEST(smartcalc, combinated_25) {
   long double exp = -2.40828557L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1119,6 +1214,7 @@ TEST(smartcalc, combinated_26) {
   long double exp = 0.23893583L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1130,6 +1226,7 @@ TEST(smartcalc, combinated_27) {
   long double exp = 80.60628465L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1142,6 +1239,7 @@ TEST(smartcalc, combinated_28) {
   long double exp = 129.07919834L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1155,6 +1253,7 @@ TEST(smartcalc, combinated_29) {
   long double exp = -9.20773786L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1166,6 +1265,7 @@ TEST(smartcalc, combinated_30) {
   long double exp = 4.97131049L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1176,6 +1276,7 @@ TEST(smartcalc, combinated_31) {
   long double exp = 0.10381191L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1186,6 +1287,7 @@ TEST(smartcalc, combinated_32) {
   long double exp = -5.72142719L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1196,6 +1298,7 @@ TEST(smartcalc, combinated_33) {
   long double exp = 16.84216850L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1206,6 +1309,7 @@ TEST(smartcalc, combinated_34) {
   long double exp = 241547.85488877L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1216,6 +1320,7 @@ TEST(smartcalc, combinated_35) {
   long double exp = 0.0L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1228,6 +1333,7 @@ TEST(smartcalc, combinated_36) {
   long double exp = -65.10591506;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1238,6 +1344,7 @@ TEST(smartcalc, combinated_37) {
   long double exp = 5.19885601L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1248,6 +1355,7 @@ TEST(smartcalc, combinated_38) {
   long double exp = 7.79212070L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1259,6 +1367,7 @@ TEST(smartcalc, combinated_39) {
   long double exp = 1.25113394L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }
 
@@ -1273,5 +1382,6 @@ TEST(smartcalc, combinated_40) {
   long double exp = -2340.12058496L;
   long double res = pol.evaluate();
 
+  EXPECT_TRUE(pol.validate()) << "Validatation failed";
   EXPECT_NEAR(exp, res, 1e-7) << "\nRes : " << res << "\nTrue: " << exp << '\n';
 }

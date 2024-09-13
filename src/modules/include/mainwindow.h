@@ -27,6 +27,9 @@ class MainWindow : public QMainWindow {
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+ protected:
+  void paintEvent(QPaintEvent *event) override;
+
  private:
   Ui::MainWindow *ui;
 };

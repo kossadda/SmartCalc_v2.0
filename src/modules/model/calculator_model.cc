@@ -82,7 +82,7 @@ void CalculatorModel::to_postfix() {
 }
 
 bool CalculatorModel::validate() {
-  const std::string valid_chars{"()^+-*/msctSCTQLlPxe1234567890."};
+  const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
   std::size_t open_br{};
   std::size_t close_br{};
   bool valid{(infix_.size()) ? true : false};
@@ -90,7 +90,7 @@ bool CalculatorModel::validate() {
   std::size_t dot_count{};
   char ch;
 
-  for(std::size_t i = 0; i < infix_.size() - 1 && valid; ++i) {
+  for(std::size_t i = 0; i < infix_.size() && valid; ++i) {
     ch = infix_[i];
 
     if(ch == '(') {
@@ -111,8 +111,8 @@ bool CalculatorModel::validate() {
       if(!in_number) {
         in_number = true;
         dot_count = 0;
-        
       }
+
       if(ch == '.') {
         ++dot_count;
 

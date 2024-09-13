@@ -12,8 +12,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-add_library(MODEL_LIB STATIC ${MODELS})
-
 set(MODELS
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_model.h
   ${CMAKE_SOURCE_DIR}/modules/model/calculator_model.cc
@@ -59,7 +57,6 @@ include_directories(${CMAKE_SOURCE_DIR})
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${MODEL_LIB})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
   ${CMAKE_SOURCE_DIR}/modules/include
