@@ -28,29 +28,25 @@ MainWindow::MainWindow(QWidget *parent)
 
   setWindowFlag(Qt::FramelessWindowHint);
   setAttribute(Qt::WA_TranslucentBackground);
-
-  QPixmap pixmap(":calculator.png");
-  ui->LabelIcon->setPixmap(pixmap);
-  ui->LabelIcon->setScaledContents(true);
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::paintEvent(QPaintEvent *event) {
-  Q_UNUSED(event);
+// void MainWindow::paintEvent(QPaintEvent *event) {
+  // Q_UNUSED(event);
 
-  QPainter painter(this);
-  painter.setRenderHint(QPainter::Antialiasing);
+  // QPainter painter(this);
+  // painter.setRenderHint(QPainter::Antialiasing);
 
-  QRect rect = this->rect();
-  QPainterPath path;
-  path.addRoundedRect(rect, 10, 10);
+  // QRect rect = this->rect();
+  // QPainterPath path;
+  // path.addRoundedRect(rect, 10, 10);
 
-  painter.fillPath(path, QBrush(QColor{10, 10, 10, 220}));
+  // painter.fillPath(path, QBrush(QColor{10, 10, 10, 220}));
 
-  QPen pen(QColor(40, 100, 180, 178), 2);
-  painter.setPen(pen);
-  painter.drawPath(path);
+  // QPen pen(QColor(40, 100, 180, 178), 2);
+  // painter.setPen(pen);
+  // painter.drawPath(path);
 
-  QWidget::paintEvent(event);
-}
+  // QWidget::paintEvent(event);
+// }

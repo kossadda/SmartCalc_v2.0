@@ -37,6 +37,7 @@ set(ADDITIONAL
   ${CMAKE_SOURCE_DIR}/modules/include/plot.h
   ${CMAKE_SOURCE_DIR}/modules/view/plot.cc
   ${CMAKE_SOURCE_DIR}/modules/view/plot.ui
+  ${CMAKE_SOURCE_DIR}/modules/include/top_menu.h
 )
 
 set(MAIN

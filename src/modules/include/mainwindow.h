@@ -15,6 +15,7 @@
 #include <QMainWindow>
 
 #include "modules/include/calculator_view.h"
+#include "modules/include/top_menu.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,8 +28,8 @@ class MainWindow : public QMainWindow {
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
- protected:
-  void paintEvent(QPaintEvent *event) override;
+//  protected:
+  // void paintEvent(QPaintEvent *event) override;
 
  private:
   Ui::MainWindow *ui;
