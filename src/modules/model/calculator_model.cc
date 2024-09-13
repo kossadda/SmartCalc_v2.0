@@ -90,33 +90,34 @@ bool CalculatorModel::validate() {
   std::size_t dot_count{};
   char ch;
 
-  for(std::size_t i = 0; i < infix_.size() && valid; ++i) {
+  for (std::size_t i = 0; i < infix_.size() && valid; ++i) {
     ch = infix_[i];
 
-    if(ch == '(') {
+    if (ch == '(') {
       ++open_br;
-    } else if(ch == ')') {
+    } else if (ch == ')') {
       ++close_br;
-    } 
-    
-    if(valid_chars.find(infix_[i]) == std::string::npos) {
+    }
+
+    if (valid_chars.find(infix_[i]) == std::string::npos) {
       valid = false;
-    } else if(isOperator(ch) && i + 1 < infix_.size() && isOperator(infix_[i + 1])) {
+    } else if (isOperator(ch) && i + 1 < infix_.size() &&
+               isOperator(infix_[i + 1])) {
       valid = false;
-    } else if(close_br > open_br) {
+    } else if (close_br > open_br) {
       valid = false;
     }
 
-    if(isdigit(ch) || ch == '.') {
-      if(!in_number) {
+    if (isdigit(ch) || ch == '.') {
+      if (!in_number) {
         in_number = true;
         dot_count = 0;
       }
 
-      if(ch == '.') {
+      if (ch == '.') {
         ++dot_count;
 
-        if(dot_count > 1) {
+        if (dot_count > 1) {
           valid = false;
         }
       }
@@ -125,11 +126,11 @@ bool CalculatorModel::validate() {
     }
   }
 
-  if(open_br != close_br) {
+  if (open_br != close_br) {
     valid = false;
   }
 
-  if(infix_.find("()") != std::string::npos) {
+  if (infix_.find("()") != std::string::npos) {
     valid = false;
   }
 
@@ -225,7 +226,8 @@ long double CalculatorModel::evaluate() {
   return operands.top();
 }
 
-std::string CalculatorModel::replaceSubstr(std::string str, const char *from, const char *to) {
+std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
+                                           const char *to) {
   std::stringstream ss;
   std::string from_{from};
   std::string to_{to};

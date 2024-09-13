@@ -11,14 +11,15 @@
 
 #include "modules/include/calculator_controller.h"
 
-void CalculatorController::infix_to_postfix(std::string infix, long double var) {
+void CalculatorController::infix_to_postfix(std::string infix,
+                                            long double var) {
   model_.add_expression(infix, var);
   model_.to_postfix();
 }
 
 bool CalculatorController::validate(std::string infix, long double var) {
   model_.add_expression(infix, var);
-  
+
   return model_.validate();
 }
 
@@ -27,9 +28,9 @@ std::string CalculatorController::evaluate() {
 
   try {
     ss << model_.evaluate();
-  } catch(const std::invalid_argument& exception) {
+  } catch (const std::invalid_argument& exception) {
     ss << exception.what();
   }
-  
+
   return ss.str();
 }

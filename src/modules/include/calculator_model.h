@@ -37,7 +37,7 @@ class CalculatorModel {
   bool isFunction(char c);
   bool isOperator(char c);
 
-  static constexpr long double kLdoubleMinVal{1.0e-15L}; 
+  static constexpr long double kLdoubleMinVal{1.0e-15L};
 
   std::string infix_;
   std::string postfix_;
