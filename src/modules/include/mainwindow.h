@@ -39,21 +39,21 @@ class MainWindow : public TopMenu {
     tab->setCurrentWidget(calculator);
 
     tab->setStyleSheet(QString{
-    "QTabWidget { background-color: rgb(255, 255, 255); }"
-    "QTabWidget::pane { border-top: 1px solid rgba(40, 100, 180, 0.7); }"
-    "QTabWidget::tab-bar { left: 22px; }"
-    "QTabBar::tab { background: rgb(40, 40, 40);"
-    "color: rgb(255, 255, 255);"
-    "border: 1px solid rgba(40, 100, 180, 0.7);"
-    "border-top-left-radius: 10px;"
-    "border-top-right-radius: 10px;"
-    "min-width: 23ex;"
-    "padding: 7px;"
-    "font-size: 13px;"
-    "font-weight: bold; }"
-    "QTabBar::tab:selected { border: 1px solid rgba(40, 100, 180, 1.0);"
-    "font-size: 14px; }"
-    "QTabBar::tab:!selected { margin-top: 10px; }"});
+        "QTabWidget { background-color: rgb(255, 255, 255); }"
+        "QTabWidget::pane { border-top: 1px solid rgba(40, 100, 180, 0.7); }"
+        "QTabWidget::tab-bar { left: 22px; }"
+        "QTabBar::tab { background: rgb(40, 40, 40);"
+        "color: rgb(255, 255, 255);"
+        "border: 1px solid rgba(40, 100, 180, 0.7);"
+        "border-top-left-radius: 10px;"
+        "border-top-right-radius: 10px;"
+        "min-width: 23ex;"
+        "padding: 7px;"
+        "font-size: 13px;"
+        "font-weight: bold; }"
+        "QTabBar::tab:selected { border: 1px solid rgba(40, 100, 180, 1.0);"
+        "font-size: 14px; }"
+        "QTabBar::tab:!selected { margin-top: 10px; }"});
 
     TopMenu::mainLayout->addWidget(tab);
   }

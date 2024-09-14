@@ -12,11 +12,15 @@
 #ifndef SRC_MODULES_INCLUDE_PLOT_H_
 #define SRC_MODULES_INCLUDE_PLOT_H_
 
+#include <QDoubleValidator>
+#include <QLabel>
+#include <QLineEdit>
+#include <QGridLayout>
 #include <QPainter>
 #include <QPainterPath>
 
-#include "modules/include/top_menu.h"
 #include "modules/include/qcustomplot.h"
+#include "modules/include/top_menu.h"
 
 class Plot : public TopMenu {
   Q_OBJECT
@@ -32,6 +36,9 @@ class Plot : public TopMenu {
 
  private:
   QCustomPlot *plot;
+  QGridLayout *settings;
+  QLineEdit *xbegin, *xend, *ybegin, *yend, *step;
+  QLabel *lx, *ly, *lbegin, *lend, *lstep;
 };
 
 #endif  // SRC_MODULES_INCLUDE_PLOT_H_

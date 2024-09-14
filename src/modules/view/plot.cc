@@ -11,7 +11,20 @@
 
 #include "modules/include/plot.h"
 
-Plot::Plot(QWidget *parent) : TopMenu{parent}, plot{new QCustomPlot{}} {
+Plot::Plot(QWidget *parent)
+    : TopMenu{parent},
+      settings{new QGridLayout{}},
+      plot{new QCustomPlot{}},
+      xbegin{new QLineEdit{QString{"-10.0"}}},
+      xend{new QLineEdit{QString{"10.0"}}},
+      ybegin{new QLineEdit{QString{"-25.0"}}},
+      yend{new QLineEdit{QString{"25.0"}}},
+      step{new QLineEdit{QString{"0.01"}}},
+      lx{new QLabel{QString{"x"}}},
+      ly{new QLabel{QString{"y"}}}, 
+      lbegin{new QLabel{QString{"begin"}}},
+      lend{new QLabel{QString{"end"}}},
+      lstep{new QLabel{QString{"step"}}} {
   setWindowIcon(QIcon{":plot.png"});
   TopMenu::imageLabel->setPixmap(QPixmap{":plot.png"});
   setWindowTitle(QString{"Plot"});
@@ -34,6 +47,53 @@ Plot::Plot(QWidget *parent) : TopMenu{parent}, plot{new QCustomPlot{}} {
   plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   TopMenu::mainLayout->addWidget(plot);
+  settings->addWidget(lbegin, 0, 1, 1, 1, Qt::AlignCenter);
+  settings->addWidget(lend, 0, 2, 1, 1, Qt::AlignCenter);
+  settings->addWidget(lstep, 0, 3, 1, 1, Qt::AlignCenter);
+  settings->addWidget(lx, 1, 0, 1, 1, Qt::AlignCenter);
+  settings->addWidget(ly, 2, 0, 1, 1, Qt::AlignCenter);
+  settings->addWidget(xbegin, 1, 1, 1, 1);
+  settings->addWidget(xend, 1, 2, 1, 1);
+  settings->addWidget(ybegin, 2, 1, 1, 1);
+  settings->addWidget(yend, 2, 2, 1, 1);
+  settings->addWidget(step, 1, 3, 2, 1);
+  step->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+  xbegin->setAlignment(Qt::AlignCenter);
+  xend->setAlignment(Qt::AlignCenter);
+  ybegin->setAlignment(Qt::AlignCenter);
+  yend->setAlignment(Qt::AlignCenter);
+  step->setAlignment(Qt::AlignCenter);
+
+  xbegin->setMinimumHeight(30);
+  xend->setMinimumHeight(30);
+  ybegin->setMinimumHeight(30);
+  yend->setMinimumHeight(30);
+  step->setMinimumHeight(60);
+
+  QString qline_style{"border-radius: 10px;"
+  "background-color:  rgb(47, 47, 47);"
+  "border: 1px solid rgba(40, 100, 180, 0.7);"
+  "font-size: 14px;"};
+  QString qlabel_style{"background-color: rgba(0, 0, 0, 0.0);"
+  "padding-right: 5px;"
+  "color: rgb(130, 180, 240);"
+  "font-size: 16px;"};
+
+  xbegin->setStyleSheet(qline_style);
+  xend->setStyleSheet(qline_style);
+  ybegin->setStyleSheet(qline_style);
+  yend->setStyleSheet(qline_style);
+  step->setStyleSheet(qline_style);
+  lbegin->setStyleSheet(qlabel_style);
+  lend->setStyleSheet(qlabel_style);
+  lx->setStyleSheet(qlabel_style);
+  ly->setStyleSheet(qlabel_style);
+  lstep->setStyleSheet(qlabel_style);
+
+  settings->setContentsMargins(20, 0, 20, 10);
+
+  TopMenu::mainLayout->addLayout(settings, 2, 0);
 }
 
 void Plot::closeEvent(QCloseEvent *event) {

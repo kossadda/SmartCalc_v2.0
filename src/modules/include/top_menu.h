@@ -16,7 +16,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QSpacerItem>
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include <QWidget>
 
 class TopMenu : public QWidget {
