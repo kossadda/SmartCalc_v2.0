@@ -22,8 +22,6 @@ set(VIEWS
   ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.cc
   ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.ui
   ${CMAKE_SOURCE_DIR}/modules/include/mainwindow.h
-  ${CMAKE_SOURCE_DIR}/modules/view/mainwindow.cc
-  ${CMAKE_SOURCE_DIR}/modules/view/mainwindow.ui
 )
 
 set(CONTROLLERS
