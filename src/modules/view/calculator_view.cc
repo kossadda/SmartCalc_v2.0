@@ -84,7 +84,7 @@ void CalculatorView::on_ButtonPlot_clicked() {
     plui->close();
   } else {
     QPoint currentPosGlobal = this->mapToGlobal(QPoint(0, 0));
-    plui->setGeometry(currentPosGlobal.x() - 609, currentPosGlobal.y() - 52,
+    plui->setGeometry(currentPosGlobal.x() - 600, currentPosGlobal.y() - 94,
                       600, 700);
     plui->show();
     ui->ButtonPlot->setStyleSheet(

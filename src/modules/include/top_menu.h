@@ -96,6 +96,10 @@ class TopMenu : public QWidget {
  protected:
   QGridLayout *mainLayout;
   QLabel *imageLabel, *windowName;
+  QGridLayout *grid;
+  QPushButton *close_but, *collapse_but;
+  QSpacerItem *space1, *space2;
+  QFrame *topframe;
 
   void paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
@@ -115,12 +119,6 @@ class TopMenu : public QWidget {
 
     QWidget::paintEvent(event);
   }
-
- private:
-  QGridLayout *grid;
-  QPushButton *close_but, *collapse_but;
-  QSpacerItem *space1, *space2;
-  QFrame *topframe;
 };
 
 #endif  // SRC_MODULES_INCLUDE_TOP_MENU_H_

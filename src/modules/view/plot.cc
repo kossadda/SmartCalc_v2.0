@@ -11,27 +11,30 @@
 
 #include "modules/include/plot.h"
 
-#include "modules/view/ui_plot.h"
-
-Plot::Plot(QWidget *parent) : QWidget(parent), ui(new Ui::Plot) {
-  ui->setupUi(this);
+Plot::Plot(QWidget *parent) : TopMenu{parent}, plot{new QCustomPlot{}} {
   setWindowIcon(QIcon{":plot.png"});
-  ui->PlotWidget->setBackground(QBrush{QColor{0, 0, 0, 0}});
+  TopMenu::imageLabel->setPixmap(QPixmap{":plot.png"});
+  setWindowTitle(QString{"Plot"});
+  TopMenu::windowName->setText(QString{"Plot"});
+
+  plot->setBackground(QBrush{QColor{0, 0, 0, 0}});
 
   QColor dark_blue{40, 100, 180, 178};
-  ui->PlotWidget->xAxis->setLabelColor(dark_blue);
-  ui->PlotWidget->yAxis->setLabelColor(dark_blue);
-  ui->PlotWidget->xAxis->setBasePen(QPen{dark_blue});
-  ui->PlotWidget->yAxis->setBasePen(QPen{dark_blue});
-  ui->PlotWidget->xAxis->setTickLabelColor(Qt::white);
-  ui->PlotWidget->yAxis->setTickLabelColor(Qt::white);
-  ui->PlotWidget->xAxis->setTickPen(QPen{dark_blue});
-  ui->PlotWidget->yAxis->setTickPen(QPen{dark_blue});
-  ui->PlotWidget->xAxis->setSubTickPen(QPen{dark_blue});
-  ui->PlotWidget->yAxis->setSubTickPen(QPen{dark_blue});
-}
+  plot->xAxis->setLabelColor(dark_blue);
+  plot->yAxis->setLabelColor(dark_blue);
+  plot->xAxis->setBasePen(QPen{dark_blue});
+  plot->yAxis->setBasePen(QPen{dark_blue});
+  plot->xAxis->setTickLabelColor(Qt::white);
+  plot->yAxis->setTickLabelColor(Qt::white);
+  plot->xAxis->setTickPen(QPen{dark_blue});
+  plot->yAxis->setTickPen(QPen{dark_blue});
+  plot->xAxis->setSubTickPen(QPen{dark_blue});
+  plot->yAxis->setSubTickPen(QPen{dark_blue});
 
-Plot::~Plot() { delete ui; }
+  plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+  TopMenu::mainLayout->addWidget(plot);
+}
 
 void Plot::closeEvent(QCloseEvent *event) {
   emit windowClosed();

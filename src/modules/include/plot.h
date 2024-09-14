@@ -12,18 +12,17 @@
 #ifndef SRC_MODULES_INCLUDE_PLOT_H_
 #define SRC_MODULES_INCLUDE_PLOT_H_
 
-#include <QWidget>
+#include <QPainter>
+#include <QPainterPath>
 
-namespace Ui {
-class Plot;
-}
+#include "modules/include/top_menu.h"
+#include "modules/include/qcustomplot.h"
 
-class Plot : public QWidget {
+class Plot : public TopMenu {
   Q_OBJECT
 
  public:
   explicit Plot(QWidget *parent = nullptr);
-  ~Plot();
 
  signals:
   void windowClosed();
@@ -32,7 +31,7 @@ class Plot : public QWidget {
   void closeEvent(QCloseEvent *event) override;
 
  private:
-  Ui::Plot *ui;
+  QCustomPlot *plot;
 };
 
 #endif  // SRC_MODULES_INCLUDE_PLOT_H_

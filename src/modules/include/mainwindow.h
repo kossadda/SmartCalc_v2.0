@@ -30,6 +30,7 @@ class MainWindow : public TopMenu {
         deposit{new QWidget{}},
         tab{new QTabWidget{}} {
     setWindowIcon(QIcon{":calculator.png"});
+    setWindowTitle(QString{"SmartCalculator"});
 
     tab->addTab(credit, QIcon{":credit.png"}, QString{"Credit"});
     tab->addTab(calculator, QIcon{":calculator.png"}, QString{"Engineer"});
