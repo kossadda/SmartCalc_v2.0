@@ -12,8 +12,6 @@
 #ifndef SRC_MODULES_INCLUDE_MAINWINDOW_H_
 #define SRC_MODULES_INCLUDE_MAINWINDOW_H_
 
-#include <QPainter>
-#include <QPainterPath>
 #include <QTabWidget>
 
 #include "modules/include/calculator_view.h"
@@ -56,6 +54,11 @@ class MainWindow : public TopMenu {
         "QTabBar::tab:!selected { margin-top: 10px; }"});
 
     TopMenu::mainLayout->addWidget(tab);
+  }
+
+ protected:
+  void closeWindow() override {
+    QApplication::quit();
   }
 
  private:

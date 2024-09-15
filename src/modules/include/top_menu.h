@@ -18,6 +18,9 @@
 #include <QSpacerItem>
 #include <QGridLayout>
 #include <QWidget>
+#include <QPainter>
+#include <QPainterPath>
+#include <QMouseEvent>
 
 class TopMenu : public QWidget {
   Q_OBJECT
@@ -34,7 +37,8 @@ class TopMenu : public QWidget {
                                QSizePolicy::Expanding}},
         space2{new QSpacerItem{0, 0, QSizePolicy::Expanding,
                                QSizePolicy::Expanding}},
-        topframe{new QFrame{this}} {
+        topframe{new QFrame{this}},
+        dragging{false} {
     close_but->setFixedSize(40, 25);
     collapse_but->setFixedSize(40, 25);
 
@@ -91,6 +95,9 @@ class TopMenu : public QWidget {
     setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setFixedSize(600, 700);
+    
+    connect(close_but, &QPushButton::clicked, this, &TopMenu::closeWindow);
+    connect(collapse_but, &QPushButton::clicked, this, &TopMenu::showMinimized);
   }
 
  protected:
@@ -119,6 +126,36 @@ class TopMenu : public QWidget {
 
     QWidget::paintEvent(event);
   }
+
+  void mousePressEvent(QMouseEvent *event) override {
+    if (event->button() == Qt::LeftButton) {
+      dragging = true;
+      dragPosition = event->globalPosition().toPoint() - frameGeometry().topLeft();
+      event->accept();
+    }
+  }
+
+  void mouseMoveEvent(QMouseEvent *event) override {
+    if (dragging && (event->buttons() & Qt::LeftButton)) {
+      move(event->globalPosition().toPoint() - dragPosition);
+      event->accept();
+    }
+  }
+
+  void mouseReleaseEvent(QMouseEvent *event) override {
+    if (event->button() == Qt::LeftButton) {
+      dragging = false;
+      event->accept();
+    }
+  }
+
+  virtual void closeWindow() {
+    close();
+  }
+
+ private:
+  bool dragging;
+  QPoint dragPosition;
 };
 
 #endif  // SRC_MODULES_INCLUDE_TOP_MENU_H_

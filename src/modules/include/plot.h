@@ -16,8 +16,6 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QGridLayout>
-#include <QPainter>
-#include <QPainterPath>
 
 #include "modules/include/qcustomplot.h"
 #include "modules/include/top_menu.h"
