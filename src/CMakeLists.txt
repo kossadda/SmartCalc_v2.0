@@ -20,7 +20,6 @@ set(MODELS
 set(VIEWS
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_view.h
   ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.cc
-  ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.ui
   ${CMAKE_SOURCE_DIR}/modules/include/mainwindow.h
 )
 
@@ -34,6 +33,7 @@ set(ADDITIONAL
   ${CMAKE_SOURCE_DIR}/modules/include/qcustomplot.h
   ${CMAKE_SOURCE_DIR}/modules/include/plot.h
   ${CMAKE_SOURCE_DIR}/modules/view/plot.cc
+  ${CMAKE_SOURCE_DIR}/modules/additional/top_menu.cc
   ${CMAKE_SOURCE_DIR}/modules/include/top_menu.h
 )
 

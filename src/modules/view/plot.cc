@@ -21,7 +21,7 @@ Plot::Plot(QWidget *parent)
       yend{new QLineEdit{QString{"25.0"}}},
       step{new QLineEdit{QString{"0.01"}}},
       lx{new QLabel{QString{"x"}}},
-      ly{new QLabel{QString{"y"}}}, 
+      ly{new QLabel{QString{"y"}}},
       lbegin{new QLabel{QString{"begin"}}},
       lend{new QLabel{QString{"end"}}},
       lstep{new QLabel{QString{"step"}}} {
@@ -71,14 +71,16 @@ Plot::Plot(QWidget *parent)
   yend->setMinimumHeight(30);
   step->setMinimumHeight(60);
 
-  QString qline_style{"border-radius: 10px;"
-  "background-color:  rgb(47, 47, 47);"
-  "border: 1px solid rgba(40, 100, 180, 0.7);"
-  "font-size: 14px;"};
-  QString qlabel_style{"background-color: rgba(0, 0, 0, 0.0);"
-  "padding-right: 5px;"
-  "color: rgb(130, 180, 240);"
-  "font-size: 16px;"};
+  QString qline_style{
+      "border-radius: 10px;"
+      "background-color:  rgb(47, 47, 47);"
+      "border: 1px solid rgba(40, 100, 180, 0.7);"
+      "font-size: 14px;"};
+  QString qlabel_style{
+      "background-color: rgba(0, 0, 0, 0.0);"
+      "padding-right: 5px;"
+      "color: rgb(130, 180, 240);"
+      "font-size: 16px;"};
 
   xbegin->setStyleSheet(qline_style);
   xend->setStyleSheet(qline_style);

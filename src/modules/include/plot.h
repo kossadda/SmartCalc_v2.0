@@ -13,9 +13,9 @@
 #define SRC_MODULES_INCLUDE_PLOT_H_
 
 #include <QDoubleValidator>
+#include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <QGridLayout>
 
 #include "modules/include/qcustomplot.h"
 #include "modules/include/top_menu.h"

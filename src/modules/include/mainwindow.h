@@ -57,9 +57,7 @@ class MainWindow : public TopMenu {
   }
 
  protected:
-  void closeWindow() override {
-    QApplication::quit();
-  }
+  void closeWindow() override { QApplication::quit(); }
 
  private:
   QTabWidget *tab;
