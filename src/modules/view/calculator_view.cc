@@ -14,7 +14,7 @@
 CalculatorView::CalculatorView(QWidget *parent)
     : QWidget{parent},
       plot{new Plot{}},
-      lvar{new QLabel{QString{"Value of variable X :"}}},
+      lvar{new QLabel{QString{"   Value of variable X"}}},
       text_expr{new QLineEdit{}},
       var_value{new QLineEdit{}},
       bplot{new QPushButton{QString{"Graph"}}},
@@ -56,7 +56,6 @@ CalculatorView::CalculatorView(QWidget *parent)
       bseven{new QPushButton{QString{"7"}}},
       beight{new QPushButton{QString{"8"}}},
       bnine{new QPushButton{QString{"9"}}} {
-
   QString plot_button_style{
       "QPushButton { background-color: rgb(47, 47, 47);"
       "color: rgb(255, 255, 255);"
@@ -70,65 +69,116 @@ CalculatorView::CalculatorView(QWidget *parent)
       "qproperty-iconSize: 24px 24px; }"
       "QPushButton:pressed { background-color: rgb(26, 77, 144); }"};
   QString func_button_style{
-      "QPushButton:pressed { background-color: rgb(26, 77, 144);}"
+      "QPushButton:pressed { background-color: rgb(26, 77, 144); }"
       "QPushButton { background-color: rgb(47, 47, 47);"
       "color: rgb(255, 255, 255);"
       "font-size: 16px;}"};
-  QString num_button_style{func_button_style};
-  num_button_style.replace("47, 47, 47", "55, 55, 55");
+  QString num_button_style{
+      QString{func_button_style}.replace("47, 47, 47", "55, 55, 55")};
   QString frame_style{
       "QFrame { border-radius: 5px;"
       "background-color: rgba(40, 100, 180, 0.7); }"};
+  QString text_expr_style{
+      "border-radius: 10px;"
+      "background-color: rgb(47, 47, 47);"
+      "border: 1px solid rgba(40, 100, 180, 0.7);"
+      "font-size: 30px;"
+      "color: rgb(255, 255, 255);"};
+  QString label_style{
+      "background-color: rgba(0, 0, 0, 0.0);"
+      "padding-right: 5px;"
+      "color: rgb(130, 180, 240);"
+      "font-size: 16px;"};
 
   QPushButton *funcs[]{
-      bdel, bclear, beq, bunar, bpi, basin, bacos, batan, bmod, bsin,
-      bscience, bpow, bcos, bopenbr, bclosebr, bdiv, bmul, btan, bminus,
-      bsqrt, bplus, blog, bvar, bln, bdot
+      bdel,     bclear, beq,  bunar,  bpi,   bmod, basin,    bacos, batan,
+      bsin,     bcos,   btan, bsqrt,  blog,  bln,  bscience, bpow,  bopenbr,
+      bclosebr, bdiv,   bmul, bminus, bplus, bvar, bdot,
   };
 
-  std::pair<int, int> func_positions[]{{0, 4}, {1, 4}, {6, 4}, {6, 1}, {1, 2}, {0, 0}, {0, 1}, {0, 2}, {0, 3},
-                                       {1, 0}, {1, 1}, {1, 3}, {2, 0}, {2, 1}, {2, 2}, {2, 3}, {2, 4}, {3, 0},
-                                       {3, 4}, {4, 0}, {4, 4}, {5, 0}, {5, 4}, {6, 0}, {6, 3}};
-
-  QPushButton *nums[]{
-      bzero, bone, btwo, bthree, bfour, bfive, bsix, bseven, beight, bnine
+  std::pair<int, int> func_positions[]{
+      {0, 4}, {1, 4}, {6, 4}, {6, 1}, {1, 2}, {0, 3}, {0, 0}, {0, 1}, {0, 2},
+      {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {1, 1}, {1, 3}, {2, 1},
+      {2, 2}, {2, 3}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 3},
   };
+
+  QPushButton *nums[]{bzero, bone, btwo,   bthree, bfour,
+                      bfive, bsix, bseven, beight, bnine};
 
   std::pair<int, int> num_positions[]{{6, 2}, {5, 1}, {5, 2}, {5, 3}, {4, 1},
                                       {4, 2}, {4, 3}, {3, 1}, {3, 2}, {3, 3}};
 
-  for (std::size_t i = 0; i < sizeof(funcs) / sizeof(funcs[0]); ++i) {
+  for (std::size_t i = 0; i < sizeof(funcs) / sizeof(*funcs); ++i) {
     funcs[i]->setStyleSheet(func_button_style);
     funcs[i]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    button_grid->addWidget(funcs[i], func_positions[i].first, func_positions[i].second);
-    if (i < 5) {
-      connect(funcs[i], &QPushButton::clicked, this, &CalculatorView::functionButtonClicked);
+    button_grid->addWidget(funcs[i], func_positions[i].first,
+                           func_positions[i].second);
+    if (i > 14) {
+      connect(funcs[i], &QPushButton::clicked, this,
+              &CalculatorView::numberButtonClicked);
+    } else if (i > 5) {
+      connect(funcs[i], &QPushButton::clicked, this,
+              &CalculatorView::functionButtonClicked);
     }
   }
 
-  for (std::size_t i = 0; i < sizeof(nums) / sizeof(nums[0]); ++i) {
+  for (std::size_t i = 0; i < sizeof(nums) / sizeof(*nums); ++i) {
     nums[i]->setStyleSheet(num_button_style);
     nums[i]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    button_grid->addWidget(nums[i], num_positions[i].first, num_positions[i].second);
-    connect(nums[i], &QPushButton::clicked, this, &CalculatorView::numberButtonClicked);
+    button_grid->addWidget(nums[i], num_positions[i].first,
+                           num_positions[i].second);
+    connect(nums[i], &QPushButton::clicked, this,
+            &CalculatorView::numberButtonClicked);
   }
-
 
   button_frame->setLayout(button_grid);
   button_frame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   button_frame->setContentsMargins(1, 1, 1, 1);
   button_frame->setStyleSheet(frame_style);
+
   button_grid->setHorizontalSpacing(1);
   button_grid->setVerticalSpacing(1);
   button_grid->setContentsMargins(1, 1, 1, 1);
-  main_grid->addWidget(button_frame);
-  main_grid->setContentsMargins(12, 12, 12, 12);
+
+  text_expr->setMinimumHeight(150);
+  text_expr->setStyleSheet(text_expr_style);
+  text_expr->setAlignment(Qt::AlignRight);
+
+  var_value->setMinimumHeight(30);
+  var_value->setStyleSheet(text_expr_style);
+
+  lvar->setStyleSheet(label_style);
+  lvar->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+  bplot->setStyleSheet(plot_button_style);
+  bplot->setMinimumSize(120, 40);
+
+  main_grid->setContentsMargins(12, 9, 12, 12);
+  main_grid->addWidget(lvar, 0, 0);
+  main_grid->addWidget(var_value, 0, 1);
+  main_grid->addWidget(bplot, 0, 2);
+  main_grid->addWidget(text_expr, 1, 0, 1, 3);
+  main_grid->addWidget(button_frame, 2, 0, 1, 3);
+  main_grid->setAlignment(lvar, Qt::AlignRight);
+  main_grid->setHorizontalSpacing(10);
   setLayout(main_grid);
 
-  beq->setStyleSheet(beq->styleSheet().replace("47, 47, 47", "20, 55, 130").replace("26, 77, 144", "47, 47, 47"));
+  beq->setStyleSheet(beq->styleSheet()
+                         .replace("47, 47, 47", "20, 55, 130")
+                         .replace("26, 77, 144", "47, 47, 47"));
+  bvar->setStyleSheet(bvar->styleSheet()
+                          .replace("47, 47, 47", "20, 130, 10")
+                          .replace("26, 77, 144", "47, 47, 47"));
+  bdel->setStyleSheet(bdel->styleSheet().replace("26, 77, 144", "130, 0, 0"));
 
   connect(plot, &Plot::windowClosed, this, &CalculatorView::plotWindowClosed);
-  connect(text_expr, &QLineEdit::textChanged, this, &CalculatorView::validateExpression);
+  connect(text_expr, &QLineEdit::textChanged, this,
+          &CalculatorView::validateExpression);
+  connect(bmod, &QPushButton::clicked, this, &CalculatorView::modClicked);
+  connect(bclear, &QPushButton::clicked, this, &CalculatorView::clearClicked);
+  connect(bdel, &QPushButton::clicked, this, &CalculatorView::delClicked);
+  connect(beq, &QPushButton::clicked, this, &CalculatorView::eqClicked);
+  connect(bplot, &QPushButton::clicked, this, &CalculatorView::plotClicked);
 }
 
 void CalculatorView::numberButtonClicked() {
@@ -163,37 +213,35 @@ void CalculatorView::validateExpression() {
   }
 }
 
-// void CalculatorView::on_ButtonMod_clicked() {
-//   ui->TextExpr->setText(ui->TextExpr->text() + " mod ");
-// }
+void CalculatorView::modClicked() {
+  text_expr->setText(text_expr->text() + " mod ");
+}
 
-// void CalculatorView::on_ButtonC_clicked() { ui->TextExpr->setText(QString{});
-// }
+void CalculatorView::clearClicked() { text_expr->setText(QString{});
+}
 
-// void CalculatorView::on_ButtonDel_clicked() {
-//   QString expression{ui->TextExpr->text()};
-//   expression.chop(1);
-//   ui->TextExpr->setText(expression);
-// }
+void CalculatorView::delClicked() {
+  QString expression{text_expr->text()};
+  expression.chop(1);
+  text_expr->setText(expression);
+}
 
-// void CalculatorView::on_ButtonEq_clicked() {
-//   if (valid) {
-//     controller_.infix_to_postfix(ui->TextExpr->text().toStdString(),
-//                                  ui->SpinBoxVar->value());
-//     ui->TextExpr->setText(QString::fromStdString(controller_.evaluate()));
-//   }
-// }
+void CalculatorView::eqClicked() {
+  if (valid) {
+    controller_.infix_to_postfix(text_expr->text().toStdString(),var_value->text().toDouble());
+    text_expr->setText(QString::fromStdString(controller_.evaluate()));
+  }
+}
 
-// void CalculatorView::on_ButtonPlot_clicked() {
-//   if (plui->isVisible()) {
-//     plui->close();
-//   } else {
-//     QPoint currentPosGlobal = this->mapToGlobal(QPoint(0, 0));
-//     plui->setGeometry(currentPosGlobal.x() - 600, currentPosGlobal.y() - 94,
-//                       600, 700);
-//     plui->show();
-//     ui->ButtonPlot->setStyleSheet(
-//         ui->ButtonPlot->styleSheet().replace("47, 47, 47", "20, 55, 130"));
-//     ui->ButtonEq->setText("plot");
-//   }
-// }
+void CalculatorView::plotClicked() {
+  if (plot->isVisible()) {
+    plot->close();
+  } else {
+    QPoint currentPosGlobal = this->mapToGlobal(QPoint(0, 0));
+    plot->setGeometry(currentPosGlobal.x() - 600, currentPosGlobal.y() - 94,
+                      600, 700);
+    plot->show();
+    bplot->setStyleSheet(bplot->styleSheet().replace("47, 47, 47", "20, 55, 130"));
+    beq->setText("plot");
+  }
+}

@@ -30,11 +30,16 @@ class CalculatorView : public QWidget {
   explicit CalculatorView(QWidget *parent = nullptr);
 
  private slots:
-  // void on_ButtonMod_clicked();
-  // void on_ButtonC_clicked();
-  // void on_ButtonDel_clicked();
-  // void on_ButtonPlot_clicked();
-  // void on_ButtonEq_clicked();
+  void plotWindowClosed();
+  void validateExpression();
+
+  void modClicked();
+  void clearClicked();
+  void delClicked();
+  void eqClicked();
+  void plotClicked();
+  void numberButtonClicked();
+  void functionButtonClicked();
 
  private:
   CalculatorController controller_;
@@ -49,11 +54,6 @@ class CalculatorView : public QWidget {
       *bthree, *bfour, *bfive, *bsix, *bseven, *beight, *bnine, *bplot;
   QLineEdit *text_expr, *var_value;
   QLabel *lvar;
-
-  void numberButtonClicked();
-  void functionButtonClicked();
-  void plotWindowClosed();
-  void validateExpression();
 };
 
 #endif  // SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
