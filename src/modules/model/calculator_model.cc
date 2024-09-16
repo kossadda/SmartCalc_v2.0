@@ -228,7 +228,6 @@ long double CalculatorModel::evaluate() {
 
 std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
                                            const char *to) {
-  std::stringstream ss;
   std::string from_{from};
   std::string to_{to};
   size_t start_pos{};
@@ -238,9 +237,7 @@ std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
     start_pos += to_.length();
   }
 
-  ss << str;
-
-  return ss.str();
+  return str;
 }
 
 std::string CalculatorModel::replaceNames(std::string infix) {

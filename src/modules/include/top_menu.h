@@ -20,6 +20,7 @@
 #include <QPainterPath>
 #include <QPushButton>
 #include <QSpacerItem>
+#include <QTimer>
 #include <QWidget>
 
 class TopMenu : public QWidget {
@@ -28,23 +29,28 @@ class TopMenu : public QWidget {
  public:
   explicit TopMenu(QWidget *parent = nullptr);
 
- protected:
-  QGridLayout *mainLayout;
-  QLabel *imageLabel, *windowName;
-  QGridLayout *grid;
-  QPushButton *close_but, *collapse_but;
-  QSpacerItem *space1, *space2;
-  QFrame *topframe;
-
+ protected slots:
   void paintEvent(QPaintEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
   virtual void closeWindow();
 
+ private slots:
+  void updatePosition();
+
+ protected:
+  QGridLayout *mainLayout;
+  QLabel *imageLabel, *windowName;
+  QGridLayout *grid;
+  QPushButton *close_but, *collapse_but;
+  QSpacerItem *space1, *space2;
+  QFrame *top_frame;
+
  private:
   bool dragging;
-  QPoint dragPosition;
+  QPoint *dragPosition, *targetPosition;
+  QTimer *move_timer;
 };
 
 #endif  // SRC_MODULES_INCLUDE_TOP_MENU_H_

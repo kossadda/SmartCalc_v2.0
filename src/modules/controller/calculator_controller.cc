@@ -13,12 +13,12 @@
 
 void CalculatorController::infix_to_postfix(std::string infix,
                                             long double var) {
-  model_.add_expression(infix, var);
+  model_.add_expression(replacePi(infix), var);
   model_.to_postfix();
 }
 
 bool CalculatorController::validate(std::string infix, long double var) {
-  model_.add_expression(infix, var);
+  model_.add_expression(replacePi(infix), var);
 
   return model_.validate();
 }
@@ -33,4 +33,17 @@ std::string CalculatorController::evaluate() {
   }
 
   return ss.str();
+}
+
+std::string CalculatorController::replacePi(std::string infix) {
+  std::string pi{"π"};
+  std::string replacement{"P"};
+  size_t pos{};
+
+  while ((pos = infix.find(pi, pos)) != std::string::npos) {
+    infix.replace(pos, pi.length(), replacement);
+    pos += replacement.length();
+  }
+
+  return infix;
 }

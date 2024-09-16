@@ -16,7 +16,7 @@ CalculatorView::CalculatorView(QWidget *parent)
       plot{new Plot{}},
       lvar{new QLabel{QString{"   Value of variable X"}}},
       text_expr{new QLineEdit{}},
-      var_value{new QLineEdit{}},
+      var_value{new QLineEdit{QString{"0.0"}}},
       bplot{new QPushButton{QString{"Graph"}}},
       main_grid{new QGridLayout{}},
       button_grid{new QGridLayout{}},
@@ -91,16 +91,14 @@ CalculatorView::CalculatorView(QWidget *parent)
       "font-size: 16px;"};
 
   QPushButton *funcs[]{
-      bdel,     bclear, beq,  bunar,  bpi,   bmod, basin,    bacos, batan,
-      bsin,     bcos,   btan, bsqrt,  blog,  bln,  bscience, bpow,  bopenbr,
-      bclosebr, bdiv,   bmul, bminus, bplus, bvar, bdot,
-  };
+      bdel, bclear, beq,    bunar, bmod, basin,    bacos, batan,   bsin,
+      bcos, btan,   bsqrt,  blog,  bln,  bscience, bpow,  bopenbr, bclosebr,
+      bdiv, bmul,   bminus, bplus, bvar, bdot,     bpi};
 
   std::pair<int, int> func_positions[]{
-      {0, 4}, {1, 4}, {6, 4}, {6, 1}, {1, 2}, {0, 3}, {0, 0}, {0, 1}, {0, 2},
-      {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {1, 1}, {1, 3}, {2, 1},
-      {2, 2}, {2, 3}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 3},
-  };
+      {0, 4}, {1, 4}, {6, 4}, {6, 1}, {0, 3}, {0, 0}, {0, 1}, {0, 2}, {1, 0},
+      {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {1, 1}, {1, 3}, {2, 1}, {2, 2},
+      {2, 3}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 3}, {1, 2}};
 
   QPushButton *nums[]{bzero, bone, btwo,   bthree, bfour,
                       bfive, bsix, bseven, beight, bnine};
@@ -116,7 +114,7 @@ CalculatorView::CalculatorView(QWidget *parent)
     if (i > 14) {
       connect(funcs[i], &QPushButton::clicked, this,
               &CalculatorView::numberButtonClicked);
-    } else if (i > 5) {
+    } else if (i > 4) {
       connect(funcs[i], &QPushButton::clicked, this,
               &CalculatorView::functionButtonClicked);
     }
@@ -144,8 +142,12 @@ CalculatorView::CalculatorView(QWidget *parent)
   text_expr->setStyleSheet(text_expr_style);
   text_expr->setAlignment(Qt::AlignRight);
 
-  var_value->setMinimumHeight(30);
-  var_value->setStyleSheet(text_expr_style);
+  var_value->setMinimumHeight(40);
+  var_value->setAlignment(Qt::AlignCenter);
+  var_value->setStyleSheet(text_expr_style.replace("30px", "20px"));
+  QDoubleValidator *var_validate = new QDoubleValidator(-100.0, 100.0, 7, this);
+  var_validate->setLocale(QLocale{QLocale::C});
+  var_value->setValidator(var_validate);
 
   lvar->setStyleSheet(label_style);
   lvar->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -153,21 +155,21 @@ CalculatorView::CalculatorView(QWidget *parent)
   bplot->setStyleSheet(plot_button_style);
   bplot->setMinimumSize(120, 40);
 
-  main_grid->setContentsMargins(12, 9, 12, 12);
+  main_grid->setContentsMargins(12, 6, 12, 12);
   main_grid->addWidget(lvar, 0, 0);
   main_grid->addWidget(var_value, 0, 1);
   main_grid->addWidget(bplot, 0, 2);
   main_grid->addWidget(text_expr, 1, 0, 1, 3);
   main_grid->addWidget(button_frame, 2, 0, 1, 3);
   main_grid->setAlignment(lvar, Qt::AlignRight);
-  main_grid->setHorizontalSpacing(10);
+  main_grid->setHorizontalSpacing(7);
   setLayout(main_grid);
 
   beq->setStyleSheet(beq->styleSheet()
                          .replace("47, 47, 47", "20, 55, 130")
                          .replace("26, 77, 144", "47, 47, 47"));
   bvar->setStyleSheet(bvar->styleSheet()
-                          .replace("47, 47, 47", "20, 130, 10")
+                          .replace("47, 47, 47", "20, 100, 10")
                           .replace("26, 77, 144", "47, 47, 47"));
   bdel->setStyleSheet(bdel->styleSheet().replace("26, 77, 144", "130, 0, 0"));
 
@@ -213,12 +215,13 @@ void CalculatorView::validateExpression() {
   }
 }
 
+void CalculatorView::validateVar() {}
+
 void CalculatorView::modClicked() {
   text_expr->setText(text_expr->text() + " mod ");
 }
 
-void CalculatorView::clearClicked() { text_expr->setText(QString{});
-}
+void CalculatorView::clearClicked() { text_expr->setText(QString{}); }
 
 void CalculatorView::delClicked() {
   QString expression{text_expr->text()};
@@ -228,7 +231,8 @@ void CalculatorView::delClicked() {
 
 void CalculatorView::eqClicked() {
   if (valid) {
-    controller_.infix_to_postfix(text_expr->text().toStdString(),var_value->text().toDouble());
+    controller_.infix_to_postfix(text_expr->text().toStdString(),
+                                 var_value->text().toDouble());
     text_expr->setText(QString::fromStdString(controller_.evaluate()));
   }
 }
@@ -241,7 +245,8 @@ void CalculatorView::plotClicked() {
     plot->setGeometry(currentPosGlobal.x() - 600, currentPosGlobal.y() - 94,
                       600, 700);
     plot->show();
-    bplot->setStyleSheet(bplot->styleSheet().replace("47, 47, 47", "20, 55, 130"));
+    bplot->setStyleSheet(
+        bplot->styleSheet().replace("47, 47, 47", "20, 55, 130"));
     beq->setText("plot");
   }
 }

@@ -25,6 +25,8 @@ class CalculatorController {
   std::string evaluate();
 
  private:
+  std::string replacePi(std::string infix);
+
   CalculatorModel model_{};
 };
 

@@ -33,8 +33,11 @@ TopMenu::TopMenu(QWidget *parent)
                              QSizePolicy::Expanding}},
       space2{new QSpacerItem{0, 0, QSizePolicy::Expanding,
                              QSizePolicy::Expanding}},
-      topframe{new QFrame{this}},
-      dragging{false} {
+      top_frame{new QFrame{this}},
+      dragging{false},
+      move_timer{new QTimer{this}},
+      dragPosition{new QPoint{}},
+      targetPosition{new QPoint{}} {
   close_but->setFixedSize(40, 25);
   collapse_but->setFixedSize(40, 25);
 
@@ -64,7 +67,7 @@ TopMenu::TopMenu(QWidget *parent)
               "color: rgb(130, 180, 240);"
               "padding-left: 60px;"
               "font-size: 16px;}"});
-  topframe->setStyleSheet(
+  top_frame->setStyleSheet(
       QString{"background: rgba(0, 0, 0, 0.0);"
               "border-bottom: 1px solid rgba(40, 100, 180, 0.7);"});
 
@@ -74,13 +77,13 @@ TopMenu::TopMenu(QWidget *parent)
   grid->addItem(space2, 0, 3);
   grid->addWidget(collapse_but, 0, 4);
   grid->addWidget(close_but, 0, 5);
-  topframe->setLayout(grid);
-  topframe->setFixedHeight(45);
-  topframe->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  top_frame->setLayout(grid);
+  top_frame->setFixedHeight(45);
+  top_frame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   mainLayout = new QGridLayout{this};
-  mainLayout->addWidget(topframe, 0, 0);
-  mainLayout->setAlignment(topframe, Qt::AlignTop);
+  mainLayout->addWidget(top_frame, 0, 0);
+  mainLayout->setAlignment(top_frame, Qt::AlignTop);
   mainLayout->setContentsMargins(0, 0, 0, 0);
   setLayout(mainLayout);
 
@@ -94,6 +97,9 @@ TopMenu::TopMenu(QWidget *parent)
 
   connect(close_but, &QPushButton::clicked, this, &TopMenu::closeWindow);
   connect(collapse_but, &QPushButton::clicked, this, &TopMenu::showMinimized);
+
+  connect(move_timer, &QTimer::timeout, this, &TopMenu::updatePosition);
+  move_timer->setInterval(16);
 }
 
 void TopMenu::paintEvent(QPaintEvent *event) {
@@ -118,7 +124,7 @@ void TopMenu::paintEvent(QPaintEvent *event) {
 void TopMenu::mousePressEvent(QMouseEvent *event) {
   if (event->button() == Qt::LeftButton) {
     dragging = true;
-    dragPosition =
+    *dragPosition =
         event->globalPosition().toPoint() - frameGeometry().topLeft();
     event->accept();
   }
@@ -126,7 +132,8 @@ void TopMenu::mousePressEvent(QMouseEvent *event) {
 
 void TopMenu::mouseMoveEvent(QMouseEvent *event) {
   if (dragging && (event->buttons() & Qt::LeftButton)) {
-    move(event->globalPosition().toPoint() - dragPosition);
+    move_timer->start();
+    *targetPosition = event->globalPosition().toPoint() - *dragPosition;
     event->accept();
   }
 }
@@ -134,8 +141,11 @@ void TopMenu::mouseMoveEvent(QMouseEvent *event) {
 void TopMenu::mouseReleaseEvent(QMouseEvent *event) {
   if (event->button() == Qt::LeftButton) {
     dragging = false;
+    move_timer->stop();
     event->accept();
   }
 }
+
+void TopMenu::updatePosition() { move(*targetPosition); }
 
 void TopMenu::closeWindow() { close(); }

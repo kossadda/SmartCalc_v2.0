@@ -13,6 +13,7 @@
 #define SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
 
 #include <QDebug>
+#include <QDoubleValidator>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
@@ -32,6 +33,7 @@ class CalculatorView : public QWidget {
  private slots:
   void plotWindowClosed();
   void validateExpression();
+  void validateVar();
 
   void modClicked();
   void clearClicked();
@@ -45,6 +47,7 @@ class CalculatorView : public QWidget {
   CalculatorController controller_;
   Plot *plot;
   bool valid{false};
+  bool valid_var{true};
 
   QFrame *button_frame;
   QGridLayout *button_grid, *main_grid;
