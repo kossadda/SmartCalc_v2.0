@@ -26,9 +26,9 @@ Plot::Plot(QWidget *parent)
       lend{new QLabel{QString{"end"}}},
       lstep{new QLabel{QString{"step"}}} {
   setWindowIcon(QIcon{":plot.png"});
-  TopMenu::imageLabel->setPixmap(QPixmap{":plot.png"});
+  TopMenu::image_label->setPixmap(QPixmap{":plot.png"});
   setWindowTitle(QString{"Plot"});
-  TopMenu::windowName->setText(QString{"Plot"});
+  TopMenu::window_name->setText(QString{"Plot"});
 
   plot->setBackground(QBrush{QColor{0, 0, 0, 0}});
 
@@ -46,7 +46,7 @@ Plot::Plot(QWidget *parent)
 
   plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  TopMenu::mainLayout->addWidget(plot);
+  TopMenu::main_layout->addWidget(plot);
   settings->addWidget(lbegin, 0, 1, 1, 1, Qt::AlignCenter);
   settings->addWidget(lend, 0, 2, 1, 1, Qt::AlignCenter);
   settings->addWidget(lstep, 0, 3, 1, 1, Qt::AlignCenter);
@@ -95,7 +95,7 @@ Plot::Plot(QWidget *parent)
 
   settings->setContentsMargins(20, 0, 20, 10);
 
-  TopMenu::mainLayout->addLayout(settings, 2, 0);
+  TopMenu::main_layout->addLayout(settings, 2, 0);
 }
 
 void Plot::closeEvent(QCloseEvent *event) {

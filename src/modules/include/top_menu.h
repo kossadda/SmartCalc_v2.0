@@ -40,8 +40,8 @@ class TopMenu : public QWidget {
   void updatePosition();
 
  protected:
-  QGridLayout *mainLayout;
-  QLabel *imageLabel, *windowName;
+  QGridLayout *main_layout;
+  QLabel *image_label, *window_name;
   QGridLayout *grid;
   QPushButton *close_but, *collapse_but;
   QSpacerItem *space1, *space2;
@@ -49,7 +49,7 @@ class TopMenu : public QWidget {
 
  private:
   bool dragging;
-  QPoint *dragPosition, *targetPosition;
+  QPoint *drag_position, *target_position;
   QTimer *move_timer;
 };
 

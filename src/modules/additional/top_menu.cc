@@ -24,8 +24,8 @@
 
 TopMenu::TopMenu(QWidget *parent)
     : QWidget{parent},
-      imageLabel{new QLabel{this}},
-      windowName{new QLabel{QString{"SmartCalculator"}, this}},
+      image_label{new QLabel{this}},
+      window_name{new QLabel{QString{"SmartCalculator"}, this}},
       grid{new QGridLayout{this}},
       close_but{new QPushButton{QString{"x"}, this}},
       collapse_but{new QPushButton{QString{"–"}, this}},
@@ -36,8 +36,8 @@ TopMenu::TopMenu(QWidget *parent)
       top_frame{new QFrame{this}},
       dragging{false},
       move_timer{new QTimer{this}},
-      dragPosition{new QPoint{}},
-      targetPosition{new QPoint{}} {
+      drag_position{new QPoint{}},
+      target_position{new QPoint{}} {
   close_but->setFixedSize(40, 25);
   collapse_but->setFixedSize(40, 25);
 
@@ -59,7 +59,7 @@ TopMenu::TopMenu(QWidget *parent)
               "background-color: rgb(47, 47, 47);"
               "font-size: 16px;"
               "border: 1px solid rgba(40, 100, 180, 0.7);}"});
-  windowName->setStyleSheet(
+  window_name->setStyleSheet(
       QString{"QLabel {"
               "background: rgba(0, 0, 0, 0.);"
               "border: 0px solid rgba(40, 100, 180, 0.7);"
@@ -71,9 +71,9 @@ TopMenu::TopMenu(QWidget *parent)
       QString{"background: rgba(0, 0, 0, 0.0);"
               "border-bottom: 1px solid rgba(40, 100, 180, 0.7);"});
 
-  grid->addWidget(imageLabel, 0, 0);
+  grid->addWidget(image_label, 0, 0);
   grid->addItem(space1, 0, 1);
-  grid->addWidget(windowName, 0, 2);
+  grid->addWidget(window_name, 0, 2);
   grid->addItem(space2, 0, 3);
   grid->addWidget(collapse_but, 0, 4);
   grid->addWidget(close_but, 0, 5);
@@ -81,15 +81,15 @@ TopMenu::TopMenu(QWidget *parent)
   top_frame->setFixedHeight(45);
   top_frame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  mainLayout = new QGridLayout{this};
-  mainLayout->addWidget(top_frame, 0, 0);
-  mainLayout->setAlignment(top_frame, Qt::AlignTop);
-  mainLayout->setContentsMargins(0, 0, 0, 0);
-  setLayout(mainLayout);
+  main_layout = new QGridLayout{this};
+  main_layout->addWidget(top_frame, 0, 0);
+  main_layout->setAlignment(top_frame, Qt::AlignTop);
+  main_layout->setContentsMargins(0, 0, 0, 0);
+  setLayout(main_layout);
 
-  imageLabel->setPixmap(QPixmap{":calculator.png"});
-  imageLabel->setFixedSize(25, 25);
-  imageLabel->setScaledContents(true);
+  image_label->setPixmap(QPixmap{":calculator.png"});
+  image_label->setFixedSize(25, 25);
+  image_label->setScaledContents(true);
 
   setWindowFlag(Qt::FramelessWindowHint);
   setAttribute(Qt::WA_TranslucentBackground);
@@ -99,7 +99,7 @@ TopMenu::TopMenu(QWidget *parent)
   connect(collapse_but, &QPushButton::clicked, this, &TopMenu::showMinimized);
 
   connect(move_timer, &QTimer::timeout, this, &TopMenu::updatePosition);
-  move_timer->setInterval(16);
+  move_timer->setInterval(10);
 }
 
 void TopMenu::paintEvent(QPaintEvent *event) {
@@ -124,7 +124,7 @@ void TopMenu::paintEvent(QPaintEvent *event) {
 void TopMenu::mousePressEvent(QMouseEvent *event) {
   if (event->button() == Qt::LeftButton) {
     dragging = true;
-    *dragPosition =
+    *drag_position =
         event->globalPosition().toPoint() - frameGeometry().topLeft();
     event->accept();
   }
@@ -133,7 +133,7 @@ void TopMenu::mousePressEvent(QMouseEvent *event) {
 void TopMenu::mouseMoveEvent(QMouseEvent *event) {
   if (dragging && (event->buttons() & Qt::LeftButton)) {
     move_timer->start();
-    *targetPosition = event->globalPosition().toPoint() - *dragPosition;
+    *target_position = event->globalPosition().toPoint() - *drag_position;
     event->accept();
   }
 }
@@ -146,6 +146,6 @@ void TopMenu::mouseReleaseEvent(QMouseEvent *event) {
   }
 }
 
-void TopMenu::updatePosition() { move(*targetPosition); }
+void TopMenu::updatePosition() { move(*target_position); }
 
 void TopMenu::closeWindow() { close(); }

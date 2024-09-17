@@ -53,7 +53,7 @@ class MainWindow : public TopMenu {
         "font-size: 14px; }"
         "QTabBar::tab:!selected { margin-top: 10px; }"});
 
-    TopMenu::mainLayout->addWidget(tab);
+    TopMenu::main_layout->addWidget(tab);
   }
 
  protected:

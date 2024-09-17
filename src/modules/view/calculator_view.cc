@@ -111,7 +111,7 @@ CalculatorView::CalculatorView(QWidget *parent)
     funcs[i]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     button_grid->addWidget(funcs[i], func_positions[i].first,
                            func_positions[i].second);
-    if (i > 14) {
+    if (i > 13) {
       connect(funcs[i], &QPushButton::clicked, this,
               &CalculatorView::numberButtonClicked);
     } else if (i > 4) {
