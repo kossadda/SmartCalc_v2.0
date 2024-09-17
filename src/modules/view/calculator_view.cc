@@ -13,6 +13,7 @@
 
 CalculatorView::CalculatorView(QWidget *parent)
     : QWidget{parent},
+      controller_{new CalculatorController{}},
       plot{new Plot{}},
       lvar{new QLabel{QString{"   Value of variable X"}}},
       text_expr{new QLineEdit{}},
@@ -204,7 +205,7 @@ void CalculatorView::plotWindowClosed() {
 }
 
 void CalculatorView::validateExpression() {
-  valid = controller_.validate(text_expr->text().toStdString());
+  valid = controller_->validate(text_expr->text().toStdString());
 
   if (valid) {
     text_expr->setStyleSheet(
@@ -230,10 +231,14 @@ void CalculatorView::delClicked() {
 }
 
 void CalculatorView::eqClicked() {
-  if (valid) {
-    controller_.infix_to_postfix(text_expr->text().toStdString(),
-                                 var_value->text().toDouble());
-    text_expr->setText(QString::fromStdString(controller_.evaluate()));
+  if (plot->isVisible()) {
+    plot->build(controller_);
+  } else {
+    if (valid) {
+      controller_->infix_to_postfix(text_expr->text().toStdString(),
+                                    var_value->text().toDouble());
+      text_expr->setText(QString::fromStdString(controller_->evaluate_str()));
+    }
   }
 }
 

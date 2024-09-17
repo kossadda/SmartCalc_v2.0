@@ -29,6 +29,7 @@ class CalculatorModel {
   void to_postfix();
   bool validate();
   long double evaluate();
+  long double &variable();
 
  private:
   std::string replaceNames(std::string infix);

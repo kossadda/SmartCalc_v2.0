@@ -44,7 +44,7 @@ class CalculatorView : public QWidget {
   void functionButtonClicked();
 
  private:
-  CalculatorController controller_;
+  CalculatorController *controller_;
   Plot *plot;
   bool valid{false};
   bool valid_var{true};

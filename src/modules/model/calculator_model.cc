@@ -22,6 +22,10 @@ void CalculatorModel::add_expression(std::string infix, long double var) {
   infix_ = replaceNames(infix);
 }
 
+long double &CalculatorModel::variable() {
+  return variable_;
+}
+
 void CalculatorModel::to_postfix() {
   std::stack<char> ops;
   size_ = infix_.size();
@@ -29,13 +33,14 @@ void CalculatorModel::to_postfix() {
   for (std::size_t i{}; i < size_; ++i) {
     char c = infix_[i];
 
-    if (isdigit(c)) {
+    if (isdigit(c) || c == 'x') {
       std::string num;
 
       bool science{false};
       while (i < size_ &&
              (isdigit(infix_[i]) || infix_[i] == '.' || infix_[i] == 'e' ||
-              (science && (infix_[i] == '+' || infix_[i] == '-')))) {
+              (science && (infix_[i] == '+' || infix_[i] == '-')) ||
+              infix_[i] == 'x')) {
         num += infix_[i];
         ++i;
 
@@ -144,8 +149,13 @@ long double CalculatorModel::evaluate() {
 
   while (iss >> token) {
     if (isdigit(token[0]) ||
-        (token[0] == '.' && token.size() && isdigit(token[1]))) {
-      operands.push(std::stold(token));
+        (token[0] == '.' && token.size() && isdigit(token[1])) ||
+        token == "x") {
+      if (token == "x") {
+        operands.push(variable_);
+      } else {
+        operands.push(std::stold(token));
+      }
     } else if (isOperator(token[0])) {
       long double right = operands.top();
       operands.pop();
@@ -242,9 +252,6 @@ std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
 
 std::string CalculatorModel::replaceNames(std::string infix) {
   std::string result;
-  std::size_t max_length{25};
-  std::unique_ptr<char[]> var_str{new char[max_length]};
-  std::snprintf(var_str.get(), max_length, "(%Lf)", variable_);
 
   for (auto i : infix) {
     if (i != ' ') result += i;
@@ -263,7 +270,7 @@ std::string CalculatorModel::replaceNames(std::string infix) {
   std::regex number_e_pattern{"(\\d+)e(\\d+|[+-])"};
   result = std::regex_replace(result, number_e_pattern, "$1E$2");
 
-  result = replaceSubstr(result, "x", var_str.get());
+  result = replaceSubstr(result, "x", "(x)");
   result = replaceSubstr(result, "P", "(3.1415926535897932384626433)");
   result = replaceSubstr(result, "asin(", "S(");
   result = replaceSubstr(result, "acos(", "C(");

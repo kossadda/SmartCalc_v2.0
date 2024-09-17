@@ -15,18 +15,14 @@ int main() {
   setlocale(LC_NUMERIC, "C");
 
   std::string infix =
-      "sin(-325.5324*(((2.5432*3.432)/(-1342.5+10.5324))-sin((-44325.11123/"
-      "2324.234)-1.234))/(3.234-((-2.7568*1.5234)-0.5324))";
-  CalculatorModel pol{infix};
+      "x(((ln(cos(1.5*atan(1)))/(log(x*sqrt(x))))+log((tan(1)-asin(0.25))/"
+      "(ln(x)+sqrt(x)))))";
+  CalculatorModel pol{infix, 50.0L};
 
-  long double exp = -0.49350345L;
+  long double exp = -65.10591506;
   long double res = pol.evaluate();
 
-  std::cout << ((pol.validate()) ? "\nVALID\n\n" : "\nINVALID\n\n");
-  // long double exp = -65.10591506;
-  // long double res = pol.evaluate();
-
-  // printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
+  printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
 
   return 0;
 }

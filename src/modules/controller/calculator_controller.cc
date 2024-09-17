@@ -23,7 +23,19 @@ bool CalculatorController::validate(std::string infix, long double var) {
   return model_.validate();
 }
 
-std::string CalculatorController::evaluate() {
+long double CalculatorController::evaluate_num() {
+  long double result;
+
+  try {
+    result = model_.evaluate();
+  } catch (const std::invalid_argument& exception) {
+    result = std::nan("");
+  }
+
+  return result;
+}
+
+std::string CalculatorController::evaluate_str() {
   std::stringstream ss;
 
   try {

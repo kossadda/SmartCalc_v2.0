@@ -22,7 +22,8 @@ class CalculatorController {
 
   bool validate(std::string infix, long double var = 0);
   void infix_to_postfix(std::string infix, long double var);
-  std::string evaluate();
+  std::string evaluate_str();
+  long double evaluate_num();
 
  private:
   std::string replacePi(std::string infix);
