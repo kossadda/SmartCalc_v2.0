@@ -60,6 +60,4 @@ std::string CalculatorController::replacePi(std::string infix) {
   return infix;
 }
 
-long double &CalculatorController::variable() {
-  return model_.variable();
-}
+long double& CalculatorController::variable() { return model_.variable(); }

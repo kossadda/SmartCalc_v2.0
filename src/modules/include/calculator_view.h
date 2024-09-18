@@ -55,7 +55,7 @@ class CalculatorView : public QWidget {
       *bln, *bunar, *bscience, *bpi, *bpow, *bopenbr, *bclosebr, *bdiv, *bmul,
       *bminus, *bplus, *bvar, *bdot, *beq, *bclear, *bdel, *bzero, *bone, *btwo,
       *bthree, *bfour, *bfive, *bsix, *bseven, *beight, *bnine, *bplot;
-  QLineEdit *text_expr, *var_value;
+  QLineEdit *expr, *var_value;
   QLabel *lvar;
 };
 

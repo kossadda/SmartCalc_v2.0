@@ -22,9 +22,7 @@ void CalculatorModel::add_expression(std::string infix, long double var) {
   infix_ = replaceNames(infix);
 }
 
-long double &CalculatorModel::variable() {
-  return variable_;
-}
+long double &CalculatorModel::variable() { return variable_; }
 
 void CalculatorModel::to_postfix() {
   std::stack<char> ops;

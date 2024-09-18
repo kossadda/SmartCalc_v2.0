@@ -37,7 +37,7 @@ Plot::Plot(QWidget *parent)
       "color: rgb(130, 180, 240);"
       "font-size: 16px;"};
 
-  QColor dark_blue{40, 100, 180, 178};
+  QColor dark_blue{40, 100, 180, 200};
 
   setWindowIcon(QIcon{":plot.png"});
   TopMenu::image_label->setPixmap(QPixmap{":plot.png"});
@@ -46,7 +46,7 @@ Plot::Plot(QWidget *parent)
 
   plot->setBackground(QBrush{QColor{0, 0, 0, 0}});
   plot->xAxis->setLabelColor(dark_blue);
-  plot->yAxis->setLabelColor(Qt::white);
+  plot->yAxis->setLabelColor(dark_blue);
   plot->xAxis->setBasePen(QPen{dark_blue});
   plot->yAxis->setBasePen(QPen{dark_blue});
   plot->xAxis->setTickLabelColor(Qt::white);
@@ -56,6 +56,8 @@ Plot::Plot(QWidget *parent)
   plot->xAxis->setSubTickPen(QPen{dark_blue});
   plot->yAxis->setSubTickPen(QPen{dark_blue});
   plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  plot->setInteraction(QCP::iRangeZoom, true);
+  plot->setInteraction(QCP::iRangeDrag, true);
 
   TopMenu::main_layout->addWidget(plot);
   settings->addWidget(lbegin, 0, 1, 1, 1, Qt::AlignCenter);
@@ -112,30 +114,27 @@ void Plot::build(CalculatorController *controller) {
     return;
   }
 
+  plot->clearItems();
   long double prev{controller->evaluate_num()};
   long double result{}, diff{};
-  plot->clearItems();
-  x.clear();
-  y.clear();
+  QVector<double> x, y;
 
-  h = step->text().toDouble();
-  x_begin = xbegin->text().toDouble();
-  x_end = xend->text().toDouble();
-  y_begin = ybegin->text().toDouble();
-  y_end = yend->text().toDouble();
+  long double step_val = step->text().toDouble();
+  long double x_begin = xbegin->text().toDouble();
+  long double x_end = xend->text().toDouble();
+  long double y_begin = ybegin->text().toDouble();
+  long double y_end = yend->text().toDouble();
 
   plot->xAxis->setRange(x_begin, x_end);
   plot->yAxis->setRange(y_begin, y_end);
 
-  N = (x_end - x_begin) / h + 2;
-
-  for(X = x_begin; X <= x_end; X += h) {
-    controller->variable() = X;
+  for (long double i = x_begin; i <= x_end; i += step_val) {
+    controller->variable() = i;
     result = controller->evaluate_num();
     diff = std::fabs(result - prev);
-    x.push_back(X);
+    x.push_back(i);
 
-    if(result < y_end && result > y_begin && diff < 200) {
+    if (result < y_end && result > y_begin && diff < 200) {
       y.push_back(result);
     } else {
       y.push_back(std::nan(""));
@@ -144,55 +143,9 @@ void Plot::build(CalculatorController *controller) {
     prev = result;
   }
 
-  QCPGraph *graph{plot->addGraph(plot->xAxis, plot->yAxis)};
-  graph->setPen(QPen{QColor(255, 0, 0)});
+  plot->addGraph(plot->xAxis, plot->yAxis)->setPen(QPen{QColor(255, 0, 0)});
   plot->graph(0)->setData(x, y);
   plot->replot();
-
-  //   double result = 0;
-  //   double diff = 0;
-  //   ui->Table->clearItems();
-  //   x.clear();
-  //   y.clear();
-
-  //   h = ui->step->text().toDouble();
-  //   xBegin = ui->x_beg->text().toDouble();
-  //   xEnd = ui->x_end->text().toDouble();
-  //   yBegin = ui->y_beg->text().toDouble();
-  //   yEnd = ui->y_end->text().toDouble() + h;
-  //   ui->Table->xAxis->setRange(xBegin, xEnd);
-  //   ui->Table->yAxis->setRange(yBegin, yEnd);
-
-  //   N = (xEnd - xBegin) / h + 2;
-
-  //   for (X = xBegin; X <= xEnd; X += h) {
-  //     result = calculate(expression, X);
-  //     diff = fabs(result - prev);
-  //     x.push_back(X);
-  //     if (result < yEnd && result > yBegin && diff < 200) {
-  //       y.push_back(result);
-  //     } else {
-  //       y.push_back(std::nan(""));
-  //     }
-  //     prev = result;
-  //   }
-
-  //   ui->Table->addGraph(ui->Table->xAxis, ui->Table->yAxis);
-  //   ui->Table->graph(0)->setData(x, y);
-
-  //   ui->Table->replot();
-  //   if (ui->Table->xAxis->range().size() >= 10 &&
-  //       ui->Table->yAxis->range().size() >= 10) {
-  //     ui->Table->setInteraction(QCP::iRangeZoom, true);
-  //   }
-  //   if (!ui->x_trace->isVisible()) {
-  //     ui->Table->setInteraction(QCP::iRangeDrag, true);
-  //   }
-  //   current_x_min = xBegin;
-  //   current_x_max = xEnd;
-  //   current_y_min = yBegin;
-  //   current_y_max = yEnd;
-  // }
 }
 
 bool Plot::isValidInput(QLineEdit *line) {

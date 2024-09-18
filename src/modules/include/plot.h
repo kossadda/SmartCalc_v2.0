@@ -45,9 +45,7 @@ class Plot : public TopMenu {
   QLineEdit *xbegin, *xend, *ybegin, *yend, *step;
   QLabel *lx, *ly, *lbegin, *lend, *lstep;
 
-  QVector<double> x, y;
-  double x_begin, x_end, y_begin, y_end, h, X;
-  int N;
+  double current_x_min, current_x_max, current_y_min, current_y_max;
 
   bool isValidInput(QLineEdit *line);
 };

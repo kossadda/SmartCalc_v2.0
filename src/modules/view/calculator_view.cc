@@ -16,7 +16,7 @@ CalculatorView::CalculatorView(QWidget *parent)
       controller_{new CalculatorController{}},
       plot{new Plot{}},
       lvar{new QLabel{QString{"   Value of variable X"}}},
-      text_expr{new QLineEdit{}},
+      expr{new QLineEdit{}},
       var_value{new QLineEdit{QString{"0.0"}}},
       bplot{new QPushButton{QString{"Graph"}}},
       main_grid{new QGridLayout{}},
@@ -139,9 +139,9 @@ CalculatorView::CalculatorView(QWidget *parent)
   button_grid->setVerticalSpacing(1);
   button_grid->setContentsMargins(1, 1, 1, 1);
 
-  text_expr->setMinimumHeight(150);
-  text_expr->setStyleSheet(text_expr_style);
-  text_expr->setAlignment(Qt::AlignRight);
+  expr->setMinimumHeight(150);
+  expr->setStyleSheet(text_expr_style);
+  expr->setAlignment(Qt::AlignRight);
 
   var_value->setMinimumHeight(40);
   var_value->setAlignment(Qt::AlignCenter);
@@ -160,7 +160,7 @@ CalculatorView::CalculatorView(QWidget *parent)
   main_grid->addWidget(lvar, 0, 0);
   main_grid->addWidget(var_value, 0, 1);
   main_grid->addWidget(bplot, 0, 2);
-  main_grid->addWidget(text_expr, 1, 0, 1, 3);
+  main_grid->addWidget(expr, 1, 0, 1, 3);
   main_grid->addWidget(button_frame, 2, 0, 1, 3);
   main_grid->setAlignment(lvar, Qt::AlignRight);
   main_grid->setHorizontalSpacing(7);
@@ -175,7 +175,7 @@ CalculatorView::CalculatorView(QWidget *parent)
   bdel->setStyleSheet(bdel->styleSheet().replace("26, 77, 144", "130, 0, 0"));
 
   connect(plot, &Plot::windowClosed, this, &CalculatorView::plotWindowClosed);
-  connect(text_expr, &QLineEdit::textChanged, this,
+  connect(expr, &QLineEdit::textChanged, this,
           &CalculatorView::validateExpression);
   connect(bmod, &QPushButton::clicked, this, &CalculatorView::modClicked);
   connect(bclear, &QPushButton::clicked, this, &CalculatorView::clearClicked);
@@ -187,14 +187,14 @@ CalculatorView::CalculatorView(QWidget *parent)
 void CalculatorView::numberButtonClicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   if (button) {
-    text_expr->setText(text_expr->text() + button->text());
+    expr->setText(expr->text() + button->text());
   }
 }
 
 void CalculatorView::functionButtonClicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   if (button) {
-    text_expr->setText(text_expr->text() + button->text() + '(');
+    expr->setText(expr->text() + button->text() + '(');
   }
 }
 
@@ -205,38 +205,39 @@ void CalculatorView::plotWindowClosed() {
 }
 
 void CalculatorView::validateExpression() {
-  valid = controller_->validate(text_expr->text().toStdString());
+  valid = controller_->validate(expr->text().toStdString());
 
   if (valid) {
-    text_expr->setStyleSheet(
-        text_expr->styleSheet().replace("200, 0, 0", "255, 255, 255"));
+    expr->setStyleSheet(
+        expr->styleSheet().replace("200, 0, 0", "255, 255, 255"));
   } else {
-    text_expr->setStyleSheet(
-        text_expr->styleSheet().replace("255, 255, 255", "200, 0, 0"));
+    expr->setStyleSheet(
+        expr->styleSheet().replace("255, 255, 255", "200, 0, 0"));
   }
 }
 
 void CalculatorView::validateVar() {}
 
 void CalculatorView::modClicked() {
-  text_expr->setText(text_expr->text() + " mod ");
+  expr->setText(expr->text() + " mod ");
 }
 
-void CalculatorView::clearClicked() { text_expr->setText(QString{}); }
+void CalculatorView::clearClicked() { expr->setText(QString{}); }
 
 void CalculatorView::delClicked() {
-  QString expression{text_expr->text()};
+  QString expression{expr->text()};
   expression.chop(1);
-  text_expr->setText(expression);
+  expr->setText(expression);
 }
 
 void CalculatorView::eqClicked() {
   if (valid) {
-    controller_->infix_to_postfix(text_expr->text().toStdString(), var_value->text().toDouble());
+    controller_->infix_to_postfix(expr->text().toStdString(),
+                                  var_value->text().toDouble());
     if (plot->isVisible()) {
       plot->build(controller_);
     } else {
-      text_expr->setText(QString::fromStdString(controller_->evaluate_str()));
+      expr->setText(QString::fromStdString(controller_->evaluate_str()));
     }
   }
 }
