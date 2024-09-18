@@ -46,7 +46,7 @@ Plot::Plot(QWidget *parent)
 
   plot->setBackground(QBrush{QColor{0, 0, 0, 0}});
   plot->xAxis->setLabelColor(dark_blue);
-  plot->yAxis->setLabelColor(dark_blue);
+  plot->yAxis->setLabelColor(Qt::white);
   plot->xAxis->setBasePen(QPen{dark_blue});
   plot->yAxis->setBasePen(QPen{dark_blue});
   plot->xAxis->setTickLabelColor(Qt::white);
@@ -112,7 +112,43 @@ void Plot::build(CalculatorController *controller) {
     return;
   }
 
-  double prev = controller->evaluate_num();
+  long double prev{controller->evaluate_num()};
+  long double result{}, diff{};
+  plot->clearItems();
+  x.clear();
+  y.clear();
+
+  h = step->text().toDouble();
+  x_begin = xbegin->text().toDouble();
+  x_end = xend->text().toDouble();
+  y_begin = ybegin->text().toDouble();
+  y_end = yend->text().toDouble();
+
+  plot->xAxis->setRange(x_begin, x_end);
+  plot->yAxis->setRange(y_begin, y_end);
+
+  N = (x_end - x_begin) / h + 2;
+
+  for(X = x_begin; X <= x_end; X += h) {
+    controller->variable() = X;
+    result = controller->evaluate_num();
+    diff = std::fabs(result - prev);
+    x.push_back(X);
+
+    if(result < y_end && result > y_begin && diff < 200) {
+      y.push_back(result);
+    } else {
+      y.push_back(std::nan(""));
+    }
+
+    prev = result;
+  }
+
+  QCPGraph *graph{plot->addGraph(plot->xAxis, plot->yAxis)};
+  graph->setPen(QPen{QColor(255, 0, 0)});
+  plot->graph(0)->setData(x, y);
+  plot->replot();
+
   //   double result = 0;
   //   double diff = 0;
   //   ui->Table->clearItems();

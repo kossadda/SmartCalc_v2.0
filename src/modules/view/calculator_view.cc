@@ -231,12 +231,11 @@ void CalculatorView::delClicked() {
 }
 
 void CalculatorView::eqClicked() {
-  if (plot->isVisible()) {
-    plot->build(controller_);
-  } else {
-    if (valid) {
-      controller_->infix_to_postfix(text_expr->text().toStdString(),
-                                    var_value->text().toDouble());
+  if (valid) {
+    controller_->infix_to_postfix(text_expr->text().toStdString(), var_value->text().toDouble());
+    if (plot->isVisible()) {
+      plot->build(controller_);
+    } else {
       text_expr->setText(QString::fromStdString(controller_->evaluate_str()));
     }
   }
