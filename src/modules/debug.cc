@@ -9,20 +9,18 @@
  *
  */
 
-#include "include/calculator_model.h"
+#include "./include/calendar.h"
 
 int main() {
   setlocale(LC_NUMERIC, "C");
 
-  std::string infix =
-      "x(((ln(cos(1.5*atan(1)))/(log(x*sqrt(x))))+log((tan(1)-asin(0.25))/"
-      "(ln(x)+sqrt(x)))))";
-  CalculatorModel pol{infix, 50.0L};
+  Date first{1, 2, 2102};
+  Date second{29, 6, 2101};
 
-  long double exp = -65.10591506;
-  long double res = pol.evaluate();
+  std::cout << "\n" << (first - second) << "\n\n";
 
-  printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
+
+  // printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
 
   return 0;
 }

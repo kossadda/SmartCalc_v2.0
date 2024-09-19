@@ -185,7 +185,6 @@ CalculatorView::CalculatorView(QWidget *parent)
   connect(beq, &QPushButton::clicked, this, &CalculatorView::eqClicked);
   connect(bplot, &QPushButton::clicked, this, &CalculatorView::plotClicked);
   connect(bunar, &QPushButton::clicked, this, &CalculatorView::unarClicked);
-
 }
 
 void CalculatorView::numberButtonClicked() {
@@ -257,24 +256,24 @@ void CalculatorView::unarClicked() {
   QString num;
   QChar ch{text[text.length() - 1]};
 
-  if(ch.isDigit()) {
-    while(text.length() && (ch.isDigit() || ch == '.')) {
+  if (ch.isDigit()) {
+    while (text.length() && (ch.isDigit() || ch == '.')) {
       num.prepend(ch);
       text.chop(1);
       ch = text[text.length() - 1];
     }
 
     expr->setText(text + "(-" + num + ')');
-  } else if(ch == ')' && text[text.length() - 2].isDigit()) {
+  } else if (ch == ')' && text[text.length() - 2].isDigit()) {
     text.chop(1);
     ch = text[text.length() - 1];
-    while(text.length() && (ch.isDigit() || ch == '.')) {
+    while (text.length() && (ch.isDigit() || ch == '.')) {
       num.prepend(ch);
       text.chop(1);
       ch = text[text.length() - 1];
     }
 
-    if(ch == '(') {
+    if (ch == '(') {
       text.chop(1);
       expr->setText(text + num);
     } else if ((ch == '+' || ch == '-') && text[text.length() - 2] == '(') {

@@ -107,7 +107,7 @@ test: clean
 
 #=============================== CHECKS TARGETS ===============================#
 deb:
-	@$(CXX) $(CXXFLAGS) ./modules/debug.cc $(MODULES) -o test
+	@$(CXX) $(CXXFLAGS) ./modules/debug.cc $(MODULES) ./modules/additional/calendar.cc -o test
 	@valgrind $(VAL) ./test
 	
 clang_check:
