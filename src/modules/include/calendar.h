@@ -17,21 +17,25 @@
 
 class Date {
  public:
+  using DataSize = unsigned short;
+
   Date() = default;
-  Date(std::size_t day, std::size_t month, std::size_t year);
+  Date(DataSize day, DataSize month, DataSize year);
   Date(const Date &other);
 
-  bool isYearLeap();
-  std::size_t daysPassedInYear();
-  bool operator>(const Date &other);
-  bool operator<(const Date &other);
-  bool operator>=(const Date &other);
-  bool operator<=(const Date &other);
-  bool operator==(const Date &other);
-  bool operator!=(const Date &other);
-  std::size_t operator-(const Date &other);
+  static bool isYearLeap(DataSize year);
+  std::size_t daysPassedInYear() const;
+  std::size_t daysLeftInYear() const;
+  std::size_t daysLeftInMonth() const;
+  Date &operator=(const Date &other);
+  bool operator>(const Date &other) const;
+  bool operator<(const Date &other) const;
+  bool operator>=(const Date &other) const;
+  bool operator<=(const Date &other) const;
+  bool operator==(const Date &other) const;
+  bool operator!=(const Date &other) const;
+  std::size_t operator-(const Date &other) const;
 
-  static const std::size_t kMaxYear = 10000;
   static const std::size_t kYearMonths = 12;
   static const std::size_t kYearDays = 365;
   static const std::size_t kLeapYearDays = 366;
@@ -42,22 +46,21 @@ class Date {
   static const std::size_t kFebDays = 28;
 
  private:
-  enum DateCompare {
+  enum class DateCompare {
     DATE_EQUAL,
     DATE_BEFORE,
     DATE_AFTER
   };
 
   bool isValidDate();
-  std::size_t daysInMonth();
-  DateCompare compareDate(const Date &other);
+  DateCompare compareDate(const Date &other) const;
 
-  std::size_t day_{};
-  std::size_t month_{};
-  std::size_t year_{};
+  DataSize day_{};
+  DataSize month_{};
+  DataSize year_{};
   bool leap_{};
 
-  std::vector<std::size_t> dates_{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  std::vector<DataSize> dates_{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 };
 
 #endif  // SRC_MODULES_INCLUDE_CALENDAR_H_

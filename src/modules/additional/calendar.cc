@@ -11,9 +11,10 @@
 
 #include "../include/calendar.h"
 
-Date::Date(std::size_t day, std::size_t month, std::size_t year)
+Date::Date(DataSize day, DataSize month, DataSize year)
     : day_{day}, month_{month}, year_{year} {
-  leap_ = isYearLeap();
+  leap_ = isYearLeap(year_);
+  dates_[2] = (leap_) ? kLeapFebDays : kFebDays;
 
   if (!isValidDate()) {
     throw std::invalid_argument("Date:: invalid date");
@@ -29,7 +30,7 @@ Date::Date(const Date &other)
 bool Date::isValidDate() {
   bool valid{true};
 
-  if (month_ > kYearMonths && day_ > daysInMonth() && year_ > kMaxYear) {
+  if (month_ > kYearMonths && day_ > dates_[month_]) {
     valid = false;
   } else if(!day_ || !month_ || !year_) {
     valid = false;
@@ -38,37 +39,44 @@ bool Date::isValidDate() {
   return valid;
 }
 
-bool Date::isYearLeap() {
+bool Date::isYearLeap(DataSize year) {
   bool leap{false};
 
-  if (!(year_ % kBigLeapInterval)) {
+  if (!(year % kBigLeapInterval)) {
     leap = true;
-  } else if (!(year_ % kSmallLeapInterval) && (year_ % kLeapExcectInterval)) {
+  } else if (!(year % kSmallLeapInterval) && (year % kLeapExcectInterval)) {
     leap = true;
   }
-
-  dates_[2] = (leap) ? kLeapFebDays : kFebDays;
 
   return leap;
 }
 
-std::size_t Date::daysInMonth() {
-  leap_ = isYearLeap();
-
-  return dates_[month_];
-}
-
-std::size_t Date::daysPassedInYear() {
+std::size_t Date::daysPassedInYear() const {
   std::size_t days{day_};
 
-  for(std::size_t i{1}; i < month_; ++i) {
+  for(DataSize i{1}; i < month_; ++i) {
     days += dates_[i];
   }
 
   return days;
 }
 
-Date::DateCompare Date::compareDate(const Date &other) {
+std::size_t Date::daysLeftInYear() const {
+  return ((leap_) ? kLeapYearDays : kYearDays) - daysPassedInYear();
+}
+
+std::size_t Date::daysLeftInMonth() const {
+  return dates_[month_] - day_;
+}
+
+Date& Date::operator=(const Date &other) {
+  day_ = other.day_;
+  month_ = other.month_;
+  year_ = other.year_;
+  leap_ = other.leap_;
+}
+
+Date::DateCompare Date::compareDate(const Date &other) const {
   DateCompare compare{DateCompare::DATE_EQUAL};
 
   if(year_ < other.year_) {
@@ -96,39 +104,45 @@ Date::DateCompare Date::compareDate(const Date &other) {
   return compare;
 }
 
-bool Date::operator==(const Date &other) {
+bool Date::operator==(const Date &other) const {
   return (compareDate(other) == DateCompare::DATE_EQUAL) ? true : false;
 }
 
-bool Date::operator!=(const Date &other) {
+bool Date::operator!=(const Date &other) const {
   return (compareDate(other) != DateCompare::DATE_EQUAL) ? true : false;
 }
 
-bool Date::operator<(const Date &other) {
+bool Date::operator<(const Date &other) const {
   return (compareDate(other) == DateCompare::DATE_BEFORE) ? true : false;
 }
 
-bool Date::operator>(const Date &other) {
+bool Date::operator>(const Date &other) const {
   return (compareDate(other) == DateCompare::DATE_AFTER) ? true : false;
 }
 
-bool Date::operator<=(const Date &other) {
+bool Date::operator<=(const Date &other) const {
   DateCompare comp{compareDate(other)};
 
   return (comp == DateCompare::DATE_BEFORE || comp == DateCompare::DATE_EQUAL) ? true : false;
 }
 
-bool Date::operator>=(const Date &other) {
+bool Date::operator>=(const Date &other) const {
   DateCompare comp{compareDate(other)};
 
   return (comp == DateCompare::DATE_AFTER || comp == DateCompare::DATE_EQUAL) ? true : false;
 }
 
-std::size_t Date::operator-(const Date &other) {
+std::size_t Date::operator-(const Date &other) const {
   std::size_t diff{};
 
   if(year_ == other.year_) {
-    diff = daysPassedInYear();
+    diff = daysPassedInYear() - other.daysPassedInYear();
+  } else {
+    diff = daysPassedInYear() + other.daysLeftInYear();
+
+    for(DataSize i = other.year_ + 1; i != year_; ++i) {
+      diff += isYearLeap(i) ? kLeapYearDays : kYearDays;
+    }
   }
 
   return diff;
