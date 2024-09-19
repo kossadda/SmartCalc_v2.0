@@ -40,6 +40,7 @@ class CalculatorView : public QWidget {
   void delClicked();
   void eqClicked();
   void plotClicked();
+  void unarClicked();
   void numberButtonClicked();
   void functionButtonClicked();
 

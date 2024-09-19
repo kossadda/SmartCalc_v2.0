@@ -174,14 +174,18 @@ CalculatorView::CalculatorView(QWidget *parent)
                           .replace("26, 77, 144", "47, 47, 47"));
   bdel->setStyleSheet(bdel->styleSheet().replace("26, 77, 144", "130, 0, 0"));
 
-  connect(plot, &Plot::windowClosed, this, &CalculatorView::plotWindowClosed);
   connect(expr, &QLineEdit::textChanged, this,
           &CalculatorView::validateExpression);
+  connect(var_value, &QLineEdit::textChanged, this,
+          &CalculatorView::validateVar);
+  connect(plot, &Plot::windowClosed, this, &CalculatorView::plotWindowClosed);
   connect(bmod, &QPushButton::clicked, this, &CalculatorView::modClicked);
   connect(bclear, &QPushButton::clicked, this, &CalculatorView::clearClicked);
   connect(bdel, &QPushButton::clicked, this, &CalculatorView::delClicked);
   connect(beq, &QPushButton::clicked, this, &CalculatorView::eqClicked);
   connect(bplot, &QPushButton::clicked, this, &CalculatorView::plotClicked);
+  connect(bunar, &QPushButton::clicked, this, &CalculatorView::unarClicked);
+
 }
 
 void CalculatorView::numberButtonClicked() {
@@ -216,11 +220,15 @@ void CalculatorView::validateExpression() {
   }
 }
 
-void CalculatorView::validateVar() {}
+void CalculatorView::validateVar() {
+  QLineEdit *line_edit = qobject_cast<QLineEdit *>(sender());
 
-void CalculatorView::modClicked() {
-  expr->setText(expr->text() + " mod ");
+  if (line_edit) {
+    valid_var = plot->isValidInput(line_edit);
+  }
 }
+
+void CalculatorView::modClicked() { expr->setText(expr->text() + " mod "); }
 
 void CalculatorView::clearClicked() { expr->setText(QString{}); }
 
@@ -237,7 +245,41 @@ void CalculatorView::eqClicked() {
     if (plot->isVisible()) {
       plot->build(controller_);
     } else {
-      expr->setText(QString::fromStdString(controller_->evaluate_str()));
+      if (valid_var) {
+        expr->setText(QString::fromStdString(controller_->evaluate_str()));
+      }
+    }
+  }
+}
+
+void CalculatorView::unarClicked() {
+  QString text{expr->text()};
+  QString num;
+  QChar ch{text[text.length() - 1]};
+
+  if(ch.isDigit()) {
+    while(text.length() && (ch.isDigit() || ch == '.')) {
+      num.prepend(ch);
+      text.chop(1);
+      ch = text[text.length() - 1];
+    }
+
+    expr->setText(text + "(-" + num + ')');
+  } else if(ch == ')' && text[text.length() - 2].isDigit()) {
+    text.chop(1);
+    ch = text[text.length() - 1];
+    while(text.length() && (ch.isDigit() || ch == '.')) {
+      num.prepend(ch);
+      text.chop(1);
+      ch = text[text.length() - 1];
+    }
+
+    if(ch == '(') {
+      text.chop(1);
+      expr->setText(text + num);
+    } else if ((ch == '+' || ch == '-') && text[text.length() - 2] == '(') {
+      text.chop(2);
+      expr->setText(text + num);
     }
   }
 }

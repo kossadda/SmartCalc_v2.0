@@ -29,6 +29,7 @@ class Plot : public TopMenu {
   explicit Plot(QWidget *parent = nullptr);
 
   void build(CalculatorController *controller);
+  bool isValidInput(QLineEdit *line);
 
  signals:
   void windowClosed();
@@ -46,8 +47,6 @@ class Plot : public TopMenu {
   QLabel *lx, *ly, *lbegin, *lend, *lstep;
 
   double current_x_min, current_x_max, current_y_min, current_y_max;
-
-  bool isValidInput(QLineEdit *line);
 };
 
 #endif  // SRC_MODULES_INCLUDE_PLOT_H_
