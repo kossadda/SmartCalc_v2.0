@@ -204,3 +204,9 @@ std::string Date::currentDate() const {
 
   return ss.str();
 }
+
+Date::DateSize Date::day() const { return day_; }
+
+Date::DateSize Date::month() const { return month_; }
+
+Date::DateSize Date::year() const { return year_; }

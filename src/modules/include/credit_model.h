@@ -12,6 +12,42 @@
 #ifndef SRC_MODULES_INCLUDE_CREDIT_MODEL_H_
 #define SRC_MODULES_INCLUDE_CREDIT_MODEL_H_
 
-class CreditModel {};
+#include <cmath>
+#include <vector>
+
+#include "calendar.h"
+
+class CreditModel {
+ public:
+  enum class CreditType { ANNUITY, DIFFERENTIATED, NOT_CHOSEN };
+
+  CreditModel();
+  ~CreditModel();
+
+  void addData(long double amount, long double rate, Date &date, std::size_t term, CreditType type);
+  void calculatePayments();
+  void printTable() const;
+
+ private:
+  void calculateAnnuity(long double paid_percent);
+  void calculateDifferentiated(long double paid_percent);
+  long double roundVal(long double value);
+  long double formula(Date &date, std::size_t month_part);
+  void addMonthToTable();
+
+  long double main_{};
+  long double percent_{};
+  long double monthly_{};
+  long double const_main_{};
+
+  long double debt_{};
+  long double rate_{};
+  long double term_{};
+  Date *date_;
+  CreditType type_;
+
+  std::vector<std::vector<long double>> table;
+  std::vector<long double> total;
+};
 
 #endif  // SRC_MODULES_INCLUDE_CREDIT_MODEL_H_

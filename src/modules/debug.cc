@@ -9,21 +9,24 @@
  *
  */
 
-#include "./include/calendar.h"
+#include "./include/credit_model.h"
 
 int main() {
   setlocale(LC_NUMERIC, "C");
 
-  Date first{29, 12, 2199};
-  Date second{29, 6, 2088};
-  first.addMonth(29);
-  std::cout << "\n" << first.currentDate() << "\n\n";
-  first.addMonth(29);
-  std::cout << "\n" << first.currentDate() << "\n\n";
-  first.addMonth(29);
-  std::cout << "\n" << first.currentDate() << "\n\n";
+  long double amount = 100000;
+  long double rate = 10.2;
+  Date date{20, 9, 2024};
+  CreditModel::CreditType type = CreditModel::CreditType::DIFFERENTIATED;
+  std::size_t term = 12;
 
-  // printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
+  CreditModel model;
+
+  model.addData(amount, rate, date, term, type);
+
+  model.calculatePayments();
+
+  model.printTable();
 
   return 0;
 }

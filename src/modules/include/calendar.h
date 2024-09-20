@@ -39,6 +39,9 @@ class Date {
   bool operator==(const Date &other) const;
   bool operator!=(const Date &other) const;
   std::size_t operator-(const Date &other) const;
+  DateSize day() const;
+  DateSize month() const;
+  DateSize year() const;
   std::string currentDate() const;
 
   static const DateSize kYearMonths = 12;
