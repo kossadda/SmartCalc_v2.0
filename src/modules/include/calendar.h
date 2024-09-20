@@ -13,20 +13,24 @@
 #define SRC_MODULES_INCLUDE_CALENDAR_H_
 
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <vector>
 
 class Date {
  public:
-  using DataSize = unsigned short;
+  using DateSize = uint16_t;
 
   Date() = default;
-  Date(DataSize day, DataSize month, DataSize year);
+  Date(DateSize day, DateSize month, DateSize year);
   Date(const Date &other);
 
-  static bool isYearLeap(DataSize year);
+  static bool isYearLeap(DateSize year);
   std::size_t daysPassedInYear() const;
   std::size_t daysLeftInYear() const;
   std::size_t daysLeftInMonth() const;
+  Date &addMonth(DateSize init_date);
+  Date &addDays(std::size_t term);
   Date &operator=(const Date &other);
   bool operator>(const Date &other) const;
   bool operator<(const Date &other) const;
@@ -35,32 +39,31 @@ class Date {
   bool operator==(const Date &other) const;
   bool operator!=(const Date &other) const;
   std::size_t operator-(const Date &other) const;
+  std::string currentDate() const;
 
-  static const std::size_t kYearMonths = 12;
+  static const DateSize kYearMonths = 12;
+  static const DateSize kLeapFebDays = 29;
+  static const DateSize kFebDays = 28;
   static const std::size_t kYearDays = 365;
   static const std::size_t kLeapYearDays = 366;
   static const std::size_t kBigLeapInterval = 400;
   static const std::size_t kSmallLeapInterval = 4;
   static const std::size_t kLeapExcectInterval = 100;
-  static const std::size_t kLeapFebDays = 29;
-  static const std::size_t kFebDays = 28;
 
  private:
-  enum class DateCompare {
-    DATE_EQUAL,
-    DATE_BEFORE,
-    DATE_AFTER
-  };
+  enum class DateCompare { DATE_EQUAL, DATE_BEFORE, DATE_AFTER };
 
   bool isValidDate();
   DateCompare compareDate(const Date &other) const;
+  void refreshYearDates();
 
-  DataSize day_{};
-  DataSize month_{};
-  DataSize year_{};
+  DateSize day_{};
+  DateSize month_{};
+  DateSize year_{};
   bool leap_{};
 
-  std::vector<DataSize> dates_{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  std::vector<DateSize> dates_{0,  31, 28, 31, 30, 31, 30,
+                               31, 31, 30, 31, 30, 31};
 };
 
 #endif  // SRC_MODULES_INCLUDE_CALENDAR_H_

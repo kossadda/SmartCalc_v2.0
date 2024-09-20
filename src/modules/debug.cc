@@ -14,11 +14,14 @@
 int main() {
   setlocale(LC_NUMERIC, "C");
 
-  Date first{1, 2, 2199};
+  Date first{29, 12, 2199};
   Date second{29, 6, 2088};
-
-  std::cout << "\n" << (first - second) << "\n\n";
-
+  first.addMonth(29);
+  std::cout << "\n" << first.currentDate() << "\n\n";
+  first.addMonth(29);
+  std::cout << "\n" << first.currentDate() << "\n\n";
+  first.addMonth(29);
+  std::cout << "\n" << first.currentDate() << "\n\n";
 
   // printf("\nRes : %.7Lf\nTrue: %.7Lf\n\n", res, exp);
 
