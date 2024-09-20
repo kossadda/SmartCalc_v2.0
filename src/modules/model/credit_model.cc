@@ -11,13 +11,12 @@
 
 #include "../include/credit_model.h"
 
-CreditModel::CreditModel() : total(3) {}
+CreditModel::CreditModel() : total_(3) {}
 CreditModel::~CreditModel() {
   delete date_;
 }
 
-void CreditModel::addData(long double amount, long double rate, Date &date,
-                         std::size_t term, CreditType type) {
+void CreditModel::addData(long double amount, std::size_t term, long double rate, const Date &date, CreditType type) {
   debt_ = amount;
   rate_ = rate;
   date_ = new Date{date};
@@ -71,7 +70,7 @@ void CreditModel::calculatePayments() {
     addMonthToTable();
     *date_ = next_month;
 
-    if (table.size() > 500 && debt_ == annuity_cycle) {
+    if (table_.size() > 500 && debt_ == annuity_cycle) {
       debt_ = 0;
     }
   }
@@ -116,17 +115,25 @@ void CreditModel::calculateDifferentiated(long double paid_percent) {
 
 void CreditModel::addMonthToTable() {
   std::vector<long double> month{monthly_, main_, percent_, debt_};
-  table.emplace_back(month);
-  total[0] += monthly_;
-  total[1] += main_;
-  total[2] += percent_;
+  table_.emplace_back(month);
+  total_[0] += monthly_;
+  total_[1] += main_;
+  total_[2] += percent_;
 }
 
 void CreditModel::printTable() const {
-  for(auto month : table) {
+  for(auto month : table_) {
     for(auto i : month) {
       std::cout << i << " ";
     }
     std::cout << "\n"; 
   }
+}
+
+std::vector<long double> &CreditModel::total() {
+  return total_;
+}
+
+std::vector<std::vector<long double>> &CreditModel::table() {
+  return table_;
 }

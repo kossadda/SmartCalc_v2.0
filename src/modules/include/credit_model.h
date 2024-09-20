@@ -24,8 +24,10 @@ class CreditModel {
   CreditModel();
   ~CreditModel();
 
-  void addData(long double amount, long double rate, Date &date, std::size_t term, CreditType type);
+  void addData(long double amount, std::size_t term, long double rate, const Date &date, CreditType type);
   void calculatePayments();
+  std::vector<long double> &total();
+  std::vector<std::vector<long double>> &table();
   void printTable() const;
 
  private:
@@ -46,8 +48,8 @@ class CreditModel {
   Date *date_;
   CreditType type_;
 
-  std::vector<std::vector<long double>> table;
-  std::vector<long double> total;
+  std::vector<std::vector<long double>> table_;
+  std::vector<long double> total_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_CREDIT_MODEL_H_

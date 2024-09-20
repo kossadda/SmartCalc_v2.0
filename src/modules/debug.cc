@@ -14,19 +14,19 @@
 int main() {
   setlocale(LC_NUMERIC, "C");
 
-  long double amount = 100000;
-  long double rate = 10.2;
-  Date date{20, 9, 2024};
-  CreditModel::CreditType type = CreditModel::CreditType::DIFFERENTIATED;
-  std::size_t term = 12;
+  CreditModel credit;
 
-  CreditModel model;
+  credit.addData(800, 12, 3, Date{22, 2, 2016}, CreditModel::CreditType::ANNUITY);
+  credit.calculatePayments();
+  std::vector<long double> true_res{812.99, 800, 12.99};
 
-  model.addData(amount, rate, date, term, type);
-
-  model.calculatePayments();
-
-  model.printTable();
+  credit.printTable();
+  // for(std::size_t i{}; i < true_res.size(); ++i) {
+  //   long double res = credit.total().at(i);
+  //   long double exp = true_res.at(i);
+  //   std::cout << res << ':' << exp << '\n';
+  //   // EXPECT_NEAR(res, exp, 1e-3) << "\nRes : " << res << "\nTrue: " << exp << '\n';
+  // }
 
   return 0;
 }

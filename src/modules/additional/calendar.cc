@@ -13,6 +13,11 @@
 
 Date::Date(DateSize day, DateSize month, DateSize year)
     : day_{day}, month_{month}, year_{year} {
+  std::initializer_list<DateSize> list = {0,  31, 28, 31, 30, 31, 30,
+                               31, 31, 30, 31, 30, 31};
+  for(auto i : list) {
+    dates_.push_back(i);
+  }
   refreshYearDates();
 
   if (!isValidDate()) {
@@ -165,6 +170,7 @@ Date &Date::addMonth(DateSize init_date) {
   if (month_ + 1 > kYearMonths) {
     month_ = 1;
     ++year_;
+    refreshYearDates();
   } else {
     ++month_;
   }

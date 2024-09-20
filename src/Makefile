@@ -41,6 +41,7 @@ VAL = --tool=memcheck --leak-check=yes
 #====================== LIST OF FILE AND DIRS IN MODULES ======================#
 MODULES_DIRS = $(shell find $(MODULES_DIR) -type d)
 MODULES = $(shell find $(MODULES_DIR) -type f -name "*.cc")
+ADDITIONAL = $(shell find ./modules -type f -name "calendar.cc")
 #==============================================================================#
 
 
@@ -101,7 +102,7 @@ dist: uninstall
 	@rm -rf $(DIST_DIR)/$(PROJECT_NAME)
 
 test: clean
-	$(CXX) $(MODULES) $(TEST) $(LDFLAGS) -o $@
+	$(CXX) $(MODULES) $(ADDITIONAL) $(TEST) $(LDFLAGS) -o $@
 	./$@
 #==============================================================================#
 
