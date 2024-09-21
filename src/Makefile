@@ -20,11 +20,12 @@ CXX = g++
 
 #=============================== DIRECTORY NAMES ==============================#
 MAIN_DIR = ./modules
-MODULES_DIR = ./modules/model
+MODULES_DIR = ./modules/
 TEST_DIR = ./tests
 DVI_DIR = ../docs
 DIST_DIR = ../dist
 BUILD = ../bin
+TEST_BUILD = ./test_bin
 #==============================================================================#
 
 #==================================== FLAGS ===================================#
@@ -38,23 +39,18 @@ LDFLAGS = -lgtest -lgtest_main
 VAL = --tool=memcheck --leak-check=yes
 #==============================================================================#
 
-#====================== LIST OF FILE AND DIRS IN MODULES ======================#
+#=========================== LIST OF FILE AND DIRS  ===========================#
 MODULES_DIRS = $(shell find $(MODULES_DIR) -type d)
-MODULES = $(shell find $(MODULES_DIR) -type f -name "*.cc")
-ADDITIONAL = $(shell find ./modules -type f -name "calendar.cc")
-#==============================================================================#
-
-
-#==================== LIST OF FILE AND DIRS IN TEST MODULES ===================#
 TEST_DIRS = $(shell find $(TEST_DIR) -type d)
-TEST = $(shell find $(TEST_DIR) -type f -name "*.cc")
-#==============================================================================#
 
+MODULES = $(shell find $(MODULES_DIR) -type f -name "*.cc" ! -name "qcustomplot.*")
+TESTS = $(shell find $(TEST_DIR) -type f -name "*.cc")
+#==============================================================================#
 
 #======================== LIST OF FILES TO CLANG-FORMAT =======================#
-ALL_FILES = $(shell find $(MAIN_DIR) -type f -name "*.cc" ! -name "qcustomplot.cc")
-ALL_FILES += $(shell find $(MAIN_DIR) -type f -name "*.h" ! -name "qcustomplot.h")
+ALL_FILES = $(MODULES) $(TESTS)
 #==============================================================================#
+
 
 ################################################################################
 #                      _                       _                               #
@@ -75,17 +71,16 @@ all: install run
 
 install:
 	mkdir -p $(BUILD)
-	cd $(BUILD) && cmake ./../src && make
+	cd $(BUILD) && cmake ../src && make
 
 uninstall: clean
 	rm -rf $(BUILD)
 
 clean:
+	rm -rf $(TEST_BUILD)
 	rm -rf $(DIST_DIR)
 	rm -rf $(DVI_DIR)
-	rm -rf ../build-src-*
 	rm -f *.txt.user
-	rm -f test
 
 dvi:
 	rm -rf $(DVI_DIR)
@@ -102,13 +97,14 @@ dist: uninstall
 	@rm -rf $(DIST_DIR)/$(PROJECT_NAME)
 
 test: clean
-	$(CXX) $(MODULES) $(ADDITIONAL) $(TEST) $(LDFLAGS) -o $@
-	./$@
+	mkdir -p $(TEST_BUILD)
+	cd $(TEST_BUILD) && cmake ../tests && make
+	valgrind $(VAL) ./$(TEST_BUILD)/tests
 #==============================================================================#
 
 #=============================== CHECKS TARGETS ===============================#
 deb:
-	@$(CXX) $(CXXFLAGS) ./modules/debug.cc $(MODULES) ./modules/additional/calendar.cc -o test
+	@$(CXX) $(CXXFLAGS) -I./ ./modules/debug.cc ./modules/additional/calendar.cc ./modules/model/* -o test
 	@valgrind $(VAL) ./test
 	
 clang_check:
@@ -116,9 +112,6 @@ clang_check:
 
 cpplint:
 	cpplint $(ALL_FILES)
-
-valgrind: test
-	$@ $(VAL) ./test
 #==============================================================================#
 
 

@@ -48,7 +48,7 @@ class TopMenu : public QWidget {
   QFrame *top_frame;
 
  private:
-  bool dragging;
+  bool dragging{false};
   QPoint *drag_position, *target_position;
   QTimer *move_timer;
 };

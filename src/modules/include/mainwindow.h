@@ -23,10 +23,10 @@ class MainWindow : public TopMenu {
  public:
   explicit MainWindow(QWidget *parent = nullptr)
       : TopMenu(parent),
+        tab{new QTabWidget{}},
         calculator{new CalculatorView{}},
         credit{new QWidget{}},
-        deposit{new QWidget{}},
-        tab{new QTabWidget{}} {
+        deposit{new QWidget{}} {
     setWindowIcon(QIcon{":calculator.png"});
     setWindowTitle(QString{"SmartCalculator"});
 

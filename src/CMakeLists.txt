@@ -51,12 +51,14 @@ set(PROJECT_SOURCES
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS
-  ${CMAKE_CURRENT_SOURCE_DIR}
+${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 include_directories(${CMAKE_SOURCE_DIR})
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wextra -g)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 
@@ -66,5 +68,5 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 qt_finalize_executable(${PROJECT_NAME})
 
-enable_testing()
-add_subdirectory(tests)
+# enable_testing()
+# add_subdirectory(tests)

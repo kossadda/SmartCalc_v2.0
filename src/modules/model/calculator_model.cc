@@ -9,7 +9,7 @@
  *
  */
 
-#include "../include/calculator_model.h"
+#include "modules/include/calculator_model.h"
 
 CalculatorModel::CalculatorModel(std::string infix, long double var) {
   add_expression(infix, var);

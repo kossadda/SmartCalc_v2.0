@@ -9,10 +9,10 @@
  *
  */
 
-#include "../include/credit_model.h"
+#include "modules/include/credit_model.h"
 
 CreditModel::CreditModel()
-    : total_(3), data_(new Data{}), month_(new Current{}) {}
+    : data_(new Data{}), month_(new Current{}), total_(3) {}
 
 CreditModel::~CreditModel() {
   delete data_;

@@ -34,10 +34,9 @@ TopMenu::TopMenu(QWidget *parent)
       space2{new QSpacerItem{0, 0, QSizePolicy::Expanding,
                              QSizePolicy::Expanding}},
       top_frame{new QFrame{this}},
-      dragging{false},
-      move_timer{new QTimer{this}},
       drag_position{new QPoint{}},
-      target_position{new QPoint{}} {
+      target_position{new QPoint{}},
+      move_timer{new QTimer{this}} {
   close_but->setFixedSize(40, 25);
   collapse_but->setFixedSize(40, 25);
 

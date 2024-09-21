@@ -13,8 +13,8 @@
 
 Plot::Plot(QWidget *parent)
     : TopMenu{parent},
-      settings{new QGridLayout{}},
       plot{new QCustomPlot{}},
+      settings{new QGridLayout{}},
       xbegin{new QLineEdit{QString{"-10.0"}}},
       xend{new QLineEdit{QString{"10.0"}}},
       ybegin{new QLineEdit{QString{"-25.0"}}},
@@ -175,4 +175,6 @@ void Plot::onTextChanged(const QString &text) {
   if (line_edit) {
     isValidInput(line_edit);
   }
+
+  (void)text;
 }
