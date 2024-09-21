@@ -29,12 +29,29 @@ void CreditModel::addData(Data &data) {
 
 void CreditModel::addEarlyPayments(const std::vector<EarlyPayment> &early) {
   early_ = early;
+  sortEarlyPayments();
 }
 
 void CreditModel::clear() {
   table_.clear();
   total_.clear();
   early_.clear();
+}
+
+void CreditModel::sortEarlyPayments() {
+  std::size_t size{early_.size()};
+  bool swapped{true};
+
+  for(std::size_t i{}; i < size - 1 && !swapped; ++i) {
+    swapped = false;
+
+    for(std::size_t j{}; j < size - i - 1; ++j) {
+      if(early_[j].date > early_[j + 1].date) {
+        std::swap(early_[j], early_[j + 1]);
+        swapped = true;
+      }
+    }
+  }
 }
 
 long double CreditModel::roundVal(long double value) {
@@ -56,7 +73,7 @@ long double CreditModel::formula(Date &date, std::size_t month_part) {
 void CreditModel::calculatePayments() {
   Date::DateSize const_day{data_->date.day()};
   Date next_month{data_->date};
-  long double annuity_cycle = data_->debt;
+  long double annuity_cycle{data_->debt};
 
   if (data_->type == CreditType::ANNUITY) {
     long double monthly_percent = data_->rate / (100.0L * Date::kYearMonths);
@@ -72,9 +89,8 @@ void CreditModel::calculatePayments() {
   while (data_->debt != 0.0L) {
     next_month.addMonth(const_day);
 
-    long double first_part =
-        formula(data_->date, data_->date.daysLeftInMonth());
-    long double second_part = formula(next_month, next_month.day());
+    long double first_part{formula(data_->date, data_->date.daysLeftInMonth())};
+    long double second_part{formula(next_month, next_month.day())};
     month_->percent = roundVal(first_part + second_part) - paid_percent;
 
     if (data_->type == CreditType::ANNUITY) {
@@ -89,6 +105,8 @@ void CreditModel::calculatePayments() {
     if (table_.size() > 500 && data_->debt == annuity_cycle) {
       data_->debt = 0.0L;
     }
+
+    ++current_month;
   }
 }
 
@@ -138,6 +156,34 @@ void CreditModel::addMonthToTable() {
   total_[1] += month_->main;
   total_[2] += month_->percent;
 }
+
+// void CreditModel::checkEarlyPayment() {
+//   bool debt_change{false};
+//   Date next_month{data_->date};
+//   next_month.addMonth(data_->date.day());
+
+  
+  // for(std::size_t i{}; i < early_.size()) {
+  //   if(data_->date >= (*payment).date && (*payment).date < next_month) {
+  //     calculateEarlyPayment(*payment);
+  //     early_.erase(payment);
+  //   }
+  // }
+// }
+
+// void CreditModel::calculateEarlyPayment(const EarlyPayment &payment) {
+//   long double monthly_pay{month_->summary};
+
+  
+// }
+
+// std::size_t CreditModel::checkDebtChanging(const EarlyPayment &payment, bool &debt_changed) {
+//   std::size_t day_diff{};
+
+//   if(debt_changed) {
+
+//   }
+// }
 
 void CreditModel::printTable() const {
   for (auto month : table_) {

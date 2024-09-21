@@ -40,7 +40,7 @@ class CreditModel {
   struct EarlyPayment {
     EarlyPayment(EarlyPayType type_, long double sum_, const Date &date_)
         : type{type_}, sum{sum_}, date{date_} {}
-        
+    
     EarlyPayType type;
     long double sum{};
     Date date;
@@ -68,12 +68,18 @@ class CreditModel {
 
   void calculateAnnuity(long double paid_percent);
   void calculateDifferentiated(long double paid_percent);
+  void sortEarlyPayments();
+  void checkEarlyPayment();
+  void calculateEarlyPayment(const EarlyPayment &payment);
+  std::size_t checkDebtChanging(const EarlyPayment &payment, bool &debt_changed);
   long double formula(Date &date, std::size_t month_part);
   long double roundVal(long double value);
   void addMonthToTable();
 
   Data *data_;
   Current *month_;
+  std::size_t current_month{};
+  std::size_t current_early{};
   std::vector<std::vector<long double>> table_;
   std::vector<EarlyPayment> early_;
   std::vector<long double> total_;
