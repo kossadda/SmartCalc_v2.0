@@ -32,23 +32,31 @@ class CreditModel {
   void printTable() const;
 
  private:
+  struct Data {
+   public:
+    long double debt_;
+    long double term_;
+    long double rate_;
+    Date date_;
+    CreditType type_;
+  };
+
+  struct Current {
+   public:
+    long double main_{};
+    long double percent_{};
+    long double summary_{};
+    long double const_main_{};
+  };
+
   void calculateAnnuity(long double paid_percent);
   void calculateDifferentiated(long double paid_percent);
-  long double roundVal(long double value);
   long double formula(Date &date, std::size_t month_part);
+  long double roundVal(long double value);
   void addMonthToTable();
 
-  long double main_{};
-  long double percent_{};
-  long double monthly_{};
-  long double const_main_{};
-
-  long double debt_{};
-  long double rate_{};
-  long double term_{};
-  Date *date_;
-  CreditType type_;
-
+  Data *data_;
+  Current *month_;
   std::vector<std::vector<long double>> table_;
   std::vector<long double> total_;
 };

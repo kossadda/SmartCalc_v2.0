@@ -11,16 +11,21 @@
 
 #include "../include/credit_model.h"
 
-CreditModel::CreditModel() : total_(3) {}
-CreditModel::~CreditModel() { delete date_; }
+CreditModel::CreditModel()
+    : total_(3), data_(new Data{}), month_(new Current{}) {}
+
+CreditModel::~CreditModel() {
+  delete data_;
+  delete month_;
+}
 
 void CreditModel::addData(long double amount, std::size_t term,
                           long double rate, const Date &date, CreditType type) {
-  debt_ = amount;
-  rate_ = rate;
-  date_ = new Date{date};
-  type_ = type;
-  term_ = static_cast<long double>(term);
+  data_->debt_ = amount;
+  data_->rate_ = rate;
+  data_->date_ = date;
+  data_->type_ = type;
+  data_->term_ = static_cast<long double>(term);
 }
 
 long double CreditModel::roundVal(long double value) {
@@ -36,43 +41,44 @@ long double CreditModel::formula(Date &date, std::size_t month_part) {
     year_days = Date::kYearDays;
   }
 
-  return (debt_ * rate_ / 100.0L) / year_days * month_part;
+  return (data_->debt_ * data_->rate_ / 100.0L) / year_days * month_part;
 }
 
 void CreditModel::calculatePayments() {
-  Date::DateSize const_day{date_->day()};
-  Date next_month{*date_};
-  long double annuity_cycle = debt_;
+  Date::DateSize const_day{data_->date_.day()};
+  Date next_month{data_->date_};
+  long double annuity_cycle = data_->debt_;
 
-  if (type_ == CreditType::ANNUITY) {
-    long double monthly_percent = rate_ / (100.0L * Date::kYearMonths);
-    monthly_ =
-        roundVal(debt_ * monthly_percent /
-                 (1.0L - std::pow((1.0L + monthly_percent), term_ * (-1))));
-  } else if (type_ == CreditType::DIFFERENTIATED) {
-    main_ = roundVal(debt_ / term_);
-    const_main_ = main_;
+  if (data_->type_ == CreditType::ANNUITY) {
+    long double monthly_percent = data_->rate_ / (100.0L * Date::kYearMonths);
+    month_->summary_ = roundVal(
+        data_->debt_ * monthly_percent /
+        (1.0L - std::pow((1.0L + monthly_percent), data_->term_ * (-1))));
+  } else if (data_->type_ == CreditType::DIFFERENTIATED) {
+    month_->main_ = roundVal(data_->debt_ / data_->term_);
+    month_->const_main_ = month_->main_;
   }
 
   long double paid_percent{};
-  while (debt_ != 0) {
+  while (data_->debt_ != 0) {
     next_month.addMonth(const_day);
 
-    long double first_part = formula(*date_, date_->daysLeftInMonth());
+    long double first_part =
+        formula(data_->date_, data_->date_.daysLeftInMonth());
     long double second_part = formula(next_month, next_month.day());
-    percent_ = roundVal(first_part + second_part) - paid_percent;
+    month_->percent_ = roundVal(first_part + second_part) - paid_percent;
 
-    if (type_ == CreditType::ANNUITY) {
+    if (data_->type_ == CreditType::ANNUITY) {
       calculateAnnuity(paid_percent);
-    } else if (type_ == CreditType::DIFFERENTIATED) {
+    } else if (data_->type_ == CreditType::DIFFERENTIATED) {
       calculateDifferentiated(paid_percent);
     }
 
     addMonthToTable();
-    *date_ = next_month;
+    data_->date_ = next_month;
 
-    if (table_.size() > 500 && debt_ == annuity_cycle) {
-      debt_ = 0;
+    if (table_.size() > 500 && data_->debt_ == annuity_cycle) {
+      data_->debt_ = 0;
     }
   }
 }
@@ -81,45 +87,47 @@ void CreditModel::calculateAnnuity(long double paid_percent) {
   static long double rest{};
 
   if (rest) {
-    percent_ += rest;
+    month_->percent_ += rest;
     rest = 0;
   }
 
-  if (percent_ > monthly_) {
-    rest = percent_ - monthly_;
-    percent_ = monthly_;
-    main_ = 0;
+  if (month_->percent_ > month_->summary_) {
+    rest = month_->percent_ - month_->summary_;
+    month_->percent_ = month_->summary_;
+    month_->main_ = 0;
   } else {
-    if (debt_ > monthly_ || debt_ + percent_ > monthly_) {
-      main_ = monthly_ - percent_;
+    if (data_->debt_ > month_->summary_ ||
+        data_->debt_ + month_->percent_ > month_->summary_) {
+      month_->main_ = month_->summary_ - month_->percent_;
     } else {
-      main_ = debt_;
-      monthly_ = main_ + percent_;
+      month_->main_ = data_->debt_;
+      month_->summary_ = month_->main_ + month_->percent_;
     }
   }
 
-  debt_ -= main_;
+  data_->debt_ -= month_->main_;
 
   (void)paid_percent;
 }
 
 void CreditModel::calculateDifferentiated(long double paid_percent) {
-  if (debt_ < main_) {
-    main_ = debt_;
+  if (data_->debt_ < month_->main_) {
+    month_->main_ = data_->debt_;
   }
 
-  monthly_ = main_ + percent_;
-  debt_ -= main_;
+  month_->summary_ = month_->main_ + month_->percent_;
+  data_->debt_ -= month_->main_;
 
   (void)paid_percent;
 }
 
 void CreditModel::addMonthToTable() {
-  std::vector<long double> month{monthly_, main_, percent_, debt_};
+  std::vector<long double> month{month_->summary_, month_->main_,
+                                 month_->percent_, data_->debt_};
   table_.emplace_back(month);
-  total_[0] += monthly_;
-  total_[1] += main_;
-  total_[2] += percent_;
+  total_[0] += month_->summary_;
+  total_[1] += month_->main_;
+  total_[2] += month_->percent_;
 }
 
 void CreditModel::printTable() const {

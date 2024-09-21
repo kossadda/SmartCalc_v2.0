@@ -15,6 +15,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(MODELS
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_model.h
   ${CMAKE_SOURCE_DIR}/modules/model/calculator_model.cc
+  ${CMAKE_SOURCE_DIR}/modules/include/credit_model.h
+  ${CMAKE_SOURCE_DIR}/modules/model/credit_model.cc
 )
 
 set(VIEWS
@@ -29,12 +31,14 @@ set(CONTROLLERS
 )
 
 set(ADDITIONAL
-  ${CMAKE_SOURCE_DIR}/modules/additional/qcustomplot.cc
   ${CMAKE_SOURCE_DIR}/modules/include/qcustomplot.h
+  ${CMAKE_SOURCE_DIR}/modules/additional/qcustomplot.cc
   ${CMAKE_SOURCE_DIR}/modules/include/plot.h
   ${CMAKE_SOURCE_DIR}/modules/view/plot.cc
-  ${CMAKE_SOURCE_DIR}/modules/additional/top_menu.cc
   ${CMAKE_SOURCE_DIR}/modules/include/top_menu.h
+  ${CMAKE_SOURCE_DIR}/modules/additional/top_menu.cc
+  ${CMAKE_SOURCE_DIR}/modules/include/calendar.h
+  ${CMAKE_SOURCE_DIR}/modules/additional/calendar.cc
 )
 
 set(MAIN
@@ -61,3 +65,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 qt_finalize_executable(${PROJECT_NAME})
+
+enable_testing()
+add_subdirectory(tests)
