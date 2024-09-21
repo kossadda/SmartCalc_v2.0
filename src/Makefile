@@ -43,8 +43,8 @@ VAL = --tool=memcheck --leak-check=yes
 MODULES_DIRS = $(shell find $(MODULES_DIR) -type d)
 TEST_DIRS = $(shell find $(TEST_DIR) -type d)
 
-MODULES = $(shell find $(MODULES_DIR) -type f -name "*.cc" ! -name "qcustomplot.*")
-TESTS = $(shell find $(TEST_DIR) -type f -name "*.cc")
+MODULES = $(shell find $(MODULES_DIR) -type f ! -name "qcustomplot.*")
+TESTS = $(shell find $(TEST_DIR) -type f")
 #==============================================================================#
 
 #======================== LIST OF FILES TO CLANG-FORMAT =======================#
@@ -96,7 +96,7 @@ dist: uninstall
 	@echo "Distribution created: $(DIST_DIR)/$(PROJECT_NAME).tar.gz"
 	@rm -rf $(DIST_DIR)/$(PROJECT_NAME)
 
-test: clean
+test:
 	mkdir -p $(TEST_BUILD)
 	cd $(TEST_BUILD) && cmake ../tests && make
 	valgrind $(VAL) ./$(TEST_BUILD)/tests

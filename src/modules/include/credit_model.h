@@ -21,32 +21,46 @@ class CreditModel {
  public:
   enum class CreditType { ANNUITY, DIFFERENTIATED, NOT_CHOSEN };
 
+  enum class EarlyPayType { REDUCE_TERM, REDUCE_PAY };
+
+  struct Data {
+   public:
+    Data() = default;
+    Data(long double debt_, long double term_, long double rate_,
+         CreditType type_, const Date &date_)
+        : debt{debt_}, term{term_}, rate{rate_}, type{type_}, date{date_} {}
+
+    long double debt{};
+    long double term{};
+    long double rate{};
+    CreditType type;
+    Date date;
+  };
+
+  struct EarlyPayment {
+    EarlyPayment(EarlyPayType type_, long double sum_, const Date &date_)
+        : type{type_}, sum{sum_}, date{date_} {}
+    EarlyPayType type;
+    long double sum{};
+    Date date;
+  };
+
   CreditModel();
   ~CreditModel();
 
-  void addData(long double amount, std::size_t term, long double rate,
-               const Date &date, CreditType type);
+  void addData(Data &data, const std::vector<EarlyPayment> &early);
   void calculatePayments();
   std::vector<long double> &total();
   std::vector<std::vector<long double>> &table();
   void printTable() const;
 
  private:
-  struct Data {
-   public:
-    long double debt_;
-    long double term_;
-    long double rate_;
-    Date date_;
-    CreditType type_;
-  };
-
   struct Current {
    public:
-    long double main_{};
-    long double percent_{};
-    long double summary_{};
-    long double const_main_{};
+    long double main{};
+    long double percent{};
+    long double summary{};
+    long double const_main{};
   };
 
   void calculateAnnuity(long double paid_percent);
@@ -58,6 +72,7 @@ class CreditModel {
   Data *data_;
   Current *month_;
   std::vector<std::vector<long double>> table_;
+  std::vector<EarlyPayment> early_;
   std::vector<long double> total_;
 };
 
