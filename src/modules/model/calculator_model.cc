@@ -183,7 +183,7 @@ long double CalculatorModel::evaluate() {
           break;
       }
 
-      operands.push((std::fabs(left) > kLdoubleMinVal) ? left : 0);
+      operands.push((std::fabs(left) > kLdoubleMinVal) ? left : 0.0L);
     } else if (isFunction(token[0])) {
       long double top = operands.top();
       operands.pop();
@@ -227,7 +227,7 @@ long double CalculatorModel::evaluate() {
           top *= -1.0L;
       }
 
-      operands.push((std::fabs(top) > kLdoubleMinVal) ? top : 0);
+      operands.push((std::fabs(top) > kLdoubleMinVal) ? top : 0.0L);
     }
   }
 

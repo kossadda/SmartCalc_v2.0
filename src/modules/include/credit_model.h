@@ -40,6 +40,7 @@ class CreditModel {
   struct EarlyPayment {
     EarlyPayment(EarlyPayType type_, long double sum_, const Date &date_)
         : type{type_}, sum{sum_}, date{date_} {}
+        
     EarlyPayType type;
     long double sum{};
     Date date;
@@ -48,8 +49,10 @@ class CreditModel {
   CreditModel();
   ~CreditModel();
 
-  void addData(Data &data, const std::vector<EarlyPayment> &early);
+  void addData(Data &data);
+  void addEarlyPayments(const std::vector<EarlyPayment> &early);
   void calculatePayments();
+  void clear();
   std::vector<long double> &total();
   std::vector<std::vector<long double>> &table();
   void printTable() const;

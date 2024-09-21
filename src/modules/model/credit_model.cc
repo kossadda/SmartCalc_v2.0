@@ -12,20 +12,29 @@
 #include "modules/include/credit_model.h"
 
 CreditModel::CreditModel()
-    : data_(new Data{}), month_(new Current{}), total_(3) {}
+    : data_{new Data{}}, month_{new Current{}}, total_(3) {}
 
 CreditModel::~CreditModel() {
   delete data_;
   delete month_;
 }
 
-void CreditModel::addData(Data &data, const std::vector<EarlyPayment> &early) {
+void CreditModel::addData(Data &data) {
   data_->date = data.date;
   data_->debt = data.debt;
   data_->rate = data.rate;
   data_->term = data.term;
   data_->type = data.type;
+}
+
+void CreditModel::addEarlyPayments(const std::vector<EarlyPayment> &early) {
   early_ = early;
+}
+
+void CreditModel::clear() {
+  table_.clear();
+  total_.clear();
+  early_.clear();
 }
 
 long double CreditModel::roundVal(long double value) {
@@ -33,12 +42,12 @@ long double CreditModel::roundVal(long double value) {
 }
 
 long double CreditModel::formula(Date &date, std::size_t month_part) {
-  std::size_t year_days;
+  long double year_days;
 
   if (date.isYearLeap(date.year())) {
-    year_days = Date::kLeapYearDays;
+    year_days = static_cast<long double>(Date::kLeapYearDays);
   } else {
-    year_days = Date::kYearDays;
+    year_days = static_cast<long double>(Date::kYearDays);
   }
 
   return (data_->debt * data_->rate / 100.0L) / year_days * month_part;
@@ -60,7 +69,7 @@ void CreditModel::calculatePayments() {
   }
 
   long double paid_percent{};
-  while (data_->debt != 0) {
+  while (data_->debt != 0.0L) {
     next_month.addMonth(const_day);
 
     long double first_part =
@@ -78,7 +87,7 @@ void CreditModel::calculatePayments() {
     data_->date = next_month;
 
     if (table_.size() > 500 && data_->debt == annuity_cycle) {
-      data_->debt = 0;
+      data_->debt = 0.0L;
     }
   }
 }
@@ -88,13 +97,13 @@ void CreditModel::calculateAnnuity(long double paid_percent) {
 
   if (rest) {
     month_->percent += rest;
-    rest = 0;
+    rest = 0.0L;
   }
 
   if (month_->percent > month_->summary) {
     rest = month_->percent - month_->summary;
     month_->percent = month_->summary;
-    month_->main = 0;
+    month_->main = 0.0L;
   } else {
     if (data_->debt > month_->summary ||
         data_->debt + month_->percent > month_->summary) {

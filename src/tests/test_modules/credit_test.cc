@@ -17,9 +17,8 @@ using Data = CreditModel::Data;
 
 void testCredit(Data &data, std::vector<long double> exp) {
   CreditModel credit;
-  std::vector<CreditModel::EarlyPayment> early;
 
-  credit.addData(data, early);
+  credit.addData(data);
   credit.calculatePayments();
   std::vector<long double> true_res = exp;
 
