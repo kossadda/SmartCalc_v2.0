@@ -12,12 +12,8 @@
 #include "../include/calendar.h"
 
 Date::Date(DateSize day, DateSize month, DateSize year)
-    : day_{day}, month_{month}, year_{year} {
-  std::initializer_list<DateSize> list = {0,  31, 28, 31, 30, 31, 30,
-                               31, 31, 30, 31, 30, 31};
-  for(auto i : list) {
-    dates_.push_back(i);
-  }
+    : day_{day}, month_{month}, year_{year}, dates_{0,  31, 28, 31, 30, 31, 30,
+                                                    31, 31, 30, 31, 30, 31} {
   refreshYearDates();
 
   if (!isValidDate()) {
@@ -29,7 +25,8 @@ Date::Date(const Date &other)
     : day_{other.day_},
       month_{other.month_},
       year_{other.year_},
-      leap_{other.leap_} {}
+      leap_{other.leap_},
+      dates_{other.dates_} {}
 
 void Date::refreshYearDates() {
   leap_ = isYearLeap(year_);
@@ -86,6 +83,7 @@ Date &Date::operator=(const Date &other) {
   month_ = other.month_;
   year_ = other.year_;
   leap_ = other.leap_;
+  dates_ = other.dates_;
 
   return *this;
 }

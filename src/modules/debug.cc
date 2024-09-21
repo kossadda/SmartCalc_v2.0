@@ -16,17 +16,20 @@ int main() {
 
   CreditModel credit;
 
-  credit.addData(800, 12, 3, Date{22, 2, 2016}, CreditModel::CreditType::ANNUITY);
+  credit.addData(9862.12, 7, 13.77, Date{9, 9, 2000},
+                 CreditModel::CreditType::ANNUITY);
   credit.calculatePayments();
-  std::vector<long double> true_res{812.99, 800, 12.99};
+  std::vector<long double> true_res{10318.04, 9862.12, 455.92};
 
-  credit.printTable();
-  // for(std::size_t i{}; i < true_res.size(); ++i) {
-  //   long double res = credit.total().at(i);
-  //   long double exp = true_res.at(i);
-  //   std::cout << res << ':' << exp << '\n';
-  //   // EXPECT_NEAR(res, exp, 1e-3) << "\nRes : " << res << "\nTrue: " << exp << '\n';
-  // }
+  // credit.printTable();
+
+  for (std::size_t i{}; i < true_res.size(); ++i) {
+    long double res = credit.total().at(i);
+    long double exp = true_res.at(i);
+    std::cout << res << ':' << exp << '\n';
+    // EXPECT_NEAR(res, exp, 1e-3) << "\nRes : " << res << "\nTrue: " << exp
+    // << '\n';
+  }
 
   return 0;
 }

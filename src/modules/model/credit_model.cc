@@ -12,11 +12,10 @@
 #include "../include/credit_model.h"
 
 CreditModel::CreditModel() : total_(3) {}
-CreditModel::~CreditModel() {
-  delete date_;
-}
+CreditModel::~CreditModel() { delete date_; }
 
-void CreditModel::addData(long double amount, std::size_t term, long double rate, const Date &date, CreditType type) {
+void CreditModel::addData(long double amount, std::size_t term,
+                          long double rate, const Date &date, CreditType type) {
   debt_ = amount;
   rate_ = rate;
   date_ = new Date{date};
@@ -31,7 +30,7 @@ long double CreditModel::roundVal(long double value) {
 long double CreditModel::formula(Date &date, std::size_t month_part) {
   std::size_t year_days;
 
-  if(date.isYearLeap(date.year())) {
+  if (date.isYearLeap(date.year())) {
     year_days = Date::kLeapYearDays;
   } else {
     year_days = Date::kYearDays;
@@ -47,7 +46,9 @@ void CreditModel::calculatePayments() {
 
   if (type_ == CreditType::ANNUITY) {
     long double monthly_percent = rate_ / (100.0L * Date::kYearMonths);
-    monthly_ = roundVal(debt_ * monthly_percent / (1.0L - std::pow((1.0L + monthly_percent), term_ * (-1))));
+    monthly_ =
+        roundVal(debt_ * monthly_percent /
+                 (1.0L - std::pow((1.0L + monthly_percent), term_ * (-1))));
   } else if (type_ == CreditType::DIFFERENTIATED) {
     main_ = roundVal(debt_ / term_);
     const_main_ = main_;
@@ -103,7 +104,7 @@ void CreditModel::calculateAnnuity(long double paid_percent) {
 }
 
 void CreditModel::calculateDifferentiated(long double paid_percent) {
-  if(debt_ < main_) {
+  if (debt_ < main_) {
     main_ = debt_;
   }
 
@@ -122,18 +123,14 @@ void CreditModel::addMonthToTable() {
 }
 
 void CreditModel::printTable() const {
-  for(auto month : table_) {
-    for(auto i : month) {
+  for (auto month : table_) {
+    for (auto i : month) {
       std::cout << i << " ";
     }
-    std::cout << "\n"; 
+    std::cout << "\n";
   }
 }
 
-std::vector<long double> &CreditModel::total() {
-  return total_;
-}
+std::vector<long double> &CreditModel::total() { return total_; }
 
-std::vector<std::vector<long double>> &CreditModel::table() {
-  return table_;
-}
+std::vector<std::vector<long double>> &CreditModel::table() { return table_; }

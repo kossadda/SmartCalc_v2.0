@@ -66,6 +66,8 @@ class Date {
   bool leap_{};
 
   std::vector<DateSize> dates_;
+  // std::vector<DateSize> dates_{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30,
+  // 31};
 };
 
 #endif  // SRC_MODULES_INCLUDE_CALENDAR_H_

@@ -24,7 +24,8 @@ class CreditModel {
   CreditModel();
   ~CreditModel();
 
-  void addData(long double amount, std::size_t term, long double rate, const Date &date, CreditType type);
+  void addData(long double amount, std::size_t term, long double rate,
+               const Date &date, CreditType type);
   void calculatePayments();
   std::vector<long double> &total();
   std::vector<std::vector<long double>> &table();
