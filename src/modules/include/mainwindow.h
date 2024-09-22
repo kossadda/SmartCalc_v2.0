@@ -15,6 +15,7 @@
 #include <QTabWidget>
 
 #include "modules/include/calculator_view.h"
+#include "modules/include/credit_view.h"
 #include "modules/include/top_menu.h"
 
 class MainWindow : public TopMenu {
@@ -25,7 +26,7 @@ class MainWindow : public TopMenu {
       : TopMenu(parent),
         tab{new QTabWidget{}},
         calculator{new CalculatorView{}},
-        credit{new QWidget{}},
+        credit{new CreditView{}},
         deposit{new QWidget{}} {
     setWindowIcon(QIcon{":calculator.png"});
     setWindowTitle(QString{"SmartCalculator"});
@@ -34,7 +35,7 @@ class MainWindow : public TopMenu {
     tab->addTab(calculator, QIcon{":calculator.png"}, QString{"Engineer"});
     tab->addTab(deposit, QIcon{":deposit.png"}, QString{"Deposit"});
 
-    tab->setCurrentWidget(calculator);
+    tab->setCurrentWidget(credit);
 
     tab->setStyleSheet(QString{
         "QTabWidget { background-color: rgb(255, 255, 255); }"
@@ -62,7 +63,8 @@ class MainWindow : public TopMenu {
  private:
   QTabWidget *tab;
   CalculatorView *calculator;
-  QWidget *credit, *deposit;
+  CreditView *credit;
+  QWidget *deposit;
 };
 
 #endif  // SRC_MODULES_INCLUDE_MAINWINDOW_H_

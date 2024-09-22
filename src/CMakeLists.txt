@@ -22,6 +22,8 @@ set(MODELS
 set(VIEWS
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_view.h
   ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.cc
+  ${CMAKE_SOURCE_DIR}/modules/include/credit_view.h
+  ${CMAKE_SOURCE_DIR}/modules/view/credit_view.cc
   ${CMAKE_SOURCE_DIR}/modules/include/mainwindow.h
 )
 

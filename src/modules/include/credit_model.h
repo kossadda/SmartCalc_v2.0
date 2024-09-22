@@ -37,8 +37,6 @@ class CreditModel {
 
   struct MonthPayment {
    public:
-    MonthPayment() = default;
-
     long double summary{};
     long double main{};
     long double percent{};
