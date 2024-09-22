@@ -9,14 +9,14 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 set(TEST_SOURCES
-# ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/calculator_test.cc
-${CMAKE_CURRENT_SOURCE_DIR}/test_modules/credit_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/calculator_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/credit_test.cc
 )
 
 set(PROJECT_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/../modules/model/calculator_model.cc
-${CMAKE_CURRENT_SOURCE_DIR}/../modules/model/credit_model.cc
-${CMAKE_CURRENT_SOURCE_DIR}/../modules/additional/calendar.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/../modules/model/calculator_model.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/../modules/model/credit_model.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/../modules/additional/calendar.cc
 )
 
 set(MAIN

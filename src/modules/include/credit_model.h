@@ -21,68 +21,47 @@ class CreditModel {
  public:
   enum class CreditType { ANNUITY, DIFFERENTIATED, NOT_CHOSEN };
 
-  enum class EarlyPayType { REDUCE_TERM, REDUCE_PAY };
-
   struct Data {
    public:
     Data() = default;
-    Data(long double debt_, long double term_, long double rate_,
+    Data(long double amount_, long double term_, long double rate_,
          CreditType type_, const Date &date_)
-        : debt{debt_}, term{term_}, rate{rate_}, type{type_}, date{date_} {}
+        : amount{amount_}, term{term_}, rate{rate_}, type{type_}, date{date_} {}
 
-    long double debt{};
+    long double amount{};
     long double term{};
     long double rate{};
     CreditType type;
     Date date;
   };
 
-  struct EarlyPayment {
-    EarlyPayment(EarlyPayType type_, long double sum_, const Date &date_)
-        : type{type_}, sum{sum_}, date{date_} {}
-    
-    EarlyPayType type;
-    long double sum{};
-    Date date;
+  struct MonthPayment {
+   public:
+    MonthPayment() = default;
+
+    long double summary{};
+    long double main{};
+    long double percent{};
+    long double debt{};
   };
 
   CreditModel();
   ~CreditModel();
 
-  void addData(Data &data);
-  void addEarlyPayments(const std::vector<EarlyPayment> &early);
-  void calculatePayments();
-  void clear();
-  std::vector<long double> &total();
-  std::vector<std::vector<long double>> &table();
-  void printTable() const;
+  void addData(const Data &data) noexcept;
+  void calculatePayments() noexcept;
+  const std::vector<MonthPayment> &table() const noexcept;
+  void clear() noexcept;
 
  private:
-  struct Current {
-   public:
-    long double main{};
-    long double percent{};
-    long double summary{};
-    long double const_main{};
-  };
-
-  void calculateAnnuity(long double paid_percent);
-  void calculateDifferentiated(long double paid_percent);
-  void sortEarlyPayments();
-  void checkEarlyPayment();
-  void calculateEarlyPayment(const EarlyPayment &payment);
-  std::size_t checkDebtChanging(const EarlyPayment &payment, bool &debt_changed);
-  long double formula(Date &date, std::size_t month_part);
-  long double roundVal(long double value);
-  void addMonthToTable();
+  void calculateAnnuity() noexcept;
+  void calculateDifferentiated() noexcept;
+  long double formula(const Date &date, std::size_t month_part) const noexcept;
+  long double roundVal(long double value) const noexcept;
 
   Data *data_;
-  Current *month_;
-  std::size_t current_month{};
-  std::size_t current_early{};
-  std::vector<std::vector<long double>> table_;
-  std::vector<EarlyPayment> early_;
-  std::vector<long double> total_;
+  MonthPayment *month_;
+  std::vector<MonthPayment> table_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_CREDIT_MODEL_H_

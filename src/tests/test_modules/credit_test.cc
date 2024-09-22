@@ -14,20 +14,23 @@
 #define ANN CreditModel::CreditType::ANNUITY
 #define DIF CreditModel::CreditType::DIFFERENTIATED
 using Data = CreditModel::Data;
-using Early = CreditModel::EarlyPayment;
-using EarlyType = CreditModel::EarlyPayType;
 
-void testCredit(Data &data, std::vector<long double> exp, std::vector<Early> early = {}) {
+void testCredit(Data &data, std::vector<long double> expected) {
   CreditModel credit;
 
   credit.addData(data);
-  credit.addEarlyPayments(early);
   credit.calculatePayments();
-  std::vector<long double> true_res = exp;
+  std::vector<long double> result(3);
+  
+  for(auto i : credit.table()) {
+    result[0] += i.summary;
+    result[1] += i.main;
+    result[2] += i.percent;
+  }
 
-  for (std::size_t i{}; i < true_res.size(); ++i) {
-    long double res = credit.total().at(i);
-    long double exp = true_res.at(i);
+  for (std::size_t i{}; i < expected.size(); ++i) {
+    long double res = result.at(i);
+    long double exp = expected.at(i);
     EXPECT_NEAR(res, exp, 1e-3) << "\nRes : " << res << "\nTrue: " << exp << '\n';
   }
 }
@@ -530,10 +533,4 @@ TEST(credit, differentiated_49) {
 TEST(credit, differentiated_50) {
   Data data{2000000, 73, 22.222, DIF, Date{22, 2, 2222}};
   testCredit(data, {3368737.81, 2000000, 1368737.81});
-}
-
-TEST(credit, diffReduceTerm_1) {
-  Data data{120000, 6, 10, DIF, Date{1, 3, 2022}};
-  Early early{EarlyType::REDUCE_TERM, 5232, Date{1, 4, 2022}};
-  testCredit(data, {123303.99, 120000, 3303.99}, {early});
 }
