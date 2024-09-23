@@ -112,6 +112,9 @@ clang_check:
 
 cpplint:
 	cpplint $(ALL_FILES)
+
+valgrind:
+	valgrind $(VAL) ./$(BUILD)/$(PROJECT_NAME)
 #==============================================================================#
 
 

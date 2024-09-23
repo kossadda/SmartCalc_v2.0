@@ -11,52 +11,66 @@
 
 #include "modules/include/calculator_view.h"
 
-CalculatorView::CalculatorView(QWidget *parent)
-    : QWidget{parent},
-      controller_{new CalculatorController{}},
-      plot{new Plot{}},
-      button_frame{new QFrame{}},
-      button_grid{new QGridLayout{}},
-      main_grid{new QGridLayout{}},
-      bsin{new QPushButton{QString{"sin"}}},
-      bcos{new QPushButton{QString{"cos"}}},
-      btan{new QPushButton{QString{"tan"}}},
-      basin{new QPushButton{QString{"asin"}}},
-      bacos{new QPushButton{QString{"acos"}}},
-      batan{new QPushButton{QString{"atan"}}},
-      bsqrt{new QPushButton{QString{"sqrt"}}},
-      bmod{new QPushButton{QString{"mod"}}},
-      blog{new QPushButton{QString{"log"}}},
-      bln{new QPushButton{QString{"ln"}}},
-      bunar{new QPushButton{QString{"+/-"}}},
-      bscience{new QPushButton{QString{"e"}}},
-      bpi{new QPushButton{QString{"π"}}},
-      bpow{new QPushButton{QString{"^"}}},
-      bopenbr{new QPushButton{QString{"("}}},
-      bclosebr{new QPushButton{QString{")"}}},
-      bdiv{new QPushButton{QString{"/"}}},
-      bmul{new QPushButton{QString{"*"}}},
-      bminus{new QPushButton{QString{"-"}}},
-      bplus{new QPushButton{QString{"+"}}},
-      bvar{new QPushButton{QString{"x"}}},
-      bdot{new QPushButton{QString{"."}}},
-      beq{new QPushButton{QString{"="}}},
-      bclear{new QPushButton{QString{"C"}}},
-      bdel{new QPushButton{QString{"⌫"}}},
-      bzero{new QPushButton{QString{"0"}}},
-      bone{new QPushButton{QString{"1"}}},
-      btwo{new QPushButton{QString{"2"}}},
-      bthree{new QPushButton{QString{"3"}}},
-      bfour{new QPushButton{QString{"4"}}},
-      bfive{new QPushButton{QString{"5"}}},
-      bsix{new QPushButton{QString{"6"}}},
-      bseven{new QPushButton{QString{"7"}}},
-      beight{new QPushButton{QString{"8"}}},
-      bnine{new QPushButton{QString{"9"}}},
-      bplot{new QPushButton{QString{"Graph"}}},
-      expr{new QLineEdit{}},
-      var_value{new QLineEdit{QString{"0.0"}}},
-      lvar{new QLabel{QString{"   Value of variable X"}}} {
+CalculatorView::CalculatorView(CalculatorController *controller) : QWidget{} {
+  allocateMemory(controller);
+  initView();
+}
+
+CalculatorView::~CalculatorView() { delete controller_; }
+
+void CalculatorView::allocateMemory(CalculatorController *controller) {
+  if (controller) {
+    controller_ = controller;
+  } else {
+    controller_ = new CalculatorController{};
+  }
+
+  plot = new Plot{};
+  button_frame = new QFrame{};
+  button_grid = new QGridLayout{};
+  main_grid = new QGridLayout{};
+  bsin = new QPushButton{QString{"sin"}};
+  bcos = new QPushButton{QString{"cos"}};
+  btan = new QPushButton{QString{"tan"}};
+  basin = new QPushButton{QString{"asin"}};
+  bacos = new QPushButton{QString{"acos"}};
+  batan = new QPushButton{QString{"atan"}};
+  bsqrt = new QPushButton{QString{"sqrt"}};
+  bmod = new QPushButton{QString{"mod"}};
+  blog = new QPushButton{QString{"log"}};
+  bln = new QPushButton{QString{"ln"}};
+  bunar = new QPushButton{QString{"+/-"}};
+  bscience = new QPushButton{QString{"e"}};
+  bpi = new QPushButton{QString{"π"}};
+  bpow = new QPushButton{QString{"^"}};
+  bopenbr = new QPushButton{QString{"("}};
+  bclosebr = new QPushButton{QString{")"}};
+  bdiv = new QPushButton{QString{"/"}};
+  bmul = new QPushButton{QString{"*"}};
+  bminus = new QPushButton{QString{"-"}};
+  bplus = new QPushButton{QString{"+"}};
+  bvar = new QPushButton{QString{"x"}};
+  bdot = new QPushButton{QString{"."}};
+  beq = new QPushButton{QString{"="}};
+  bclear = new QPushButton{QString{"C"}};
+  bdel = new QPushButton{QString{"⌫"}};
+  bzero = new QPushButton{QString{"0"}};
+  bone = new QPushButton{QString{"1"}};
+  btwo = new QPushButton{QString{"2"}};
+  bthree = new QPushButton{QString{"3"}};
+  bfour = new QPushButton{QString{"4"}};
+  bfive = new QPushButton{QString{"5"}};
+  bsix = new QPushButton{QString{"6"}};
+  bseven = new QPushButton{QString{"7"}};
+  beight = new QPushButton{QString{"8"}};
+  bnine = new QPushButton{QString{"9"}};
+  bplot = new QPushButton{QString{"Graph"}};
+  expr = new QLineEdit{};
+  var_value = new QLineEdit{QString{"0.0"}};
+  lvar = new QLabel{QString{"   Value of variable X"}};
+}
+
+void CalculatorView::initView() {
   QString plot_button_style{
       "QPushButton { background-color: rgb(47, 47, 47);"
       "color: rgb(255, 255, 255);"
@@ -165,6 +179,9 @@ CalculatorView::CalculatorView(QWidget *parent)
   main_grid->setAlignment(lvar, Qt::AlignRight);
   main_grid->setHorizontalSpacing(7);
   setLayout(main_grid);
+  setMinimumSize(500, 600);
+  setWindowTitle(QString{"SmartCalculator"});
+  setWindowIcon(QIcon{":calculator.png"});
 
   beq->setStyleSheet(beq->styleSheet()
                          .replace("47, 47, 47", "20, 55, 130")

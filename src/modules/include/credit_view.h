@@ -21,11 +21,14 @@
 #include <QPushButton>
 #include <QWidget>
 
+#include "modules/include/credit_controller.h"
+
 class CreditView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit CreditView(QWidget *parent = nullptr);
+  explicit CreditView(CreditController *controller = nullptr);
+  ~CreditView();
 
  private slots:
   void calcClicked();
@@ -33,10 +36,11 @@ class CreditView : public QWidget {
   void changeTermType();
 
  private:
+  void allocateMemory(CreditController *controller);
+  void initView();
   bool isValidInput(QLineEdit *line);
 
-  // CreditController *controller_;
-  bool valid{false};
+  CreditController *controller_;
 
   QGridLayout *main_grid;
   QPushButton *calculate;

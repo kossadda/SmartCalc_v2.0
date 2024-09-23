@@ -19,7 +19,7 @@
 
 class CreditModel {
  public:
-  enum class CreditType { ANNUITY, DIFFERENTIATED, NOT_CHOSEN };
+  enum class CreditType { ANNUITY, DIFFERENTIATED };
 
   struct Data {
    public:

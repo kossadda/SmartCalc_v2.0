@@ -22,8 +22,8 @@
 
 #include "modules/include/top_menu.h"
 
-TopMenu::TopMenu(QWidget *parent)
-    : QWidget{parent},
+TopMenu::TopMenu()
+    : QWidget{},
       image_label{new QLabel{this}},
       window_name{new QLabel{QString{"SmartCalculator"}, this}},
       grid{new QGridLayout{this}},
@@ -99,6 +99,11 @@ TopMenu::TopMenu(QWidget *parent)
 
   connect(move_timer, &QTimer::timeout, this, &TopMenu::updatePosition);
   move_timer->setInterval(10);
+}
+
+TopMenu::~TopMenu() {
+  delete drag_position;
+  delete target_position;
 }
 
 void TopMenu::paintEvent(QPaintEvent *event) {

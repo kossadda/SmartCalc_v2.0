@@ -11,14 +11,15 @@
 
 #include <QApplication>
 
-#include "modules/include/mainwindow.h"
+#include "modules/include/main_window.h"
 
 int main(int argc, char *argv[]) {
-  QApplication a(argc, argv);
-  MainWindow w;
-
   setlocale(LC_NUMERIC, "C");
-  w.show();
+
+  QApplication a(argc, argv);
+
+  MainWindow main_window;
+  main_window.show();
 
   return a.exec();
 }

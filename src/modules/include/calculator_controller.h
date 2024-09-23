@@ -18,7 +18,8 @@
 
 class CalculatorController {
  public:
-  CalculatorController() = default;
+  explicit CalculatorController(CalculatorModel *model = nullptr);
+  ~CalculatorController();
 
   bool validate(std::string infix, long double var = 0);
   void infix_to_postfix(std::string infix, long double var);
@@ -29,7 +30,7 @@ class CalculatorController {
  private:
   std::string replacePi(std::string infix);
 
-  CalculatorModel model_{};
+  CalculatorModel *model_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_CALCULATOR_CONTROLLER_H_

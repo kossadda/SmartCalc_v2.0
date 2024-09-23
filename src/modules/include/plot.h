@@ -26,7 +26,7 @@ class Plot : public TopMenu {
   Q_OBJECT
 
  public:
-  explicit Plot(QWidget *parent = nullptr);
+  Plot();
 
   void build(CalculatorController *controller);
   bool isValidInput(QLineEdit *line);

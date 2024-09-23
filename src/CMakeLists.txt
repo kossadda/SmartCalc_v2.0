@@ -24,12 +24,15 @@ set(VIEWS
   ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.cc
   ${CMAKE_SOURCE_DIR}/modules/include/credit_view.h
   ${CMAKE_SOURCE_DIR}/modules/view/credit_view.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/mainwindow.h
+  ${CMAKE_SOURCE_DIR}/modules/include/main_window.h
+  ${CMAKE_SOURCE_DIR}/modules/view/main_window.cc
 )
 
 set(CONTROLLERS
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_controller.h
   ${CMAKE_SOURCE_DIR}/modules/controller/calculator_controller.cc
+  ${CMAKE_SOURCE_DIR}/modules/include/credit_controller.h
+  ${CMAKE_SOURCE_DIR}/modules/controller/credit_controller.cc
 )
 
 set(ADDITIONAL

@@ -28,7 +28,8 @@ class CalculatorView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit CalculatorView(QWidget *parent = nullptr);
+  explicit CalculatorView(CalculatorController *controller = nullptr);
+  ~CalculatorView();
 
  private slots:
   void plotWindowClosed();
@@ -45,6 +46,9 @@ class CalculatorView : public QWidget {
   void functionButtonClicked();
 
  private:
+  void allocateMemory(CalculatorController *controller);
+  void initView();
+
   CalculatorController *controller_;
   Plot *plot;
   bool valid{false};

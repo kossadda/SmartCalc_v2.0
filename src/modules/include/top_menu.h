@@ -27,7 +27,8 @@ class TopMenu : public QWidget {
   Q_OBJECT
 
  public:
-  explicit TopMenu(QWidget *parent = nullptr);
+  TopMenu();
+  ~TopMenu();
 
  protected slots:
   void paintEvent(QPaintEvent *event) override;

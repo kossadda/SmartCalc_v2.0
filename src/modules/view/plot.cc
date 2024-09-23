@@ -11,8 +11,8 @@
 
 #include "modules/include/plot.h"
 
-Plot::Plot(QWidget *parent)
-    : TopMenu{parent},
+Plot::Plot()
+    : TopMenu{},
       plot{new QCustomPlot{}},
       settings{new QGridLayout{}},
       xbegin{new QLineEdit{QString{"-10.0"}}},

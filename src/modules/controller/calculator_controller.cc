@@ -11,23 +11,33 @@
 
 #include "modules/include/calculator_controller.h"
 
+CalculatorController::CalculatorController(CalculatorModel* model) {
+  if (model) {
+    model_ = model;
+  } else {
+    model_ = new CalculatorModel{};
+  }
+}
+
+CalculatorController::~CalculatorController() { delete model_; }
+
 void CalculatorController::infix_to_postfix(std::string infix,
                                             long double var) {
-  model_.add_expression(replacePi(infix), var);
-  model_.to_postfix();
+  model_->add_expression(replacePi(infix), var);
+  model_->to_postfix();
 }
 
 bool CalculatorController::validate(std::string infix, long double var) {
-  model_.add_expression(replacePi(infix), var);
+  model_->add_expression(replacePi(infix), var);
 
-  return model_.validate();
+  return model_->validate();
 }
 
 long double CalculatorController::evaluate_num() {
   long double result;
 
   try {
-    result = model_.evaluate();
+    result = model_->evaluate();
   } catch (const std::invalid_argument& exception) {
     result = std::nan("");
   }
@@ -39,7 +49,7 @@ std::string CalculatorController::evaluate_str() {
   std::stringstream ss;
 
   try {
-    ss << model_.evaluate();
+    ss << model_->evaluate();
   } catch (const std::invalid_argument& exception) {
     ss << exception.what();
   }
@@ -60,4 +70,4 @@ std::string CalculatorController::replacePi(std::string infix) {
   return infix;
 }
 
-long double& CalculatorController::variable() { return model_.variable(); }
+long double& CalculatorController::variable() { return model_->variable(); }
