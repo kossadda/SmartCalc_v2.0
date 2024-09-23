@@ -9,17 +9,6 @@
  *
  */
 
-/**
- * @file top_menu.h
- * @author kossadda (https://github.com/kossadda)
- * @brief
- * @version 1.0
- * @date 2024-09-13
- *
- * @copyright Copyright (c) 2024
- *
- */
-
 #include "modules/include/top_menu.h"
 
 TopMenu::TopMenu()

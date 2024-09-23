@@ -18,8 +18,10 @@ int main(int argc, char *argv[]) {
 
   QApplication a(argc, argv);
 
-  MainWindow main_window;
-  main_window.show();
+  // MainWindow main_window;
+  // main_window.show();
+  Table table;
+  table.show();
 
   return a.exec();
 }

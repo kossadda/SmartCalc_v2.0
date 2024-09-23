@@ -19,6 +19,8 @@ class CreditController {
   explicit CreditController(CreditModel *model = nullptr);
   ~CreditController();
 
+  std::vector<std::vector<std::string>> table() const noexcept;
+
  private:
   CreditModel *model_;
 };

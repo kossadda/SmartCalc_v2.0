@@ -20,3 +20,13 @@ CreditController::CreditController(CreditModel* model) {
 }
 
 CreditController::~CreditController() { delete model_; }
+
+// std::vector<std::vector<std::string>> CreditController::table() const noexcept {
+  // std::vector<std::vector<std::string>> m_table;
+
+  // for(auto i : model_->table()) {
+    // m_table.push_back({i.summary, i.main, i.percent, i.debt});
+  // }
+
+  // return m_table;
+// }

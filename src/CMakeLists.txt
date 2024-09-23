@@ -44,6 +44,8 @@ set(ADDITIONAL
   ${CMAKE_SOURCE_DIR}/modules/additional/top_menu.cc
   ${CMAKE_SOURCE_DIR}/modules/include/calendar.h
   ${CMAKE_SOURCE_DIR}/modules/additional/calendar.cc
+  ${CMAKE_SOURCE_DIR}/modules/include/table.h
+  ${CMAKE_SOURCE_DIR}/modules/additional/table.cc
 )
 
 set(MAIN

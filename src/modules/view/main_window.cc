@@ -30,7 +30,7 @@ MainWindow::MainWindow() : TopMenu(), tab_{new QTabWidget{}} {
   tab_->addTab(credit_view_, QIcon{":credit.png"}, QString{"Credit"});
   tab_->addTab(calculator_view_, QIcon{":calculator.png"}, QString{"Engineer"});
   // tab_->addTab(deposit_view_, QIcon{":deposit.png"}, QString{"Deposit"});
-  
+
   tab_->setCurrentWidget(credit_view_);
   tab_->setStyleSheet(QString{
       "QTabWidget { background-color: rgb(255, 255, 255); }"

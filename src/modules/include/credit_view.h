@@ -22,6 +22,7 @@
 #include <QWidget>
 
 #include "modules/include/credit_controller.h"
+#include "modules/include/table.h"
 
 class CreditView : public QWidget {
   Q_OBJECT
