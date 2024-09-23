@@ -28,8 +28,13 @@ class CreditView : public QWidget {
   explicit CreditView(QWidget *parent = nullptr);
 
  private slots:
+  void calcClicked();
+  void onTextChanged(const QString &text);
+  void changeTermType();
 
  private:
+  bool isValidInput(QLineEdit *line);
+
   // CreditController *controller_;
   bool valid{false};
 
@@ -37,8 +42,9 @@ class CreditView : public QWidget {
   QPushButton *calculate;
   QLineEdit *amount, *term, *rate;
   QCalendarWidget *date;
-  QComboBox *type;
-  QLabel *lamount, *lterm, *lrate, *ldate, *ltype;
+  QComboBox *type, *term_type;
+  QLabel *lamount, *lterm, *lrate, *ldate, *ltype, *perc;
+  QDoubleValidator *vamount, *vterm, *vrate;
 };
 
 #endif  // SRC_MODULES_INCLUDE_CREDIT_VIEW_H_
