@@ -42,14 +42,15 @@ class CreditView : public QWidget {
   bool isValidInput(QLineEdit *line);
 
   CreditController *controller_;
+  Table *table_;
 
-  QGridLayout *main_grid;
-  QPushButton *calculate;
-  QLineEdit *amount, *term, *rate;
-  QCalendarWidget *date;
-  QComboBox *type, *term_type;
-  QLabel *lamount, *lterm, *lrate, *ldate, *ltype, *perc;
-  QDoubleValidator *vamount, *vterm, *vrate;
+  QGridLayout *main_grid_;
+  QPushButton *calculate_;
+  QLineEdit *amount_, *term_, *rate_;
+  QCalendarWidget *date_;
+  QComboBox *type_, *term_type_;
+  QLabel *lamount_, *lterm_, *lrate_, *ldate_, *ltype_, *lperc_;
+  QDoubleValidator *vamount_, *vterm_, *vrate_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_CREDIT_VIEW_H_

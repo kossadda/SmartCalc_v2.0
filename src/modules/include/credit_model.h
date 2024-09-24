@@ -15,7 +15,7 @@
 #include <cmath>
 #include <vector>
 
-#include "modules/include/calendar.h"
+#include "modules/include/date.h"
 
 class CreditModel {
  public:
@@ -37,6 +37,7 @@ class CreditModel {
 
   struct MonthPayment {
    public:
+    Date payment_date;
     long double summary{};
     long double main{};
     long double percent{};

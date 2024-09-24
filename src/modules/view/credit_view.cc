@@ -18,9 +18,10 @@ CreditView::CreditView(CreditController *controller) : QWidget{} {
 
 CreditView::~CreditView() {
   delete controller_;
-  delete vamount;
-  delete vterm;
-  delete vrate;
+  delete table_;
+  delete vamount_;
+  delete vterm_;
+  delete vrate_;
 }
 
 void CreditView::allocateMemory(CreditController *controller) {
@@ -30,23 +31,24 @@ void CreditView::allocateMemory(CreditController *controller) {
     controller_ = new CreditController{};
   }
 
-  main_grid = new QGridLayout{this};
-  calculate = new QPushButton{QString{"Calculate"}};
-  amount = new QLineEdit;
-  term = new QLineEdit;
-  rate = new QLineEdit;
-  date = new QCalendarWidget;
-  type = new QComboBox;
-  term_type = new QComboBox;
-  lamount = new QLabel{"Amount of credit"};
-  lterm = new QLabel{"Credit term"};
-  lrate = new QLabel{"Interest rate"};
-  ldate = new QLabel{"Loan issue date"};
-  ltype = new QLabel{"Payment type"};
-  perc = new QLabel{"%"};
-  vamount = new QDoubleValidator(1.0e-2, 1.0e+12, 2);
-  vterm = new QDoubleValidator(1, 50, 0);
-  vrate = new QDoubleValidator(1.0e-2, 1.0e+3, 2);
+  table_ = new Table{};
+  main_grid_ = new QGridLayout{};
+  calculate_ = new QPushButton{QString{"Calculate"}};
+  amount_ = new QLineEdit;
+  term_ = new QLineEdit;
+  rate_ = new QLineEdit;
+  date_ = new QCalendarWidget;
+  type_ = new QComboBox;
+  term_type_ = new QComboBox;
+  lamount_ = new QLabel{"Amount of credit"};
+  lterm_ = new QLabel{"Credit term"};
+  lrate_ = new QLabel{"Interest rate"};
+  ldate_ = new QLabel{"Loan issue date"};
+  ltype_ = new QLabel{"Payment type"};
+  lperc_ = new QLabel{"%"};
+  vamount_ = new QDoubleValidator(1.0e-2, 1.0e+12, 2);
+  vterm_ = new QDoubleValidator(1, 50, 0);
+  vrate_ = new QDoubleValidator(1.0e-2, 1.0e+3, 2);
 }
 
 void CreditView::initView() {
@@ -86,29 +88,33 @@ void CreditView::initView() {
       "width: 20px;"
       "height: 50px;"
       "margin-right: 5px; }"};
+  QString calendar_style{
+      "QCalendarWidget * { border-radius: 10px;"
+      "color: rgb(255, 255, 255);"
+      "background-color: rgba(0, 0, 0, 0.0);}"};
 
-  QLabel *labels[]{lamount, lterm, lrate, ldate, ltype, perc};
+  QLabel *labels[]{lamount_, lterm_, lrate_, ldate_, ltype_, lperc_};
   std::pair<QLineEdit *, QDoubleValidator *> line_edits[]{
-      {amount, vamount}, {term, vterm}, {rate, vrate}};
+      {amount_, vamount_}, {term_, vterm_}, {rate_, vrate_}};
 
-  main_grid->setContentsMargins(15, 20, 10, 15);
-  main_grid->setVerticalSpacing(10);
-  main_grid->addWidget(lamount, 0, 0);
-  main_grid->addWidget(amount, 0, 1, 1, 2);
-  main_grid->addWidget(lterm, 1, 0);
-  main_grid->addWidget(term, 1, 1);
-  main_grid->addWidget(term_type, 1, 2);
-  main_grid->addWidget(lrate, 2, 0);
-  main_grid->addWidget(rate, 2, 1);
-  main_grid->addWidget(perc, 2, 2);
-  main_grid->addWidget(ltype, 3, 0);
-  main_grid->addWidget(type, 3, 1, 1, 2);
-  main_grid->addWidget(ldate, 4, 0);
-  main_grid->addWidget(date, 4, 1, 1, 2);
-  main_grid->addWidget(calculate, 5, 0, 1, 3, Qt::AlignCenter);
+  main_grid_->setContentsMargins(15, 20, 10, 15);
+  main_grid_->setVerticalSpacing(10);
+  main_grid_->addWidget(lamount_, 0, 0);
+  main_grid_->addWidget(amount_, 0, 1, 1, 2);
+  main_grid_->addWidget(lterm_, 1, 0);
+  main_grid_->addWidget(term_, 1, 1);
+  main_grid_->addWidget(term_type_, 1, 2);
+  main_grid_->addWidget(lrate_, 2, 0);
+  main_grid_->addWidget(rate_, 2, 1);
+  main_grid_->addWidget(lperc_, 2, 2);
+  main_grid_->addWidget(ltype_, 3, 0);
+  main_grid_->addWidget(type_, 3, 1, 1, 2);
+  main_grid_->addWidget(ldate_, 4, 0);
+  main_grid_->addWidget(date_, 4, 1, 1, 2);
+  main_grid_->addWidget(calculate_, 5, 0, 1, 3, Qt::AlignCenter);
 
   for (auto i : labels) {
-    i->setMinimumSize(((i == perc) ? 130 : 150), 50);
+    i->setMinimumSize(((i == lperc_) ? 130 : 150), 50);
     i->setAlignment(Qt::AlignCenter);
     i->setStyleSheet(label_style);
   }
@@ -123,32 +129,59 @@ void CreditView::initView() {
     connect(i.first, &QLineEdit::textChanged, this, &CreditView::onTextChanged);
   }
 
-  date->setStyleSheet(
-      "QCalendarWidget * { border-radius: 10px;"
-      "color: rgb(255, 255, 255);"
-      "background-color: rgba(0, 0, 0, 0.0);}");
+  date_->setStyleSheet(calendar_style);
+  date_->setMinimumDate(QDate{1, 1, 1970});
+  date_->setMaximumDate(QDate{31, 12, 3000});
 
-  calculate->setFixedSize(180, 55);
-  calculate->setStyleSheet(button_style);
+  calculate_->setFixedSize(180, 55);
+  calculate_->setStyleSheet(button_style);
 
-  type->addItems(QStringList{"Annuity", "Differentiated"});
-  type->setStyleSheet(combo_box_style);
-  type->setFixedHeight(50);
-  term_type->addItems(QStringList{"years", "months"});
-  term_type->setStyleSheet(combo_box_style);
-  term_type->setFixedSize(130, 50);
+  type_->addItems(QStringList{"Annuity", "Differentiated"});
+  type_->setStyleSheet(combo_box_style);
+  type_->setFixedHeight(50);
 
-  setLayout(main_grid);
+  term_type_->addItems(QStringList{"years", "months"});
+  term_type_->setStyleSheet(combo_box_style);
+  term_type_->setFixedSize(130, 50);
 
-  connect(calculate, &QPushButton::clicked, this, &CreditView::calcClicked);
-  connect(term_type, &QComboBox::currentTextChanged, this,
+  setLayout(main_grid_);
+
+  connect(calculate_, &QPushButton::clicked, this, &CreditView::calcClicked);
+  connect(term_type_, &QComboBox::currentTextChanged, this,
           &CreditView::changeTermType);
 }
 
 void CreditView::calcClicked() {
-  if (isValidInput(amount) + isValidInput(term) + isValidInput(rate) != 3) {
+  if (isValidInput(amount_) + isValidInput(term_) + isValidInput(rate_) != 3) {
     return;
   }
+
+  CreditController::TermType term_type;
+  CreditController::CreditType type;
+
+  if(term_type_->currentIndex()) {
+    term_type = CreditController::TermType::MOHTHS;
+  } else {
+    term_type = CreditController::TermType::YEARS;
+  }
+
+  if(type_->currentIndex()) {
+    type = CreditController::CreditType::DIFFERENTIATED;
+  } else {
+    type = CreditController::CreditType::ANNUITY;
+  }
+
+  long double amount{amount_->text().toDouble()};
+  std::size_t term{term_->text().toUInt()};
+  long double rate{rate_->text().toDouble()};
+
+  auto date = date_->selectedDate();
+
+  controller_->addCreditData(amount, term, term_type, rate, type, date.day(), date.month(), date.year());
+  controller_->calculateCredit();
+
+  table_->fillTable(controller_);
+  table_->show();
 }
 
 bool CreditView::isValidInput(QLineEdit *line) {
@@ -183,11 +216,11 @@ void CreditView::onTextChanged(const QString &text) {
 }
 
 void CreditView::changeTermType() {
-  if (term_type->currentIndex() == 0) {
-    vterm->setRange(1, 50);
+  if (term_type_->currentIndex() == 0) {
+    vterm_->setRange(1, 50);
   } else {
-    vterm->setRange(1, 600);
+    vterm_->setRange(1, 600);
   }
 
-  isValidInput(term);
+  isValidInput(term_);
 }

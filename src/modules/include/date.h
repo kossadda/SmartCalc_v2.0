@@ -1,5 +1,5 @@
 /**
- * @file calendar.h
+ * @file date.h
  * @author kossadda (https://github.com/kossadda)
  * @brief
  * @version 1.0
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_CALENDAR_H_
-#define SRC_MODULES_INCLUDE_CALENDAR_H_
+#ifndef SRC_MODULES_INCLUDE_DATE_H_
+#define SRC_MODULES_INCLUDE_DATE_H_
 
 #include <iostream>
 #include <sstream>
@@ -66,8 +66,6 @@ class Date {
   bool leap_{};
 
   std::vector<DateSize> dates_;
-  // std::vector<DateSize> dates_{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30,
-  // 31};
 };
 
-#endif  // SRC_MODULES_INCLUDE_CALENDAR_H_
+#endif  // SRC_MODULES_INCLUDE_DATE_H_

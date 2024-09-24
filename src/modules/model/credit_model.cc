@@ -78,12 +78,13 @@ void CreditModel::calculatePayments() noexcept {
       calculateDifferentiated();
     }
 
-    table_.push_back(*month_);
-    data_->date = next_month;
-
-    if (table_.size() > 500 && month_->debt == annuity_cycle) {
+    if ((table_.size() > 500 && month_->debt == annuity_cycle) || month_->debt < 1.0e-3) {
       month_->debt = 0.0L;
     }
+
+    data_->date = next_month;
+    month_->payment_date = data_->date;
+    table_.push_back(*month_);
   }
 }
 

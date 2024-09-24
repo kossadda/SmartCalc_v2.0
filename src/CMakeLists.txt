@@ -13,39 +13,42 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(MODELS
-  ${CMAKE_SOURCE_DIR}/modules/include/calculator_model.h
   ${CMAKE_SOURCE_DIR}/modules/model/calculator_model.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/credit_model.h
   ${CMAKE_SOURCE_DIR}/modules/model/credit_model.cc
 )
 
 set(VIEWS
-  ${CMAKE_SOURCE_DIR}/modules/include/calculator_view.h
   ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/credit_view.h
   ${CMAKE_SOURCE_DIR}/modules/view/credit_view.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/main_window.h
   ${CMAKE_SOURCE_DIR}/modules/view/main_window.cc
 )
 
 set(CONTROLLERS
-  ${CMAKE_SOURCE_DIR}/modules/include/calculator_controller.h
   ${CMAKE_SOURCE_DIR}/modules/controller/calculator_controller.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/credit_controller.h
   ${CMAKE_SOURCE_DIR}/modules/controller/credit_controller.cc
 )
 
 set(ADDITIONAL
-  ${CMAKE_SOURCE_DIR}/modules/include/qcustomplot.h
+  ${CMAKE_SOURCE_DIR}/modules/additional/plot.cc
   ${CMAKE_SOURCE_DIR}/modules/additional/qcustomplot.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/plot.h
-  ${CMAKE_SOURCE_DIR}/modules/view/plot.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/top_menu.h
   ${CMAKE_SOURCE_DIR}/modules/additional/top_menu.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/calendar.h
-  ${CMAKE_SOURCE_DIR}/modules/additional/calendar.cc
-  ${CMAKE_SOURCE_DIR}/modules/include/table.h
+  ${CMAKE_SOURCE_DIR}/modules/additional/date.cc
   ${CMAKE_SOURCE_DIR}/modules/additional/table.cc
+)
+
+set(HEADERS
+  ${CMAKE_SOURCE_DIR}/modules/include/calculator_model.h
+  ${CMAKE_SOURCE_DIR}/modules/include/credit_model.h
+  ${CMAKE_SOURCE_DIR}/modules/include/calculator_view.h
+  ${CMAKE_SOURCE_DIR}/modules/include/credit_view.h
+  ${CMAKE_SOURCE_DIR}/modules/include/calculator_controller.h
+  ${CMAKE_SOURCE_DIR}/modules/include/credit_controller.h
+  ${CMAKE_SOURCE_DIR}/modules/include/main_window.h
+  ${CMAKE_SOURCE_DIR}/modules/include/qcustomplot.h
+  ${CMAKE_SOURCE_DIR}/modules/include/plot.h
+  ${CMAKE_SOURCE_DIR}/modules/include/top_menu.h
+  ${CMAKE_SOURCE_DIR}/modules/include/date.h
+  ${CMAKE_SOURCE_DIR}/modules/include/table.h
 )
 
 set(MAIN
@@ -53,12 +56,17 @@ set(MAIN
 )
 
 set(PROJECT_SOURCES
-  ${MODELS} ${CONTROLLERS} ${VIEWS} ${ADDITIONAL} ${MAIN}
+  ${MODELS}
+  ${CONTROLLERS}
+  ${VIEWS}
+  ${ADDITIONAL}
+  ${HEADERS}
+  ${MAIN}
   ${CMAKE_SOURCE_DIR}/resources/resource.qrc
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS
-${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 include_directories(${CMAKE_SOURCE_DIR})

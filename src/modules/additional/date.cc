@@ -1,5 +1,5 @@
 /**
- * @file calendar.cc
+ * @file date.cc
  * @author kossadda (https://github.com/kossadda)
  * @brief
  * @version 1.0
@@ -9,7 +9,7 @@
  *
  */
 
-#include "modules/include/calendar.h"
+#include "modules/include/date.h"
 
 Date::Date(DateSize day, DateSize month, DateSize year)
     : day_{day}, month_{month}, year_{year}, dates_{0,  31, 28, 31, 30, 31, 30,
@@ -204,7 +204,18 @@ Date &Date::addDays(std::size_t term) {
 
 std::string Date::currentDate() const {
   std::stringstream ss;
-  ss << day_ << '.' << month_ << '.' << year_;
+
+  if(day_ < 10) {
+    ss << '0';
+  }
+
+  ss << day_ << '.';
+
+  if(month_ < 10) {
+    ss << '0';  
+  }
+
+  ss << month_ << '.' << year_;
 
   return ss.str();
 }

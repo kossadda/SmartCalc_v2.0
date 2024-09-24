@@ -13,11 +13,12 @@
 #define SRC_MODULES_INCLUDE_TABLE_H_
 
 #include <modules/include/top_menu.h>
-#include "modules/include/credit_controller.h"
 
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QTableWidget>
+
+#include "modules/include/credit_controller.h"
 
 class Table : public TopMenu {
   Q_OBJECT
@@ -25,7 +26,7 @@ class Table : public TopMenu {
  public:
   Table();
 
-  void fillTable(const CreditController &controller);
+  void fillTable(CreditController *controller);
   void setFormat(std::size_t rows, std::size_t cols, const QStringList &heads);
 
  private:
