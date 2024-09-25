@@ -28,7 +28,7 @@ Date::Date(const Date &other)
       leap_{other.leap_},
       dates_{other.dates_} {}
 
-void Date::refreshYearDates() {
+void Date::refreshYearDates() noexcept {
   leap_ = isYearLeap(year_);
 
   if (leap_) {
@@ -38,7 +38,7 @@ void Date::refreshYearDates() {
   }
 }
 
-bool Date::isValidDate() {
+bool Date::isValidDate() const noexcept {
   bool valid{true};
 
   if (month_ > kYearMonths && day_ > dates_[month_]) {
@@ -50,7 +50,7 @@ bool Date::isValidDate() {
   return valid;
 }
 
-bool Date::isYearLeap(DateSize year) {
+bool Date::isYearLeap(DateSize year) noexcept {
   bool leap{false};
 
   if (!(year % kBigLeapInterval)) {
@@ -62,7 +62,7 @@ bool Date::isYearLeap(DateSize year) {
   return leap;
 }
 
-std::size_t Date::daysPassedInYear() const {
+std::size_t Date::daysPassedInYear() const noexcept {
   std::size_t days{day_};
 
   for (DateSize i{1}; i < month_; ++i) {
@@ -72,13 +72,15 @@ std::size_t Date::daysPassedInYear() const {
   return days;
 }
 
-std::size_t Date::daysLeftInYear() const {
+std::size_t Date::daysLeftInYear() const noexcept {
   return ((leap_) ? kLeapYearDays : kYearDays) - daysPassedInYear();
 }
 
-std::size_t Date::daysLeftInMonth() const { return dates_[month_] - day_; }
+std::size_t Date::daysLeftInMonth() const noexcept {
+  return dates_[month_] - day_;
+}
 
-Date &Date::operator=(const Date &other) {
+Date &Date::operator=(const Date &other) noexcept {
   day_ = other.day_;
   month_ = other.month_;
   year_ = other.year_;
@@ -88,7 +90,7 @@ Date &Date::operator=(const Date &other) {
   return *this;
 }
 
-Date::DateCompare Date::compareDate(const Date &other) const {
+Date::DateCompare Date::compareDate(const Date &other) const noexcept {
   DateCompare compare{DateCompare::DATE_EQUAL};
 
   if (year_ < other.year_) {
@@ -116,23 +118,23 @@ Date::DateCompare Date::compareDate(const Date &other) const {
   return compare;
 }
 
-bool Date::operator==(const Date &other) const {
+bool Date::operator==(const Date &other) const noexcept {
   return (compareDate(other) == DateCompare::DATE_EQUAL) ? true : false;
 }
 
-bool Date::operator!=(const Date &other) const {
+bool Date::operator!=(const Date &other) const noexcept {
   return (compareDate(other) != DateCompare::DATE_EQUAL) ? true : false;
 }
 
-bool Date::operator<(const Date &other) const {
+bool Date::operator<(const Date &other) const noexcept {
   return (compareDate(other) == DateCompare::DATE_BEFORE) ? true : false;
 }
 
-bool Date::operator>(const Date &other) const {
+bool Date::operator>(const Date &other) const noexcept {
   return (compareDate(other) == DateCompare::DATE_AFTER) ? true : false;
 }
 
-bool Date::operator<=(const Date &other) const {
+bool Date::operator<=(const Date &other) const noexcept {
   DateCompare comp{compareDate(other)};
 
   return (comp == DateCompare::DATE_BEFORE || comp == DateCompare::DATE_EQUAL)
@@ -140,7 +142,7 @@ bool Date::operator<=(const Date &other) const {
              : false;
 }
 
-bool Date::operator>=(const Date &other) const {
+bool Date::operator>=(const Date &other) const noexcept {
   DateCompare comp{compareDate(other)};
 
   return (comp == DateCompare::DATE_AFTER || comp == DateCompare::DATE_EQUAL)
@@ -148,7 +150,7 @@ bool Date::operator>=(const Date &other) const {
              : false;
 }
 
-std::size_t Date::operator-(const Date &other) const {
+std::size_t Date::operator-(const Date &other) const noexcept {
   std::size_t diff{};
 
   if (year_ == other.year_) {
@@ -164,7 +166,11 @@ std::size_t Date::operator-(const Date &other) const {
   return diff;
 }
 
-Date &Date::addMonth(DateSize init_date) {
+Date Date::operator+(std::size_t days) const noexcept {
+  return Date{*this}.addDays(days);
+}
+
+Date &Date::addCreditMonth(DateSize init_day) noexcept {
   if (month_ + 1 > kYearMonths) {
     month_ = 1;
     ++year_;
@@ -173,16 +179,37 @@ Date &Date::addMonth(DateSize init_date) {
     ++month_;
   }
 
-  if (init_date > dates_[month_]) {
+  if (init_day > dates_[month_]) {
     day_ = dates_[month_];
   } else {
-    day_ = init_date;
+    day_ = init_day;
   }
 
   return *this;
 }
 
-Date &Date::addDays(std::size_t term) {
+Date &Date::addDepositMonth(std::size_t term) noexcept {
+  DateSize init_month{month_};
+  DateSize init_year{year_};
+  std::size_t days_turn{};
+
+  for (std::size_t i{}; i < term; ++i) {
+    days_turn += dates_[init_month];
+    ++init_month;
+
+    if (init_month > kYearMonths) {
+      ++init_year;
+      init_month = 1;
+      refreshYearDates();
+    }
+  }
+
+  addDays(days_turn);
+
+  return *this;
+}
+
+Date &Date::addDays(std::size_t term) noexcept {
   for (std::size_t i{}; i < term; ++i) {
     if (day_ + 1 > dates_[month_]) {
       day_ = 1;
@@ -202,7 +229,43 @@ Date &Date::addDays(std::size_t term) {
   return *this;
 }
 
-std::string Date::currentDate() const {
+std::pair<std::size_t, std::size_t> Date::leapDaysBetween(
+    const Date &end) const noexcept {
+  std::size_t default_days{};
+  std::size_t leap_days{};
+
+  if (year_ != end.year_) {
+    if (isYearLeap(year_)) {
+      leap_days += daysLeftInYear();
+    } else {
+      default_days += daysLeftInYear();
+    }
+
+    if (isYearLeap(end.year_)) {
+      leap_days += end.daysLeftInYear();
+    } else {
+      default_days += end.daysLeftInYear();
+    }
+
+    for (Date::DateSize i(year_ + 1); i < end.year_; ++i) {
+      if (isYearLeap(i)) {
+        leap_days += kLeapYearDays;
+      } else {
+        default_days = kYearDays;
+      }
+    }
+  } else {
+    if (isYearLeap(year_)) {
+      leap_days += end - *this;
+    } else {
+      default_days += end - *this;
+    }
+  }
+
+  return {default_days, leap_days};
+}
+
+std::string Date::currentDate() const noexcept {
   std::stringstream ss;
 
   if (day_ < 10) {
@@ -220,8 +283,8 @@ std::string Date::currentDate() const {
   return ss.str();
 }
 
-Date::DateSize Date::day() const { return day_; }
+Date::DateSize Date::day() const noexcept { return day_; }
 
-Date::DateSize Date::month() const { return month_; }
+Date::DateSize Date::month() const noexcept { return month_; }
 
-Date::DateSize Date::year() const { return year_; }
+Date::DateSize Date::year() const noexcept { return year_; }

@@ -65,7 +65,7 @@ void CreditModel::calculatePayments() noexcept {
   }
 
   while (month_->debt != 0.0L) {
-    next_month.addMonth(const_day);
+    next_month.addCreditMonth(const_day);
 
     long double first_part{formula(data_->date, data_->date.daysLeftInMonth())};
     long double second_part{formula(next_month, next_month.day())};

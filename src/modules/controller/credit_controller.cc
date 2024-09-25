@@ -37,7 +37,6 @@ void CreditController::addCreditData(long double amount, std::size_t term,
   table_.clear();
   total_ = 0.0L;
 }
-#include <iomanip>
 
 void CreditController::calculateCredit() {
   model_->calculatePayments();

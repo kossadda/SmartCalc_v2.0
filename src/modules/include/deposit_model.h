@@ -14,21 +14,35 @@
 
 #include <cmath>
 #include <vector>
+#include <utility>
 
 #include "modules/include/date.h"
 
 class DepositModel {
  public:
-  enum class Frequency { DAY, WEEK, MONTH, QUARTER, HALFYEAR, YEAR, ENDTERM };
+  enum class Frequency {
+    DAY = 0,
+    MONTH = 1,
+    ENDTERM = 2,
+    QUARTER = 3,
+    HALFYEAR = 6,
+    WEEK = 7,
+    YEAR = 12
+  };
+
+  enum class TermType { DAYS, MONTHS, YEARS };
+
   enum class DepositType { DEFAULT, CAPITALIZATION };
 
   struct Data {
    public:
     Data() = default;
-    Data(long double amount_, long double term_, long double rate_,
-         Frequency freq_, DepositType type_, const Date &date_)
+    Data(long double amount_, long double term_, TermType term_type_,
+         long double rate_, Frequency freq_, DepositType type_,
+         const Date &date_)
         : amount{amount_},
           term{term_},
+          term_type{term_type_},
           rate{rate_},
           type{type_},
           freq{freq_},
@@ -36,6 +50,7 @@ class DepositModel {
 
     long double amount{};
     long double term{};
+    TermType term_type;
     long double rate{};
     long double tax_rate{};
     DepositType type;
@@ -52,18 +67,39 @@ class DepositModel {
     long double balance;
   };
 
+  struct Tax {
+    Date::DateSize year{};
+    long double income{};
+    long double nontaxable{};
+    long double income_deduction{};
+    long double tax_amount{};
+  };
+
   DepositModel();
   ~DepositModel();
 
   void addData(const Data &data) noexcept;
   void calculatePayments() noexcept;
   const std::vector<Month> &table() const noexcept;
+  const std::vector<Tax> &taxTable() const noexcept;
   void clear() noexcept;
 
  private:
+  Date lastDepositDay() const noexcept;
+  void addPeriod(Date *date, const Date &last_day) noexcept;
+  void calculatePeriod(const Date &end_period);
+  void calculateTaxes(const Date &end_period, const Date &last_day);
+  long double formula(std::pair<std::size_t, std::size_t> days) const noexcept;
+  long double roundVal(long double value) const noexcept;
+
+  static constexpr long double kNonTaxSum = 1.0e+6L;
+  static constexpr long double kNDFLRate = 13.0L;
+
   Data *data_;
   Month *month_;
+  Tax *tax_;
   std::vector<Month> table_;
+  std::vector<Tax> tax_table_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_DEPOSIT_MODEL_H_
