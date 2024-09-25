@@ -35,7 +35,7 @@ class CreditModel {
     Date date;
   };
 
-  struct MonthPayment {
+  struct Month {
    public:
     Date payment_date;
     long double summary{};
@@ -49,7 +49,7 @@ class CreditModel {
 
   void addData(const Data &data) noexcept;
   void calculatePayments() noexcept;
-  const std::vector<MonthPayment> &table() const noexcept;
+  const std::vector<Month> &table() const noexcept;
   void clear() noexcept;
 
  private:
@@ -59,8 +59,8 @@ class CreditModel {
   long double roundVal(long double value) const noexcept;
 
   Data *data_;
-  MonthPayment *month_;
-  std::vector<MonthPayment> table_;
+  Month *month_;
+  std::vector<Month> table_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_CREDIT_MODEL_H_

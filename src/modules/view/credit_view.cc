@@ -144,6 +144,11 @@ void CreditView::initView() {
   term_type_->setStyleSheet(combo_box_style);
   term_type_->setFixedSize(130, 50);
 
+  table_->setFormat(
+      0, 5,
+      QStringList{"Date", "Amount of payment", "Principal payment",
+                  "Interest payment", "Balance owed"});
+
   setLayout(main_grid_);
 
   connect(calculate_, &QPushButton::clicked, this, &CreditView::calcClicked);
@@ -159,13 +164,13 @@ void CreditView::calcClicked() {
   CreditController::TermType term_type;
   CreditController::CreditType type;
 
-  if(term_type_->currentIndex()) {
+  if (term_type_->currentIndex()) {
     term_type = CreditController::TermType::MOHTHS;
   } else {
     term_type = CreditController::TermType::YEARS;
   }
 
-  if(type_->currentIndex()) {
+  if (type_->currentIndex()) {
     type = CreditController::CreditType::DIFFERENTIATED;
   } else {
     type = CreditController::CreditType::ANNUITY;
@@ -177,7 +182,8 @@ void CreditView::calcClicked() {
 
   auto date = date_->selectedDate();
 
-  controller_->addCreditData(amount, term, term_type, rate, type, date.day(), date.month(), date.year());
+  controller_->addCreditData(amount, term, term_type, rate, type, date.day(),
+                             date.month(), date.year());
   controller_->calculateCredit();
 
   table_->fillTable(controller_);

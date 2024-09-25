@@ -11,7 +11,7 @@
 
 #include "modules/include/credit_model.h"
 
-CreditModel::CreditModel() : data_{new Data{}}, month_{new MonthPayment{}} {}
+CreditModel::CreditModel() : data_{new Data{}}, month_{new Month{}} {}
 
 CreditModel::~CreditModel() {
   delete data_;
@@ -28,8 +28,7 @@ void CreditModel::addData(const Data &data) noexcept {
 
 void CreditModel::clear() noexcept { table_.clear(); }
 
-const std::vector<CreditModel::MonthPayment> &CreditModel::table()
-    const noexcept {
+const std::vector<CreditModel::Month> &CreditModel::table() const noexcept {
   return table_;
 }
 
@@ -78,7 +77,8 @@ void CreditModel::calculatePayments() noexcept {
       calculateDifferentiated();
     }
 
-    if ((table_.size() > 500 && month_->debt == annuity_cycle) || month_->debt < 1.0e-3) {
+    if ((table_.size() > 500 && month_->debt == annuity_cycle) ||
+        month_->debt < 1.0e-3) {
       month_->debt = 0.0L;
     }
 

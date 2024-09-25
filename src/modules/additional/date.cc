@@ -205,14 +205,14 @@ Date &Date::addDays(std::size_t term) {
 std::string Date::currentDate() const {
   std::stringstream ss;
 
-  if(day_ < 10) {
+  if (day_ < 10) {
     ss << '0';
   }
 
   ss << day_ << '.';
 
-  if(month_ < 10) {
-    ss << '0';  
+  if (month_ < 10) {
+    ss << '0';
   }
 
   ss << month_ << '.' << year_;
