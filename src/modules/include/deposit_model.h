@@ -13,8 +13,8 @@
 #define SRC_MODULES_INCLUDE_DEPOSIT_MODEL_H_
 
 #include <cmath>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "modules/include/date.h"
 
@@ -38,12 +38,13 @@ class DepositModel {
    public:
     Data() = default;
     Data(long double amount_, long double term_, TermType term_type_,
-         long double rate_, Frequency freq_, DepositType type_,
-         const Date &date_)
+         long double rate_, long double tax_rate_, DepositType type_,
+         Frequency freq_, const Date &date_)
         : amount{amount_},
           term{term_},
           term_type{term_type_},
           rate{rate_},
+          tax_rate{tax_rate_},
           type{type_},
           freq{freq_},
           date{date_} {}
@@ -83,12 +84,13 @@ class DepositModel {
   const std::vector<Month> &table() const noexcept;
   const std::vector<Tax> &taxTable() const noexcept;
   void clear() noexcept;
+  void printTable();
 
  private:
   Date lastDepositDay() const noexcept;
-  void addPeriod(Date *date, const Date &last_day) noexcept;
-  void calculatePeriod(const Date &end_period);
-  void calculateTaxes(const Date &end_period, const Date &last_day);
+  void addPeriod(const Date &last_day) noexcept;
+  void calculatePeriod();
+  void calculateTaxes(const Date &last_day);
   long double formula(std::pair<std::size_t, std::size_t> days) const noexcept;
   long double roundVal(long double value) const noexcept;
 

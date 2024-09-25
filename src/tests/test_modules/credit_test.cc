@@ -15,7 +15,7 @@
 #define DIF CreditModel::CreditType::DIFFERENTIATED
 using Data = CreditModel::Data;
 
-void testCredit(Data &data, std::vector<long double> expected) {
+void testCredit(const Data &data, std::vector<long double> expected) {
   CreditModel credit;
 
   credit.addData(data);

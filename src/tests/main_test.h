@@ -16,5 +16,6 @@
 
 #include "../modules/include/calculator_model.h"
 #include "../modules/include/credit_model.h"
+#include "../modules/include/deposit_model.h"
 
 #endif  // SRC_TESTS_MAIN_TEST_H_

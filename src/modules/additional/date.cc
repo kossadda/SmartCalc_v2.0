@@ -242,9 +242,9 @@ std::pair<std::size_t, std::size_t> Date::leapDaysBetween(
     }
 
     if (isYearLeap(end.year_)) {
-      leap_days += end.daysLeftInYear();
+      leap_days += end.daysPassedInYear();
     } else {
-      default_days += end.daysLeftInYear();
+      default_days += end.daysPassedInYear();
     }
 
     for (Date::DateSize i(year_ + 1); i < end.year_; ++i) {
