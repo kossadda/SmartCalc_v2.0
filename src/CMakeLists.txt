@@ -15,17 +15,20 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(MODELS
   ${CMAKE_SOURCE_DIR}/modules/model/calculator_model.cc
   ${CMAKE_SOURCE_DIR}/modules/model/credit_model.cc
+  ${CMAKE_SOURCE_DIR}/modules/model/deposit_model.cc
 )
 
 set(VIEWS
   ${CMAKE_SOURCE_DIR}/modules/view/calculator_view.cc
   ${CMAKE_SOURCE_DIR}/modules/view/credit_view.cc
+  ${CMAKE_SOURCE_DIR}/modules/view/deposit_view.cc
   ${CMAKE_SOURCE_DIR}/modules/view/main_window.cc
 )
 
 set(CONTROLLERS
   ${CMAKE_SOURCE_DIR}/modules/controller/calculator_controller.cc
   ${CMAKE_SOURCE_DIR}/modules/controller/credit_controller.cc
+  ${CMAKE_SOURCE_DIR}/modules/controller/deposit_controller.cc
 )
 
 set(ADDITIONAL
@@ -39,10 +42,13 @@ set(ADDITIONAL
 set(HEADERS
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_model.h
   ${CMAKE_SOURCE_DIR}/modules/include/credit_model.h
+  ${CMAKE_SOURCE_DIR}/modules/include/deposit_model.h
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_view.h
   ${CMAKE_SOURCE_DIR}/modules/include/credit_view.h
+  ${CMAKE_SOURCE_DIR}/modules/include/deposit_view.h
   ${CMAKE_SOURCE_DIR}/modules/include/calculator_controller.h
   ${CMAKE_SOURCE_DIR}/modules/include/credit_controller.h
+  ${CMAKE_SOURCE_DIR}/modules/include/deposit_controller.h
   ${CMAKE_SOURCE_DIR}/modules/include/main_window.h
   ${CMAKE_SOURCE_DIR}/modules/include/qcustomplot.h
   ${CMAKE_SOURCE_DIR}/modules/include/plot.h
