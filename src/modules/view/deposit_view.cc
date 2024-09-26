@@ -40,7 +40,7 @@ void DepositView::allocateMemory(DepositController *controller) {
   rate_ = new QLineEdit;
   tax_rate_ = new QLineEdit;
   date_ = new QCalendarWidget;
-  type_ = new QComboBox;
+  freq_ = new QComboBox;
   capital_ = new QCheckBox("  Capitalization");
   term_type_ = new QComboBox;
   lamount_ = new QLabel{"Amount"};
@@ -48,7 +48,7 @@ void DepositView::allocateMemory(DepositController *controller) {
   lrate_ = new QLabel{"Interest rate"};
   ltax_rate_ = new QLabel{"Tax rate"};
   ldate_ = new QLabel{"Start date"};
-  ltype_ = new QLabel{"Pay frequency"};
+  lfreq_ = new QLabel{"Pay frequency"};
   lperc_ = new QLabel{"%"};
   vamount_ = new QDoubleValidator(1.0e-2, 1.0e+12, 2);
   vterm_ = new QDoubleValidator(1, 50, 0);
@@ -114,7 +114,7 @@ void DepositView::initView() {
       "color: rgb(130, 180, 240); }"};
 
   QLabel *labels[]{lamount_, lterm_, lrate_, ltax_rate_,
-                   ldate_,   ltype_, lperc_};
+                   ldate_,   lfreq_, lperc_};
   std::pair<QLineEdit *, QDoubleValidator *> line_edits[]{
       {amount_, vamount_},
       {term_, vterm_},
@@ -135,8 +135,8 @@ void DepositView::initView() {
   main_grid_->addWidget(ltax_rate_, 3, 0);
   main_grid_->addWidget(tax_rate_, 3, 1);
   main_grid_->addWidget(lperc_, 2, 2, 2, 1);
-  main_grid_->addWidget(ltype_, 4, 0);
-  main_grid_->addWidget(type_, 4, 1);
+  main_grid_->addWidget(lfreq_, 4, 0);
+  main_grid_->addWidget(freq_, 4, 1);
   main_grid_->addWidget(capital_, 4, 2, Qt::AlignCenter);
   main_grid_->addWidget(ldate_, 5, 0);
   main_grid_->addWidget(date_, 5, 1, 1, 2);
@@ -166,11 +166,11 @@ void DepositView::initView() {
   calculate_->setFixedSize(lwidth + 20, lheight + 10);
   calculate_->setStyleSheet(button_style);
 
-  type_->addItems(QStringList{"Day", "Week", "Month", "Quarter", "Halfyear",
+  freq_->addItems(QStringList{"Day", "Week", "Month", "Quarter", "Halfyear",
                               "Year", "End term"});
-  type_->setStyleSheet(combo_box_style);
-  type_->setFixedHeight(lheight);
-  type_->setCurrentIndex(2);
+  freq_->setStyleSheet(combo_box_style);
+  freq_->setFixedHeight(lheight);
+  freq_->setCurrentIndex(2);
 
   capital_->setMinimumSize(lwidth, lheight);
   capital_->setStyleSheet(radio_style);
@@ -179,10 +179,8 @@ void DepositView::initView() {
   term_type_->setStyleSheet(combo_box_style);
   term_type_->setMinimumSize(lwidth, lheight);
 
-  table_->setFormat(
-      0, 5,
-      QStringList{"Date", "Amount of payment", "Principal payment",
-                  "Interest payment", "Balance owed"});
+  QStringList headers{"Date", "Interest accured", "Balance change", "Pay", "Balance"};
+  table_->setFormat(0, 5, headers);
 
   setLayout(main_grid_);
 
@@ -196,32 +194,53 @@ void DepositView::calcClicked() {
     return;
   }
 
-  // CreditController::TermType term_type;
-  // CreditController::CreditType type;
+  DepositController::TermType term_type;
+  DepositController::DepositType type;
+  DepositController::Frequency freq;
 
-  // if (term_type_->currentIndex()) {
-  //   term_type = CreditController::TermType::MOHTHS;
-  // } else {
-  //   term_type = CreditController::TermType::YEARS;
-  // }
+  if (term_type_->currentIndex() == 2) {
+    term_type = DepositController::TermType::DAYS;
+  } else if(term_type_->currentIndex() == 1) {
+    term_type = DepositController::TermType::MONTHS;
+  } else {
+    term_type = DepositController::TermType::YEARS;
+  }
 
-  // if (type_->currentIndex()) {
-  //   type = CreditController::CreditType::DIFFERENTIATED;
-  // } else {
-  //   type = CreditController::CreditType::ANNUITY;
-  // }
+  if(capital_->isChecked()) {
+    type = DepositController::DepositType::CAPITALIZATION;
+  } else {
+    type = DepositController::DepositType::DEFAULT;
+  }
 
-  // long double amount{amount_->text().toDouble()};
-  // std::size_t term{term_->text().toUInt()};
-  // long double rate{rate_->text().toDouble()};
+  if (freq_->currentIndex() == 0) {
+    freq = DepositController::Frequency::DAY;
+  } else if (freq_->currentIndex() == 1) {
+    freq = DepositController::Frequency::WEEK;
+  } else if (freq_->currentIndex() == 2) {
+    freq = DepositController::Frequency::MONTH;
+  } else if (freq_->currentIndex() == 3) {
+    freq = DepositController::Frequency::QUARTER;
+  } else if (freq_->currentIndex() == 4) {
+    freq = DepositController::Frequency::HALFYEAR;
+  } else if (freq_->currentIndex() == 5) {
+    freq = DepositController::Frequency::YEAR;
+  } else {
+    freq = DepositController::Frequency::ENDTERM;
+  }
 
-  // auto date = date_->selectedDate();
+  long double amount{amount_->text().toDouble()};
+  std::size_t term{term_->text().toUInt()};
+  long double rate{rate_->text().toDouble()};
+  long double tax_rate{rate_->text().toDouble()};
 
-  // controller_->addDepositData(amount, term, term_type, rate, type,
-  // date.day(), date.month(), date.year()); controller_->calculateDeposit();
+  auto date = date_->selectedDate();
 
-  // table_->fillTable(controller_);
-  // table_->show();
+  controller_->addDepositData(amount, term, term_type, rate, tax_rate, type, freq, date.day(), date.month(), date.year());
+  
+  controller_->calculateDeposit();
+
+  table_->fillTable(controller_);
+  table_->show();
 }
 
 bool DepositView::isValidInput(QLineEdit *line) {

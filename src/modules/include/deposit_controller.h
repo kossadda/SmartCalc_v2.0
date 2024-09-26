@@ -12,6 +12,7 @@
 #ifndef SRC_MODULES_INCLUDE_DEPOSIT_CONTROLLER_H_
 #define SRC_MODULES_INCLUDE_DEPOSIT_CONTROLLER_H_
 
+#include <iomanip>
 #include <string>
 #include <vector>
 
@@ -20,14 +21,16 @@
 class DepositController {
  public:
   using DepositType = DepositModel::DepositType;
-  enum class TermType { YEARS, MOHTHS };
+  using Frequency = DepositModel::Frequency;
+  using TermType = DepositModel::TermType;
 
   explicit DepositController(DepositModel *model = nullptr);
   ~DepositController();
 
   void addDepositData(long double amount, std::size_t term, TermType term_type,
-                      long double rate, DepositType type, std::size_t day,
-                      std::size_t month, std::size_t year);
+                      long double rate, long double tax_rate, DepositType type,
+                      Frequency freq, std::size_t day, std::size_t month,
+                      std::size_t year);
   void calculateDeposit();
   std::vector<std::vector<std::string>> &table() noexcept;
   long double total() const noexcept;

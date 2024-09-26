@@ -49,8 +49,8 @@ class DepositView : public QWidget {
   QPushButton *calculate_;
   QLineEdit *amount_, *term_, *rate_, *tax_rate_;
   QCalendarWidget *date_;
-  QComboBox *type_, *term_type_;
-  QLabel *lamount_, *lterm_, *lrate_, *ltax_rate_, *ldate_, *ltype_, *lperc_;
+  QComboBox *freq_, *term_type_;
+  QLabel *lamount_, *lterm_, *lrate_, *ltax_rate_, *ldate_, *lfreq_, *lperc_;
   QCheckBox *capital_;
   QDoubleValidator *vamount_, *vterm_, *vrate_, *vtax_rate_;
 };

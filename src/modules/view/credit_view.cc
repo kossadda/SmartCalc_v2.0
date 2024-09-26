@@ -146,10 +146,8 @@ void CreditView::initView() {
   term_type_->setStyleSheet(combo_box_style);
   term_type_->setFixedSize(lwidth, lheight);
 
-  table_->setFormat(
-      0, 5,
-      QStringList{"Date", "Amount of payment", "Principal payment",
-                  "Interest payment", "Balance owed"});
+  QStringList headers{"Date", "Amount of payment", "Principal payment", "Interest payment", "Balance owed"};
+  table_->setFormat(0, 5, headers);
 
   setLayout(main_grid_);
 

@@ -44,17 +44,17 @@ void CreditController::calculateCredit() {
   for (const auto& i : model_->table()) {
     std::vector<std::string> str_month;
 
-    std::ostringstream summary_stream, main_stream, percent_stream, debt_stream;
-    summary_stream << std::fixed << std::setprecision(2) << i.summary;
-    main_stream << std::fixed << std::setprecision(2) << i.main;
-    percent_stream << std::fixed << std::setprecision(2) << i.percent;
-    debt_stream << std::fixed << std::setprecision(2) << i.debt;
+    std::ostringstream ssummary, smain, spercent, sdebt;
+    ssummary << std::fixed << std::setprecision(2) << i.summary;
+    smain << std::fixed << std::setprecision(2) << i.main;
+    spercent << std::fixed << std::setprecision(2) << i.percent;
+    sdebt << std::fixed << std::setprecision(2) << i.debt;
 
     str_month.push_back(i.payment_date.currentDate());
-    str_month.push_back(summary_stream.str());
-    str_month.push_back(main_stream.str());
-    str_month.push_back(percent_stream.str());
-    str_month.push_back(debt_stream.str());
+    str_month.push_back(ssummary.str());
+    str_month.push_back(smain.str());
+    str_month.push_back(spercent.str());
+    str_month.push_back(sdebt.str());
 
     table_.push_back(str_month);
     total_ += i.percent;
