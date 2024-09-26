@@ -40,10 +40,10 @@ void CreditView::allocateMemory(CreditController *controller) {
   date_ = new QCalendarWidget;
   type_ = new QComboBox;
   term_type_ = new QComboBox;
-  lamount_ = new QLabel{"Amount of credit"};
-  lterm_ = new QLabel{"Credit term"};
+  lamount_ = new QLabel{"Amount"};
+  lterm_ = new QLabel{"Term"};
   lrate_ = new QLabel{"Interest rate"};
-  ldate_ = new QLabel{"Loan issue date"};
+  ldate_ = new QLabel{"Start date"};
   ltype_ = new QLabel{"Payment type"};
   lperc_ = new QLabel{"%"};
   vamount_ = new QDoubleValidator(1.0e-2, 1.0e+12, 2);
@@ -63,7 +63,7 @@ void CreditView::initView() {
       "border-radius: 10px;"
       "background-color: rgb(47, 47, 47);"
       "border: 1px solid rgba(40, 100, 180, 0.7);"
-      "font-size: 20px;"
+      "font-size: 17px;"
       "padding-left: 16px;"
       "color: rgb(255, 255, 255);"};
   QString button_style{
@@ -86,7 +86,7 @@ void CreditView::initView() {
       "padding: 1px 0px 1px 20px; }"
       "QComboBox::drop-down { image: url(:down_arrow.png);"
       "width: 20px;"
-      "height: 50px;"
+      "height: 48px;"
       "margin-right: 5px; }"};
   QString calendar_style{
       "QCalendarWidget * { border-radius: 10px;"
@@ -96,6 +96,8 @@ void CreditView::initView() {
   QLabel *labels[]{lamount_, lterm_, lrate_, ldate_, ltype_, lperc_};
   std::pair<QLineEdit *, QDoubleValidator *> line_edits[]{
       {amount_, vamount_}, {term_, vterm_}, {rate_, vrate_}};
+
+  int lwidth{140}, lheight{45};
 
   main_grid_->setContentsMargins(15, 20, 10, 15);
   main_grid_->setVerticalSpacing(10);
@@ -114,13 +116,13 @@ void CreditView::initView() {
   main_grid_->addWidget(calculate_, 5, 0, 1, 3, Qt::AlignCenter);
 
   for (auto i : labels) {
-    i->setMinimumSize(((i == lperc_) ? 130 : 150), 50);
+    i->setMinimumSize(lwidth, lheight);
     i->setAlignment(Qt::AlignCenter);
     i->setStyleSheet(label_style);
   }
 
   for (auto i : line_edits) {
-    i.first->setMinimumHeight(50);
+    i.first->setMinimumHeight(lheight);
     i.first->setAlignment(Qt::AlignLeft);
     i.first->setLocale(QLocale{QLocale::C});
     i.first->setStyleSheet(line_edit_style);
@@ -133,16 +135,16 @@ void CreditView::initView() {
   date_->setMinimumDate(QDate{1, 1, 1970});
   date_->setMaximumDate(QDate{31, 12, 3000});
 
-  calculate_->setFixedSize(180, 55);
+  calculate_->setFixedSize(lwidth + 20, lheight + 10);
   calculate_->setStyleSheet(button_style);
 
   type_->addItems(QStringList{"Annuity", "Differentiated"});
   type_->setStyleSheet(combo_box_style);
-  type_->setFixedHeight(50);
+  type_->setFixedHeight(lheight);
 
   term_type_->addItems(QStringList{"years", "months"});
   term_type_->setStyleSheet(combo_box_style);
-  term_type_->setFixedSize(130, 50);
+  term_type_->setFixedSize(lwidth, lheight);
 
   table_->setFormat(
       0, 5,

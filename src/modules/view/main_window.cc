@@ -11,7 +11,12 @@
 
 #include "modules/include/main_window.h"
 
-MainWindow::MainWindow() : TopMenu(), tab_{new QTabWidget{}} {
+MainWindow::MainWindow() : TopMenu() {
+  initMVC();
+  initView();
+}
+
+void MainWindow::initMVC() {
   calculator_model_ = new CalculatorModel{};
   calculator_controller_ = new CalculatorController{calculator_model_};
   calculator_view_ = new CalculatorView{calculator_controller_};
@@ -20,18 +25,17 @@ MainWindow::MainWindow() : TopMenu(), tab_{new QTabWidget{}} {
   credit_controller_ = new CreditController{credit_model_};
   credit_view_ = new CreditView{credit_controller_};
 
-  // deposit_model_ = new DepositModel{};
-  // deposit_controller_ = new DepositController{deposit_model_};
-  // deposit_view_ = new DepositView{deposit_controller_};
+  deposit_model_ = new DepositModel{};
+  deposit_controller_ = new DepositController{deposit_model_};
+  deposit_view_ = new DepositView{deposit_controller_};
+}
 
+void MainWindow::initView() {
   setWindowIcon(QIcon{":calculator.png"});
   setWindowTitle(QString{"SmartCalculator"});
 
-  tab_->addTab(credit_view_, QIcon{":credit.png"}, QString{"Credit"});
-  tab_->addTab(calculator_view_, QIcon{":calculator.png"}, QString{"Engineer"});
-  // tab_->addTab(deposit_view_, QIcon{":deposit.png"}, QString{"Deposit"});
+  tab_ = new QTabWidget;
 
-  tab_->setCurrentWidget(credit_view_);
   tab_->setStyleSheet(QString{
       "QTabWidget { background-color: rgb(255, 255, 255); }"
       "QTabWidget::pane { border-top: 1px solid rgba(40, 100, 180, 0.7); }"
@@ -48,6 +52,11 @@ MainWindow::MainWindow() : TopMenu(), tab_{new QTabWidget{}} {
       "QTabBar::tab:selected { border: 1px solid rgba(40, 100, 180, 1.0);"
       "font-size: 14px; }"
       "QTabBar::tab:!selected { margin-top: 10px; }"});
+
+  tab_->addTab(calculator_view_, QIcon{":calculator.png"}, QString{"Engineer"});
+  tab_->addTab(credit_view_, QIcon{":credit.png"}, QString{"Credit"});
+  tab_->addTab(deposit_view_, QIcon{":deposit.png"}, QString{"Deposit"});
+  tab_->setCurrentWidget(deposit_view_);
 
   TopMenu::main_layout->addWidget(tab_);
 }

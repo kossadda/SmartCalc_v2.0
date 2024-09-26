@@ -9,8 +9,8 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 set(TEST_SOURCES
-  # ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/calculator_test.cc
-  # ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/credit_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/calculator_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/credit_test.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/test_modules/deposit_test.cc
 )
 

@@ -13,6 +13,7 @@
 #define SRC_MODULES_INCLUDE_DEPOSIT_VIEW_H_
 
 #include <QCalendarWidget>
+#include <QCheckBox>
 #include <QComboBox>
 #include <QDoubleValidator>
 #include <QGridLayout>
@@ -32,25 +33,26 @@ class DepositView : public QWidget {
   ~DepositView();
 
  private slots:
-  // void calcClicked();
-  // void onTextChanged(const QString &text);
-  // void changeTermType();
+  void calcClicked();
+  void onTextChanged(const QString &text);
+  void changeTermType();
 
  private:
   void allocateMemory(DepositController *controller);
   void initView();
-  // bool isValidInput(QLineEdit *line);
+  bool isValidInput(QLineEdit *line);
 
   DepositController *controller_;
   Table *table_;
 
-  // QGridLayout *main_grid_;
-  // QPushButton *calculate_;
-  // QLineEdit *amount_, *term_, *rate_;
-  // QCalendarWidget *date_;
-  // QComboBox *type_, *term_type_;
-  // QLabel *lamount_, *lterm_, *lrate_, *ldate_, *ltype_, *lperc_;
-  // QDoubleValidator *vamount_, *vterm_, *vrate_;
+  QGridLayout *main_grid_;
+  QPushButton *calculate_;
+  QLineEdit *amount_, *term_, *rate_, *tax_rate_;
+  QCalendarWidget *date_;
+  QComboBox *type_, *term_type_;
+  QLabel *lamount_, *lterm_, *lrate_, *ltax_rate_, *ldate_, *ltype_, *lperc_;
+  QCheckBox *capital_;
+  QDoubleValidator *vamount_, *vterm_, *vrate_, *vtax_rate_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_DEPOSIT_VIEW_H_

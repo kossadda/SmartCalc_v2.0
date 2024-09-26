@@ -16,6 +16,7 @@
 
 #include "modules/include/calculator_view.h"
 #include "modules/include/credit_view.h"
+#include "modules/include/deposit_view.h"
 #include "modules/include/top_menu.h"
 
 class MainWindow : public TopMenu {
@@ -28,6 +29,9 @@ class MainWindow : public TopMenu {
   void closeWindow() override { QApplication::quit(); }
 
  private:
+  void initMVC();
+  void initView();
+
   QTabWidget *tab_;
   CalculatorModel *calculator_model_;
   CalculatorController *calculator_controller_;
@@ -35,9 +39,9 @@ class MainWindow : public TopMenu {
   CreditModel *credit_model_;
   CreditController *credit_controller_;
   CreditView *credit_view_;
-  // DepositModel *deposit_model_;
-  // DepositController *deposit_controller_;
-  // DepositView *deposit_view_;
+  DepositModel *deposit_model_;
+  DepositController *deposit_controller_;
+  DepositView *deposit_view_;
 };
 
 #endif  // SRC_MODULES_INCLUDE_MAIN_WINDOW_H_

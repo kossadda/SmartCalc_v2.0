@@ -26,7 +26,8 @@ class Table : public TopMenu {
  public:
   Table();
 
-  void fillTable(CreditController *controller);
+  template <typename Controller>
+  void fillTable(Controller *controller);
   void setFormat(std::size_t rows, std::size_t cols, const QStringList &heads);
 
  private:
@@ -36,5 +37,23 @@ class Table : public TopMenu {
   QGridLayout *main_grid_;
   QTableWidget *table_;
 };
+
+template <typename Controller>
+void Table::fillTable(Controller *controller) {
+  QTableWidgetItem *item;
+  table_->setRowCount(controller->table().size());
+
+  std::size_t row{};
+  for (auto i : controller->table()) {
+    std::size_t col{};
+    for (auto j : i) {
+      item = new QTableWidgetItem{QString::fromStdString(j)};
+      item->setTextAlignment(Qt::AlignCenter);
+      table_->setItem(row, col, item);
+      ++col;
+    }
+    ++row;
+  }
+}
 
 #endif  // SRC_MODULES_INCLUDE_TABLE_H_

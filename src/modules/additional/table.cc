@@ -47,23 +47,6 @@ void Table::initView() {
   TopMenu::main_layout->addLayout(main_grid_, 1, 0);
 }
 
-void Table::fillTable(CreditController *controller) {
-  QTableWidgetItem *item;
-  table_->setRowCount(controller->table().size());
-
-  std::size_t row{};
-  for (auto i : controller->table()) {
-    std::size_t col{};
-    for (auto j : i) {
-      item = new QTableWidgetItem{QString::fromStdString(j)};
-      item->setTextAlignment(Qt::AlignCenter);
-      table_->setItem(row, col, item);
-      ++col;
-    }
-    ++row;
-  }
-}
-
 void Table::setFormat(std::size_t rows, std::size_t cols,
                       const QStringList &heads) {
   table_->setRowCount(rows);
