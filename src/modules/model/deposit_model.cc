@@ -89,20 +89,20 @@ void DepositModel::addPeriod(const Date &last_day) noexcept {
     month_->accrual_date = last_day;
   } else if (data_->freq == Frequency::DAY) {
     month_->accrual_date.addDays(1);
-  } else if(data_->freq == Frequency::WEEK) {
+  } else if (data_->freq == Frequency::WEEK) {
     month_->accrual_date.addDays(7);
   } else {
     month_->accrual_date.addDepositMonth(period);
   }
 
-
-  if (month_->accrual_date >= last_day) {
+  if (month_->accrual_date > last_day) {
     month_->accrual_date = last_day;
   }
 }
 
 void DepositModel::calculatePeriod() {
-  month_->profit = roundVal(formula(data_->date.leapDaysBetween(month_->accrual_date)));
+  month_->profit =
+      roundVal(formula(data_->date.leapDaysBetween(month_->accrual_date)));
 
   if (data_->type == DepositType::CAPITALIZATION) {
     month_->balance_changing = month_->profit;
@@ -117,7 +117,8 @@ void DepositModel::calculatePeriod() {
 }
 
 void DepositModel::calculateTaxes(const Date &last_day) {
-  if (data_->date.year() != month_->accrual_date.year() || month_->accrual_date == last_day) {
+  if (data_->date.year() != month_->accrual_date.year() ||
+      month_->accrual_date == last_day) {
     tax_->year = data_->date.year();
 
     if (tax_->income > tax_->nontaxable) {
@@ -148,14 +149,3 @@ long double DepositModel::formula(
 long double DepositModel::roundVal(long double value) const noexcept {
   return std::round(value * 100.0L) / 100.0L;
 }
-
-void DepositModel::printTable() {
-  for(auto i : table_) {
-    std::cout << i.accrual_date.currentDate() << " | ";
-    std::cout << i.profit << " | ";
-    std::cout << i.balance_changing << " | ";
-    std::cout << i.receiving << " | ";
-    std::cout << i.balance << "\n";
-  }
-}
-

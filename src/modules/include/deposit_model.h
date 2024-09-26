@@ -84,7 +84,6 @@ class DepositModel {
   const std::vector<Month> &table() const noexcept;
   const std::vector<Tax> &taxTable() const noexcept;
   void clear() noexcept;
-  void printTable();
 
  private:
   Date lastDepositDay() const noexcept;

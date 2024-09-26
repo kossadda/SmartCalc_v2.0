@@ -189,18 +189,17 @@ Date &Date::addCreditMonth(DateSize init_day) noexcept {
 }
 
 Date &Date::addDepositMonth(std::size_t term) noexcept {
-  DateSize init_month{month_};
-  DateSize init_year{year_};
+  Date temp{*this};
   std::size_t days_turn{};
 
   for (std::size_t i{}; i < term; ++i) {
-    days_turn += dates_[init_month];
-    ++init_month;
+    days_turn += temp.dates_[temp.month_];
+    ++temp.month_;
 
-    if (init_month > kYearMonths) {
-      ++init_year;
-      init_month = 1;
-      refreshYearDates();
+    if (temp.month_ > kYearMonths) {
+      ++temp.year_;
+      temp.month_ = 1;
+      temp.refreshYearDates();
     }
   }
 
@@ -251,7 +250,7 @@ std::pair<std::size_t, std::size_t> Date::leapDaysBetween(
       if (isYearLeap(i)) {
         leap_days += kLeapYearDays;
       } else {
-        default_days = kYearDays;
+        default_days += kYearDays;
       }
     }
   } else {

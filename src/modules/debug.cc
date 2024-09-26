@@ -33,17 +33,18 @@ void testCredit(const Data &data, std::vector<long double> expected) {
   for (std::size_t i{}; i < expected.size(); ++i) {
     long double res = result.at(i);
     long double exp = expected.at(i);
-    std::cout << "\nRes : " << res << "\nTrue: " << exp << '\n';
+    printf("\nRes : %.2Lf\nTrue: %.2Lf\n", res, exp);
   }
 
-  // deposit.printTable();
+  deposit.printTable();
 }
 
 int main() {
   setlocale(LC_NUMERIC, "C");
 
-  Data data{10000, 12, MONTHS, 15, 16, Type::CAPITALIZATION, Freq::DAY, Date{1, 1, 2020}};
-  testCredit(data, {1500.61, 10000});
-
+  Data data{
+      895625.37,       25, MONTHS, 12.345, 16, Type::DEFAULT, Freq::ENDTERM,
+      Date{8, 2, 1988}};
+  testCredit(data, {229643.88, 895625.37});
   return 0;
 }
