@@ -57,6 +57,7 @@ void MainWindow::initView() {
   tab_->addTab(credit_view_, QIcon{":credit.png"}, QString{"Credit"});
   tab_->addTab(deposit_view_, QIcon{":deposit.png"}, QString{"Deposit"});
   tab_->setCurrentWidget(calculator_view_);
+  setlocale(LC_NUMERIC, "C");
 
   TopMenu::main_layout->addWidget(tab_);
 }

@@ -67,7 +67,9 @@ void CalculatorModel::to_postfix() {
         ops.pop();
       }
     } else if (isOperator(c) || isFunction(c)) {
-      while (!ops.empty() && getPrecedence(ops.top()) >= getPrecedence(c)) {
+      while (!ops.empty() &&
+             ((c != '^' && getPrecedence(ops.top()) >= getPrecedence(c)) ||
+              (c == '^' && getPrecedence(ops.top()) > getPrecedence(c)))) {
         postfix_ += ops.top();
         postfix_ += ' ';
         ops.pop();
@@ -85,7 +87,7 @@ void CalculatorModel::to_postfix() {
 }
 
 bool CalculatorModel::validate() {
-  const std::string valid_chars{"()^+-*/umsctSCTQLlPxe1234567890."};
+  const std::string valid_chars{"()^+-*/msctSCTQLlPxe1234567890."};
   std::size_t open_br{};
   std::size_t close_br{};
   bool valid{(infix_.size()) ? true : false};
@@ -104,11 +106,15 @@ bool CalculatorModel::validate() {
 
     if (valid_chars.find(infix_[i]) == std::string::npos) {
       valid = false;
-    } else if (isOperator(ch) && i + 1 < infix_.size() &&
-               isOperator(infix_[i + 1])) {
+    } else if (isOperator(ch) &&
+               (isOperator(infix_[i + 1]) || infix_[i + 1] == ')')) {
       valid = false;
     } else if (close_br > open_br) {
       valid = false;
+    } else if (isFunction(ch) && ch != 'P') {
+      if (infix_[i + 1] != '(') {
+        valid = false;
+      }
     }
 
     if (isdigit(ch) || ch == '.') {
@@ -223,7 +229,7 @@ long double CalculatorModel::evaluate() {
           if (top < 0.0L) throw std::invalid_argument("sqrt: negative number");
           top = std::sqrt(top);
           break;
-        case 'u':
+        case 'P':
           top *= -1.0L;
       }
 
@@ -254,11 +260,7 @@ std::string CalculatorModel::replaceNames(std::string infix) {
   for (auto i : infix) {
     if (i != ' ') result += i;
   }
-
-  if (result[0] == '-') {
-    result[0] = 'u';
-  }
-
+  
   std::regex number_x_pattern{"(\\d+)x"};
   result = std::regex_replace(result, number_x_pattern, "$1*x");
 
@@ -270,6 +272,11 @@ std::string CalculatorModel::replaceNames(std::string infix) {
 
   result = replaceSubstr(result, "x", "(x)");
   result = replaceSubstr(result, "P", "(3.1415926535897932384626433)");
+
+  if (result[0] == '-') {
+    result[0] = 'P';
+  }
+
   result = replaceSubstr(result, "asin(", "S(");
   result = replaceSubstr(result, "acos(", "C(");
   result = replaceSubstr(result, "atan(", "T(");
@@ -282,7 +289,7 @@ std::string CalculatorModel::replaceNames(std::string infix) {
   result = replaceSubstr(result, "mod", "m");
   result = replaceSubstr(result, ")(", ")*(");
   result = replaceSubstr(result, "(+", "(");
-  result = replaceSubstr(result, "(-", "((u1)*");
+  result = replaceSubstr(result, "(-", "((P1)*");
 
   std::regex digit_bracket{"(\\d)\\("};
   result = std::regex_replace(result, digit_bracket, "$1*(");
@@ -292,6 +299,12 @@ std::string CalculatorModel::replaceNames(std::string infix) {
 
   result = replaceSubstr(result, "e", "(2.7182818284590452353671352)");
   result = replaceSubstr(result, "E", "e");
+
+  for (std::size_t i{}; i != result.size(); ++i) {
+    if (isdigit(result[i]) && isFunction(result[i + 1]) && result[i] != 'P') {
+      result.insert(++i, "*");
+    }
+  }
 
   return result;
 }
@@ -306,7 +319,7 @@ int CalculatorModel::getPrecedence(char op) {
   } else if (op == '^') {
     priority = 3;
   } else if (op == 's' || op == 'c' || op == 't' || op == 'S' || op == 'C' ||
-             op == 'T' || op == 'l' || op == 'L' || op == 'Q' || op == 'u') {
+             op == 'T' || op == 'l' || op == 'L' || op == 'Q' || op == 'P') {
     priority = 4;
   }
 
@@ -319,5 +332,5 @@ bool CalculatorModel::isOperator(char c) {
 
 bool CalculatorModel::isFunction(char c) {
   return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' ||
-         c == 'l' || c == 'L' || c == 'Q' || c == 'u';
+         c == 'l' || c == 'L' || c == 'Q' || c == 'P';
 }

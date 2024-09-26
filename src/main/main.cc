@@ -14,8 +14,6 @@
 #include "include/view/main_window.h"
 
 int main(int argc, char *argv[]) {
-  setlocale(LC_NUMERIC, "C");
-
   QApplication a(argc, argv);
 
   MainWindow main_window;
