@@ -19,8 +19,8 @@ CXX = g++
 #==============================================================================#
 
 #=============================== DIRECTORY NAMES ==============================#
-MAIN_DIR = ./modules
-MODULES_DIR = ./modules/
+MAIN_DIR = ./
+MODULES_DIR = ./
 TEST_DIR = ./tests
 DVI_DIR = ../docs
 DIST_DIR = ../dist
@@ -40,10 +40,10 @@ VAL = --tool=memcheck --leak-check=yes
 #==============================================================================#
 
 #=========================== LIST OF FILE AND DIRS  ===========================#
-MODULES_DIRS = $(shell find $(MODULES_DIR) -type d)
+MODULES_DIRS = $(shell find $(MODULES_DIR) -type d ! -name "tests")
 TEST_DIRS = $(shell find $(TEST_DIR) -type d)
 
-MODULES = $(shell find $(MODULES_DIR) -type f ! -name "qcustomplot.*")
+MODULES = $(shell find $(MODULES_DIR) -type f ! -name "qcustomplot.* | *_test.*")
 TESTS = $(shell find $(TEST_DIR) -type f")
 #==============================================================================#
 
@@ -104,7 +104,7 @@ test:
 
 #=============================== CHECKS TARGETS ===============================#
 deb:
-	@$(CXX) $(CXXFLAGS) -I./ ./modules/debug.cc ./modules/additional/date.cc ./modules/model/* -o test
+	@$(CXX) $(CXXFLAGS) -I./ ./main/debug.cc ./additional/date.cc ./model/* -o test
 	@valgrind $(VAL) ./test
 	
 clang_check:

@@ -9,7 +9,7 @@
  *
  */
 
-#include "../main_test.h"
+#include "tests/main_test.h"
 
 #define ANN CreditModel::CreditType::ANNUITY
 #define DIF CreditModel::CreditType::DIFFERENTIATED

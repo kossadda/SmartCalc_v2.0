@@ -9,7 +9,7 @@
  *
  */
 
-#include "../main_test.h"
+#include "tests/main_test.h"
 
 void testCalculating(const std::string& infix, long double exp,
                      long double precision = 1.0e-7L, long double var = 0.0L) {

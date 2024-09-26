@@ -9,7 +9,7 @@
  * 
  */
 
-#include "../main_test.h"
+#include "tests/main_test.h"
 
 #define MONTHS DepositModel::TermType::MONTHS
 #define DAYS DepositModel::TermType::DAYS

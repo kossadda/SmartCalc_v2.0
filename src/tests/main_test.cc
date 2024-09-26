@@ -9,7 +9,7 @@
  *
  */
 
-#include "./main_test.h"
+#include "tests/main_test.h"
 
 /**
  * @brief Main running testing

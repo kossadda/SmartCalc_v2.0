@@ -14,8 +14,8 @@
 
 #include <gtest/gtest.h>
 
-#include "../modules/include/calculator_model.h"
-#include "../modules/include/credit_model.h"
-#include "../modules/include/deposit_model.h"
+#include "include/model/calculator_model.h"
+#include "include/model/credit_model.h"
+#include "include/model/deposit_model.h"
 
 #endif  // SRC_TESTS_MAIN_TEST_H_

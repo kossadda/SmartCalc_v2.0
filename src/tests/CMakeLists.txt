@@ -15,10 +15,10 @@ set(TEST_SOURCES
 )
 
 set(PROJECT_SOURCES
-  ${CMAKE_CURRENT_SOURCE_DIR}/../modules/model/calculator_model.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/../modules/model/credit_model.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/../modules/model/deposit_model.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/../modules/additional/date.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/../model/calculator_model.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/../model/credit_model.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/../model/deposit_model.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/../additional/date.cc
 )
 
 set(MAIN
