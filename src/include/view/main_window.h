@@ -9,15 +9,15 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_MAIN_WINDOW_H_
-#define SRC_MODULES_INCLUDE_MAIN_WINDOW_H_
+#ifndef SRC_INCLUDE_VIEW_MAIN_WINDOW_H_
+#define SRC_INCLUDE_VIEW_MAIN_WINDOW_H_
 
 #include <QTabWidget>
 
+#include "include/additional/top_menu.h"
 #include "include/view/calculator_view.h"
 #include "include/view/credit_view.h"
 #include "include/view/deposit_view.h"
-#include "include/additional/top_menu.h"
 
 class MainWindow : public TopMenu {
   Q_OBJECT
@@ -44,4 +44,4 @@ class MainWindow : public TopMenu {
   DepositView *deposit_view_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_MAIN_WINDOW_H_
+#endif  // SRC_INCLUDE_VIEW_MAIN_WINDOW_H_

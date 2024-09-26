@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_DEPOSIT_CONTROLLER_H_
-#define SRC_MODULES_INCLUDE_DEPOSIT_CONTROLLER_H_
+#ifndef SRC_INCLUDE_CONTROLLER_DEPOSIT_CONTROLLER_H_
+#define SRC_INCLUDE_CONTROLLER_DEPOSIT_CONTROLLER_H_
 
 #include <iomanip>
 #include <string>
@@ -40,4 +40,4 @@ class DepositController {
   std::vector<std::vector<std::string>> table_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_DEPOSIT_CONTROLLER_H_
+#endif  // SRC_INCLUDE_CONTROLLER_DEPOSIT_CONTROLLER_H_

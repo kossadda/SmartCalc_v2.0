@@ -9,16 +9,17 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_TABLE_H_
-#define SRC_MODULES_INCLUDE_TABLE_H_
+#ifndef SRC_INCLUDE_ADDITIONAL_TABLE_H_
+#define SRC_INCLUDE_ADDITIONAL_TABLE_H_
+
+#include <include/additional/top_menu.h>
 
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QTableWidget>
 
-#include "include/controller/deposit_controller.h"
 #include "include/controller/credit_controller.h"
-#include <include/additional/top_menu.h>
+#include "include/controller/deposit_controller.h"
 
 class Table : public TopMenu {
   Q_OBJECT
@@ -56,4 +57,4 @@ void Table::fillTable(Controller *controller) {
   }
 }
 
-#endif  // SRC_MODULES_INCLUDE_TABLE_H_
+#endif  // SRC_INCLUDE_ADDITIONAL_TABLE_H_

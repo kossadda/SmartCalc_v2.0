@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_PLOT_H_
-#define SRC_MODULES_INCLUDE_PLOT_H_
+#ifndef SRC_INCLUDE_ADDITIONAL_PLOT_H_
+#define SRC_INCLUDE_ADDITIONAL_PLOT_H_
 
 #include <QDoubleValidator>
 #include <QGridLayout>
@@ -18,9 +18,9 @@
 #include <QLineEdit>
 #include <QVector>
 
-#include "include/controller/calculator_controller.h"
 #include "include/additional/qcustomplot.h"
 #include "include/additional/top_menu.h"
+#include "include/controller/calculator_controller.h"
 
 class Plot : public TopMenu {
   Q_OBJECT
@@ -49,4 +49,4 @@ class Plot : public TopMenu {
   double current_x_min, current_x_max, current_y_min, current_y_max;
 };
 
-#endif  // SRC_MODULES_INCLUDE_PLOT_H_
+#endif  // SRC_INCLUDE_ADDITIONAL_PLOT_H_

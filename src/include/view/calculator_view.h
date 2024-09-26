@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
-#define SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
+#ifndef SRC_INCLUDE_VIEW_CALCULATOR_VIEW_H_
+#define SRC_INCLUDE_VIEW_CALCULATOR_VIEW_H_
 
 #include <QDebug>
 #include <QDoubleValidator>
@@ -21,8 +21,8 @@
 #include <QPushButton>
 #include <QWidget>
 
-#include "include/controller/calculator_controller.h"
 #include "include/additional/plot.h"
+#include "include/controller/calculator_controller.h"
 
 class CalculatorView : public QWidget {
   Q_OBJECT
@@ -64,4 +64,4 @@ class CalculatorView : public QWidget {
   QLabel *lvar;
 };
 
-#endif  // SRC_MODULES_INCLUDE_CALCULATOR_VIEW_H_
+#endif  // SRC_INCLUDE_VIEW_CALCULATOR_VIEW_H_

@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_TOP_MENU_H_
-#define SRC_MODULES_INCLUDE_TOP_MENU_H_
+#ifndef SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_
+#define SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_
 
 #include <QFrame>
 #include <QGridLayout>
@@ -54,4 +54,4 @@ class TopMenu : public QWidget {
   QTimer *move_timer;
 };
 
-#endif  // SRC_MODULES_INCLUDE_TOP_MENU_H_
+#endif  // SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_

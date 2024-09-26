@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_CALCULATOR_MODEL_H_
-#define SRC_MODULES_INCLUDE_CALCULATOR_MODEL_H_
+#ifndef SRC_INCLUDE_MODEL_CALCULATOR_MODEL_H_
+#define SRC_INCLUDE_MODEL_CALCULATOR_MODEL_H_
 
 #include <cctype>
 #include <cmath>
@@ -46,4 +46,4 @@ class CalculatorModel {
   long double variable_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_CALCULATOR_MODEL_H_
+#endif  // SRC_INCLUDE_MODEL_CALCULATOR_MODEL_H_

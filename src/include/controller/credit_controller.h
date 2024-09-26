@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_CREDIT_CONTROLLER_H_
-#define SRC_MODULES_INCLUDE_CREDIT_CONTROLLER_H_
+#ifndef SRC_INCLUDE_CONTROLLER_CREDIT_CONTROLLER_H_
+#define SRC_INCLUDE_CONTROLLER_CREDIT_CONTROLLER_H_
 
 #include <iomanip>
 #include <string>
@@ -39,4 +39,4 @@ class CreditController {
   long double total_{};
 };
 
-#endif  // SRC_MODULES_INCLUDE_CREDIT_CONTROLLER_H_
+#endif  // SRC_INCLUDE_CONTROLLER_CREDIT_CONTROLLER_H_

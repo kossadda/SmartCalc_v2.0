@@ -26,7 +26,9 @@ void DepositController::addDepositData(long double amount, std::size_t term,
                                        long double tax_rate, DepositType type,
                                        Frequency freq, std::size_t day,
                                        std::size_t month, std::size_t year) {
-  DepositModel::Data data{amount, static_cast<long double>(term), term_type, rate, tax_rate, type, freq, Date(day, month, year)};
+  DepositModel::Data data{
+      amount, static_cast<long double>(term), term_type, rate, tax_rate, type,
+      freq,   Date(day, month, year)};
 
   model_->addData(data);
   model_->clear();

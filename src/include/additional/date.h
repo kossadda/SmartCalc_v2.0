@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_DATE_H_
-#define SRC_MODULES_INCLUDE_DATE_H_
+#ifndef SRC_INCLUDE_ADDITIONAL_DATE_H_
+#define SRC_INCLUDE_ADDITIONAL_DATE_H_
 
 #include <iostream>
 #include <sstream>
@@ -75,4 +75,4 @@ class Date {
   std::vector<DateSize> dates_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_DATE_H_
+#endif  // SRC_INCLUDE_ADDITIONAL_DATE_H_

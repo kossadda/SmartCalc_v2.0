@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_DEPOSIT_VIEW_H_
-#define SRC_MODULES_INCLUDE_DEPOSIT_VIEW_H_
+#ifndef SRC_INCLUDE_VIEW_DEPOSIT_VIEW_H_
+#define SRC_INCLUDE_VIEW_DEPOSIT_VIEW_H_
 
 #include <QCalendarWidget>
 #include <QCheckBox>
@@ -22,8 +22,8 @@
 #include <QPushButton>
 #include <QWidget>
 
-#include "include/controller/deposit_controller.h"
 #include "include/additional/table.h"
+#include "include/controller/deposit_controller.h"
 
 class DepositView : public QWidget {
   Q_OBJECT
@@ -55,4 +55,4 @@ class DepositView : public QWidget {
   QDoubleValidator *vamount_, *vterm_, *vrate_, *vtax_rate_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_DEPOSIT_VIEW_H_
+#endif  // SRC_INCLUDE_VIEW_DEPOSIT_VIEW_H_

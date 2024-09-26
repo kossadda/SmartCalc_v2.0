@@ -23,8 +23,8 @@
 **          Version: 2.1.1                                                **
 ****************************************************************************/
 
-#ifndef QCUSTOMPLOT_H
-#define QCUSTOMPLOT_H
+#ifndef SRC_INCLUDE_ADDITIONAL_QCUSTOMPLOT_H
+#define SRC_INCLUDE_ADDITIONAL_QCUSTOMPLOT_H
 
 #include <QtCore/qglobal.h>
 
@@ -8789,4 +8789,4 @@ class QCP_LIB_DECL QCPPolarGraph : public QCPLayerable {
 
 /* end of 'src/polar/polargraph.h' */
 
-#endif  // QCUSTOMPLOT_H
+#endif  // SRC_INCLUDE_ADDITIONAL_QCUSTOMPLOT_H

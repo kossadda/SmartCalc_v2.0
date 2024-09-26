@@ -179,7 +179,8 @@ void DepositView::initView() {
   term_type_->setStyleSheet(combo_box_style);
   term_type_->setMinimumSize(lwidth, lheight);
 
-  QStringList headers{"Date", "Interest accured", "Balance change", "Pay", "Balance"};
+  QStringList headers{"Date", "Interest accured", "Balance change", "Pay",
+                      "Balance"};
   table_->setFormat(0, 5, headers);
 
   setLayout(main_grid_);
@@ -200,13 +201,13 @@ void DepositView::calcClicked() {
 
   if (term_type_->currentIndex() == 2) {
     term_type = DepositController::TermType::DAYS;
-  } else if(term_type_->currentIndex() == 1) {
+  } else if (term_type_->currentIndex() == 1) {
     term_type = DepositController::TermType::MONTHS;
   } else {
     term_type = DepositController::TermType::YEARS;
   }
 
-  if(capital_->isChecked()) {
+  if (capital_->isChecked()) {
     type = DepositController::DepositType::CAPITALIZATION;
   } else {
     type = DepositController::DepositType::DEFAULT;
@@ -235,8 +236,9 @@ void DepositView::calcClicked() {
 
   auto date = date_->selectedDate();
 
-  controller_->addDepositData(amount, term, term_type, rate, tax_rate, type, freq, date.day(), date.month(), date.year());
-  
+  controller_->addDepositData(amount, term, term_type, rate, tax_rate, type,
+                              freq, date.day(), date.month(), date.year());
+
   controller_->calculateDeposit();
 
   table_->fillTable(controller_);

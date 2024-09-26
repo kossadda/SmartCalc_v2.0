@@ -19,13 +19,18 @@ CXX = g++
 #==============================================================================#
 
 #=============================== DIRECTORY NAMES ==============================#
-MAIN_DIR = ./
-MODULES_DIR = ./
 TEST_DIR = ./tests
 DVI_DIR = ../docs
 DIST_DIR = ../dist
 BUILD = ../bin
 TEST_BUILD = ./test_bin
+MAIN_DIR = ./main
+MODEL_DIR = ./model
+VIEW_DIR = ./view
+CONTROLLER_DIR = ./controller
+ADDITIONAL_DIR = ./additional
+INCLUDE_DIR = ./include
+EXCLUDE_FILES = qcustomplot*
 #==============================================================================#
 
 #==================================== FLAGS ===================================#
@@ -40,10 +45,8 @@ VAL = --tool=memcheck --leak-check=yes
 #==============================================================================#
 
 #=========================== LIST OF FILE AND DIRS  ===========================#
-MODULES_DIRS = $(shell find $(MODULES_DIR) -type d ! -name "tests")
-TEST_DIRS = $(shell find $(TEST_DIR) -type d)
-
-MODULES = $(shell find $(MODULES_DIR) -type f ! -name "qcustomplot.* | *_test.*")
+ALL_MODULES_DIR = $(INCLUDE_DIR) $(MODEL_DIR) $(VIEW_DIR) $(CONTROLLER_DIR) $(ADDITIONAL_DIR) $(MAIN_DIR)
+MODULES = $(shell find $(ALL_MODULES_DIR) -type f ! -name $(EXCLUDE_FILES))
 TESTS = $(shell find $(TEST_DIR) -type f")
 #==============================================================================#
 

@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_DEPOSIT_MODEL_H_
-#define SRC_MODULES_INCLUDE_DEPOSIT_MODEL_H_
+#ifndef SRC_INCLUDE_MODEL_DEPOSIT_MODEL_H_
+#define SRC_INCLUDE_MODEL_DEPOSIT_MODEL_H_
 
 #include <cmath>
 #include <utility>
@@ -103,4 +103,4 @@ class DepositModel {
   std::vector<Tax> tax_table_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_DEPOSIT_MODEL_H_
+#endif  // SRC_INCLUDE_MODEL_DEPOSIT_MODEL_H_

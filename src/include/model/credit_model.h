@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_CREDIT_MODEL_H_
-#define SRC_MODULES_INCLUDE_CREDIT_MODEL_H_
+#ifndef SRC_INCLUDE_MODEL_CREDIT_MODEL_H_
+#define SRC_INCLUDE_MODEL_CREDIT_MODEL_H_
 
 #include <cmath>
 #include <vector>
@@ -63,4 +63,4 @@ class CreditModel {
   std::vector<Month> table_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_CREDIT_MODEL_H_
+#endif  // SRC_INCLUDE_MODEL_CREDIT_MODEL_H_

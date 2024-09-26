@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_MODULES_INCLUDE_CREDIT_VIEW_H_
-#define SRC_MODULES_INCLUDE_CREDIT_VIEW_H_
+#ifndef SRC_INCLUDE_VIEW_CREDIT_VIEW_H_
+#define SRC_INCLUDE_VIEW_CREDIT_VIEW_H_
 
 #include <QCalendarWidget>
 #include <QComboBox>
@@ -21,8 +21,8 @@
 #include <QPushButton>
 #include <QWidget>
 
-#include "include/controller/credit_controller.h"
 #include "include/additional/table.h"
+#include "include/controller/credit_controller.h"
 
 class CreditView : public QWidget {
   Q_OBJECT
@@ -53,4 +53,4 @@ class CreditView : public QWidget {
   QDoubleValidator *vamount_, *vterm_, *vrate_;
 };
 
-#endif  // SRC_MODULES_INCLUDE_CREDIT_VIEW_H_
+#endif  // SRC_INCLUDE_VIEW_CREDIT_VIEW_H_
