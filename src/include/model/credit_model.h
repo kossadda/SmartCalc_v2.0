@@ -13,66 +13,24 @@
 #define SRC_INCLUDE_MODEL_CREDIT_MODEL_H_
 
 #include <cmath>
-#include <iomanip>
 #include <string>
 #include <vector>
 
 #include "include/additional/date.h"
+#include "include/model/base_model.h"
 
-class CreditModel {
+class CreditModel : public BaseModel {
  public:
-  enum class CreditType { ANNUITY, DIFFERENTIATED };
-  enum class TermType { YEARS, MOHTHS };
-
-  struct Data {
-   public:
-    Data() = default;
-    Data(long double amount_, long double term_, TermType term_type_,
-         long double rate_, CreditType type_, const Date &date_)
-        : amount{amount_},
-          term{term_},
-          term_type{term_type_},
-          rate{rate_},
-          type{type_},
-          date{date_} {}
-
-    long double amount{};
-    long double term{};
-    TermType term_type;
-    long double rate{};
-    CreditType type;
-    Date date;
-  };
-
-  struct Month {
-   public:
-    Date payment_date;
-    Date current;
-    long double summary{};
-    long double main{};
-    long double percent{};
-    long double balance{};
-  };
-
   CreditModel();
-  ~CreditModel();
 
+  std::vector<std::string> totalTable() const noexcept override;
   void addData(const Data &data) noexcept;
-  void calculatePayments() noexcept;
-  void clear() noexcept;
-  std::vector<std::string> totalTable() const noexcept;
-  const std::vector<std::vector<std::string>> &table() const noexcept;
+  void calculatePayments() noexcept override;
+  void clear() noexcept override;
 
  private:
-  void calculatePeriod() noexcept;
-  long double formula(std::pair<std::size_t, std::size_t> days) const noexcept;
-  long double roundVal(long double value) const noexcept;
-  std::vector<std::string> monthToString() const noexcept;
-  std::string toStr(long double val) const noexcept;
+  void calculatePeriod() noexcept override;
 
-  Data *data_;
-  Month *month_;
-  std::vector<std::vector<std::string>> table_;
   long double total_{};
 };
 

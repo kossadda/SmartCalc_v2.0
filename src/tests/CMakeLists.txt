@@ -15,6 +15,7 @@ set(TEST_SOURCES
 )
 
 set(PROJECT_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/../model/base_model.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/../model/calculator_model.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/../model/credit_model.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/../model/deposit_model.cc

@@ -151,8 +151,8 @@ void CreditView::initView() {
   term_type_->setStyleSheet(combo_box_style);
   term_type_->setFixedSize(lwidth, lheight);
 
-  QStringList headers{"Date", "Amount of payment", "Principal payment",
-                      "Interest payment", "Balance owed"};
+  QStringList headers{"Date", "Interest payment", "Principal payment",
+                      "Amount of payment", "Balance owed"};
   table_->setHeaders(table_->table(), headers);
 
   for (std::size_t i{}; i < 3; ++i) {
@@ -176,18 +176,18 @@ void CreditView::calcClicked() {
 
   QLabel *infolab[]{ltotal, ltotaldebt, totalinterest};
   CreditController::TermType term_type;
-  CreditController::CreditType type;
+  CreditController::Type type;
 
   if (term_type_->currentIndex()) {
-    term_type = CreditController::TermType::MOHTHS;
+    term_type = CreditController::TermType::MONTHS;
   } else {
     term_type = CreditController::TermType::YEARS;
   }
 
   if (type_->currentIndex()) {
-    type = CreditController::CreditType::DIFFERENTIATED;
+    type = CreditController::Type::SECOND;
   } else {
-    type = CreditController::CreditType::ANNUITY;
+    type = CreditController::Type::FIRST;
   }
 
   long double amount{amount_->text().toDouble()};

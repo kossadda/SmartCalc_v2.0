@@ -19,14 +19,14 @@
 
 class CreditController {
  public:
-  using CreditType = CreditModel::CreditType;
+  using Type = CreditModel::Type;
   using TermType = CreditModel::TermType;
 
   explicit CreditController(CreditModel *model = nullptr);
   ~CreditController();
 
   void addCreditData(long double amount, std::size_t term, TermType term_type,
-                     long double rate, CreditType type, std::size_t day,
+                     long double rate, Type type, std::size_t day,
                      std::size_t month, std::size_t year);
   void calculateCredit();
   const std::vector<std::vector<std::string>> &table() const noexcept;

@@ -23,15 +23,14 @@ DepositController::~DepositController() { delete model_; }
 
 void DepositController::addDepositData(long double amount, std::size_t term,
                                        TermType term_type, long double rate,
-                                       long double tax_rate, DepositType type,
+                                       long double tax_rate, Type type,
                                        Frequency freq, std::size_t day,
                                        std::size_t month, std::size_t year) {
-  DepositModel::Data data{
-      amount, static_cast<long double>(term), term_type, rate, tax_rate, type,
-      freq,   Date(day, month, year)};
+  DepositModel::Data data(amount, term, term_type, rate, type,
+                          Date(day, month, year));
 
-  model_->addData(data);
   model_->clear();
+  model_->addData(data, tax_rate, freq);
 }
 
 void DepositController::calculateDeposit() { model_->calculatePayments(); }

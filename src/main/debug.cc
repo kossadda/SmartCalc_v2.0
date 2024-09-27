@@ -13,17 +13,17 @@
 #include "include/model/credit_model.h"
 #include "include/model/deposit_model.h"
 
-#define YEARS DepositModel::TermType::YEARS
 #define MONTHS DepositModel::TermType::MONTHS
 #define DAYS DepositModel::TermType::DAYS
 using Data = DepositModel::Data;
 using Freq = DepositModel::Frequency;
-using Type = DepositModel::DepositType;
+using Type = DepositModel::Type;
 
-void testDeposit(const Data& data, std::vector<long double> expected) {
+void testDeposit(const Data& data, Freq freq,
+                 std::vector<long double> expected) {
   DepositModel deposit;
 
-  deposit.addData(data);
+  deposit.addData(data, 16, freq);
   deposit.calculatePayments();
   std::vector<long double> result{0.0L, std::stold(deposit.table().back()[4])};
 
@@ -75,13 +75,6 @@ void testCalculating(const std::string& infix) {
 }
 
 int main() {
-  Data data{1231223.43,
-            11,
-            YEARS,
-            12.445,
-            19,
-            Type::CAPITALIZATION,
-            Freq::HALFYEAR,
-            Date{27, 9, 2024}};
-  testDeposit(data, {3414603.89, 4645827.32});
+  Data data{10000, 12, MONTHS, 15, Type::FIRST, Date{28, 9, 2024}};
+  testDeposit(data, Freq::MONTH, {1500.61, 10000});
 }

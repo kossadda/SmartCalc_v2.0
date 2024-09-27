@@ -11,9 +11,9 @@
 
 #include "tests/main_test.h"
 
-#define ANN CreditModel::CreditType::ANNUITY
-#define DIF CreditModel::CreditType::DIFFERENTIATED
-#define MONTHS CreditModel::TermType::MOHTHS
+#define ANN CreditModel::Type::FIRST
+#define DIF CreditModel::Type::SECOND
+#define MONTHS CreditModel::TermType::MONTHS
 using Data = CreditModel::Data;
 
 void testCredit(const Data &data, std::vector<long double> expected) {
@@ -24,9 +24,9 @@ void testCredit(const Data &data, std::vector<long double> expected) {
   std::vector<long double> result(3);
   
   for(auto i : credit.table()) {
-    result[0] += std::stold(i[1]);
+    result[0] += std::stold(i[3]);
     result[1] += std::stold(i[2]);
-    result[2] += std::stold(i[3]);
+    result[2] += std::stold(i[1]);
   }
 
   for (std::size_t i{}; i < expected.size(); ++i) {

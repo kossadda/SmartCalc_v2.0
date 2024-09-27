@@ -12,6 +12,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(MODELS
+  ${CMAKE_SOURCE_DIR}/model/base_model.cc
   ${CMAKE_SOURCE_DIR}/model/calculator_model.cc
   ${CMAKE_SOURCE_DIR}/model/credit_model.cc
   ${CMAKE_SOURCE_DIR}/model/deposit_model.cc
@@ -39,6 +40,7 @@ set(ADDITIONAL
 )
 
 set(HEADERS
+  ${CMAKE_SOURCE_DIR}/include/model/base_model.h
   ${CMAKE_SOURCE_DIR}/include/model/calculator_model.h
   ${CMAKE_SOURCE_DIR}/include/model/credit_model.h
   ${CMAKE_SOURCE_DIR}/include/model/deposit_model.h

@@ -187,7 +187,7 @@ void DepositView::initView() {
   term_type_->setStyleSheet(combo_box_style);
   term_type_->setMinimumSize(lwidth, lheight);
 
-  QStringList headers{"Date", "Interest accured", "Balance change", "Pay",
+  QStringList headers{"Date", "Interest accured", "Pay", "Balance change",
                       "Balance"};
   table_->setHeaders(table_->table(), headers);
 
@@ -221,7 +221,7 @@ void DepositView::calcClicked() {
 
   QLabel *infolab[]{lprofit, ltax, laccured, leffrate, lfullbalance, lbalance};
   DepositController::TermType term_type;
-  DepositController::DepositType type;
+  DepositController::Type type;
   DepositController::Frequency freq;
 
   if (term_type_->currentIndex() == 2) {
@@ -233,9 +233,9 @@ void DepositView::calcClicked() {
   }
 
   if (capital_->isChecked()) {
-    type = DepositController::DepositType::CAPITALIZATION;
+    type = DepositController::Type::SECOND;
   } else {
-    type = DepositController::DepositType::DEFAULT;
+    type = DepositController::Type::FIRST;
   }
 
   if (freq_->currentIndex() == 0) {

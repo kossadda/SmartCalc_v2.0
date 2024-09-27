@@ -23,7 +23,7 @@ CreditController::~CreditController() { delete model_; }
 
 void CreditController::addCreditData(long double amount, std::size_t term,
                                      TermType term_type, long double rate,
-                                     CreditType type, std::size_t day,
+                                     Type type, std::size_t day,
                                      std::size_t month, std::size_t year) {
   CreditModel::Data data{amount,    static_cast<long double>(term),
                          term_type, rate,
