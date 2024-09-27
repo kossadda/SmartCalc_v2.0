@@ -47,6 +47,7 @@ class CreditModel {
   struct Month {
    public:
     Date payment_date;
+    Date current;
     long double summary{};
     long double main{};
     long double percent{};
@@ -68,13 +69,11 @@ class CreditModel {
   long double formula(const Date &date, std::size_t month_part) const noexcept;
   long double roundVal(long double value) const noexcept;
   std::vector<std::string> monthToString() const noexcept;
-  std::string ldoubleToString(long double val,
-                              std::size_t precision = 2UL) const noexcept;
+  std::string toStr(long double val) const noexcept;
 
   Data *data_;
   Month *month_;
   std::vector<std::vector<std::string>> table_;
-  Date *current_date;
   long double total_{};
 };
 

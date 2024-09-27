@@ -11,13 +11,11 @@
 
 #include "include/model/credit_model.h"
 
-CreditModel::CreditModel()
-    : data_{new Data{}}, month_{new Month{}}, current_date{new Date} {}
+CreditModel::CreditModel() : data_{new Data{}}, month_{new Month{}} {}
 
 CreditModel::~CreditModel() {
   delete data_;
   delete month_;
-  delete current_date;
 }
 
 void CreditModel::addData(const Data &data) noexcept {
@@ -37,46 +35,10 @@ void CreditModel::clear() noexcept {
   total_ = 0.0L;
 }
 
-const std::vector<std::vector<std::string>> &CreditModel::table()
-    const noexcept {
-  return table_;
-}
-
-std::vector<std::string> CreditModel::totalTable() const noexcept {
-  std::vector<std::string> total;
-
-  auto profit{ldoubleToString(total_)};
-  auto debt{ldoubleToString(data_->amount)};
-  auto ttotal{ldoubleToString(data_->amount + total_)};
-
-  total.emplace_back(std::string("Interest paid\n") + profit);
-  total.emplace_back(std::string("Debt paid\n") + debt);
-  total.emplace_back(std::string("Total paid\n") + ttotal);
-
-  return total;
-}
-
-long double CreditModel::roundVal(long double value) const noexcept {
-  return std::lround(value * 100.0L + 1.0e-8L) / 100.0L;
-}
-
-long double CreditModel::formula(const Date &date,
-                                 std::size_t month_part) const noexcept {
-  long double year_days;
-
-  if (date.isYearLeap(date.year())) {
-    year_days = static_cast<long double>(Date::kLeapYearDays);
-  } else {
-    year_days = static_cast<long double>(Date::kYearDays);
-  }
-
-  return (month_->debt * data_->rate / 100.0L) / year_days * month_part;
-}
-
 void CreditModel::calculatePayments() noexcept {
   Date::DateSize const_day{data_->date.day()};
   long double annuity_cycle{data_->amount};
-  *current_date = data_->date;
+  month_->current = data_->date;
   month_->payment_date = data_->date;
   month_->debt = data_->amount;
 
@@ -93,7 +55,7 @@ void CreditModel::calculatePayments() noexcept {
     month_->payment_date.addCreditMonth(const_day);
 
     long double first_part{
-        formula(*current_date, current_date->daysLeftInMonth())};
+        formula(month_->current, month_->current.daysLeftInMonth())};
     long double second_part{
         formula(month_->payment_date, month_->payment_date.day())};
     month_->percent = roundVal(first_part + second_part);
@@ -109,7 +71,7 @@ void CreditModel::calculatePayments() noexcept {
       month_->debt = 0.0L;
     }
 
-    *current_date = month_->payment_date;
+    month_->current = month_->payment_date;
     table_.push_back(monthToString());
     total_ += month_->percent;
   }
@@ -149,23 +111,58 @@ void CreditModel::calculateDifferentiated() noexcept {
   month_->debt -= month_->main;
 }
 
+long double CreditModel::formula(const Date &date,
+                                 std::size_t month_part) const noexcept {
+  long double year_days;
+
+  if (date.isYearLeap(date.year())) {
+    year_days = static_cast<long double>(Date::kLeapYearDays);
+  } else {
+    year_days = static_cast<long double>(Date::kYearDays);
+  }
+
+  return (month_->debt * data_->rate / 100.0L) / year_days * month_part;
+}
+
+long double CreditModel::roundVal(long double value) const noexcept {
+  return std::lround(value * 100.0L + 1.0e-8L) / 100.0L;
+}
+
+std::string CreditModel::toStr(long double val) const noexcept {
+  std::ostringstream stream;
+
+  stream << std::fixed << std::setprecision(2) << val;
+
+  return stream.str();
+}
+
 std::vector<std::string> CreditModel::monthToString() const noexcept {
   std::vector<std::string> str_month;
 
   str_month.emplace_back(month_->payment_date.currentDate());
-  str_month.emplace_back(ldoubleToString(month_->summary));
-  str_month.emplace_back(ldoubleToString(month_->main));
-  str_month.emplace_back(ldoubleToString(month_->percent));
-  str_month.emplace_back(ldoubleToString(month_->debt));
+  str_month.emplace_back(toStr(month_->summary));
+  str_month.emplace_back(toStr(month_->main));
+  str_month.emplace_back(toStr(month_->percent));
+  str_month.emplace_back(toStr(month_->debt));
 
   return str_month;
 }
 
-std::string CreditModel::ldoubleToString(long double val,
-                                         std::size_t precision) const noexcept {
-  std::ostringstream stream;
+std::vector<std::string> CreditModel::totalTable() const noexcept {
+  std::vector<std::string> total;
 
-  stream << std::fixed << std::setprecision(precision) << val;
+  auto profit{toStr(total_)};
+  auto debt{toStr(data_->amount)};
+  auto ttotal{toStr(data_->amount + total_)};
 
-  return stream.str();
+  total.emplace_back(std::string("Interest paid\n") + profit);
+  total.emplace_back(std::string("Debt paid\n") + debt);
+  total.emplace_back(std::string("Total paid\n") + ttotal);
+
+  return total;
+}
+
+const std::vector<std::vector<std::string>> &CreditModel::table()
+    const noexcept {
+  return table_;
 }

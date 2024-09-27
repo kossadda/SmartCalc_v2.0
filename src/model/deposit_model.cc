@@ -12,16 +12,12 @@
 #include "include/model/deposit_model.h"
 
 DepositModel::DepositModel()
-    : data_{new Data{}},
-      month_{new Month{}},
-      tax_{new Tax},
-      current_date{new Date} {}
+    : data_{new Data{}}, month_{new Month{}}, tax_{new Tax} {}
 
 DepositModel::~DepositModel() {
   delete data_;
   delete month_;
   delete tax_;
-  delete current_date;
 }
 
 void DepositModel::addData(const Data &data) noexcept { *data_ = data; }
@@ -32,59 +28,27 @@ void DepositModel::clear() noexcept {
   *tax_ = Tax{};
 }
 
-const std::vector<std::vector<std::string>> &DepositModel::table()
-    const noexcept {
-  return table_;
-}
-
-const std::vector<std::vector<std::string>> &DepositModel::taxTable()
-    const noexcept {
-  return tax_table_;
-}
-
-std::vector<std::string> DepositModel::totalTable() const noexcept {
-  std::vector<std::string> total_str;
-  auto eff_rate{ldoubleToString(tax_->total_profit_ / data_->amount * 365 /
-                                (month_->accrual_date - data_->date) * 100)};
-  auto tbalance{ldoubleToString((data_->type == DepositType::CAPITALIZATION)
-                                    ? month_->balance
-                                    : data_->amount + tax_->total_profit_)};
-  auto tax_prof{ldoubleToString(tax_->total_profit_ - tax_->total_tax_)};
-  auto tprofit{ldoubleToString(tax_->total_profit_)};
-  auto ttax{ldoubleToString(tax_->total_tax_)};
-  auto balance{ldoubleToString(month_->balance)};
-
-  total_str.emplace_back(std::string("Profit\n") + tprofit);
-  total_str.emplace_back(std::string("Total tax\n") + ttax);
-  total_str.emplace_back(std::string("Profit with tax\n") + tax_prof);
-  total_str.emplace_back(std::string("Effective rate\n") + eff_rate);
-  total_str.emplace_back(std::string("Total balance\n") + tbalance);
-  total_str.emplace_back(std::string("Balance\n") + balance);
-
-  return total_str;
-}
-
 void DepositModel::calculatePayments() noexcept {
-  *current_date = data_->date;
+  month_->current = data_->date;
   month_->accrual_date = data_->date;
   month_->balance = data_->amount;
   tax_->nontaxable = data_->tax_rate * kNonTaxSum / 100.0L;
   Date last_day{lastDepositDay()};
 
-  while (*current_date != last_day) {
+  while (month_->current != last_day) {
     addPeriod(last_day);
 
     calculatePeriod();
 
     calculateTaxes(last_day);
 
-    *current_date = month_->accrual_date;
+    month_->current = month_->accrual_date;
   }
 }
 
 Date DepositModel::lastDepositDay() const noexcept {
-  Date last_day{*current_date};
-  Date::DateSize init_day{current_date->day()};
+  Date last_day{month_->current};
+  Date::DateSize init_day{month_->current.day()};
 
   if (data_->term_type == TermType::DAYS) {
     last_day.addDays(data_->term);
@@ -123,7 +87,7 @@ void DepositModel::addPeriod(const Date &last_day) noexcept {
 
 void DepositModel::calculatePeriod() {
   month_->profit =
-      roundVal(formula(current_date->leapDaysBetween(month_->accrual_date)));
+      roundVal(formula(month_->current.leapDaysBetween(month_->accrual_date)));
 
   if (data_->type == DepositType::CAPITALIZATION) {
     month_->balance_changing = month_->profit;
@@ -139,12 +103,12 @@ void DepositModel::calculatePeriod() {
 }
 
 void DepositModel::calculateTaxes(const Date &last_day) {
-  if (current_date->year() != month_->accrual_date.year() ||
+  if (month_->current.year() != month_->accrual_date.year() ||
       month_->accrual_date == last_day) {
     if (month_->accrual_date == last_day) {
       tax_->income += month_->profit;
     }
-    tax_->year = current_date->year();
+    tax_->year = month_->current.year();
 
     if (tax_->income > tax_->nontaxable) {
       tax_->income_deduction = tax_->income - tax_->nontaxable;
@@ -180,14 +144,22 @@ long double DepositModel::roundVal(long double value) const noexcept {
   return std::round(value * 100.0L) / 100.0L;
 }
 
+std::string DepositModel::toStr(long double val) const noexcept {
+  std::ostringstream stream;
+
+  stream << std::fixed << std::setprecision(2) << val;
+
+  return stream.str();
+}
+
 std::vector<std::string> DepositModel::monthToString() const noexcept {
   std::vector<std::string> str_month;
 
   str_month.emplace_back(month_->accrual_date.currentDate());
-  str_month.emplace_back(ldoubleToString(month_->profit));
-  str_month.emplace_back(ldoubleToString(month_->balance_changing));
-  str_month.emplace_back(ldoubleToString(month_->receiving));
-  str_month.emplace_back(ldoubleToString(month_->balance));
+  str_month.emplace_back(toStr(month_->profit));
+  str_month.emplace_back(toStr(month_->balance_changing));
+  str_month.emplace_back(toStr(month_->receiving));
+  str_month.emplace_back(toStr(month_->balance));
 
   return str_month;
 }
@@ -196,20 +168,43 @@ std::vector<std::string> DepositModel::taxToString() const noexcept {
   std::vector<std::string> str_year;
 
   str_year.emplace_back(std::to_string(tax_->year));
-  str_year.emplace_back(ldoubleToString(tax_->income));
-  str_year.emplace_back(ldoubleToString(tax_->nontaxable));
-  str_year.emplace_back(ldoubleToString(tax_->income_deduction));
-  str_year.emplace_back(ldoubleToString(tax_->tax_amount));
+  str_year.emplace_back(toStr(tax_->income));
+  str_year.emplace_back(toStr(tax_->nontaxable));
+  str_year.emplace_back(toStr(tax_->income_deduction));
+  str_year.emplace_back(toStr(tax_->tax_amount));
   str_year.emplace_back("Pay by 01.12." + std::to_string(tax_->year + 1));
 
   return str_year;
 }
 
-std::string DepositModel::ldoubleToString(
-    long double val, std::size_t precision) const noexcept {
-  std::ostringstream stream;
+std::vector<std::string> DepositModel::totalTable() const noexcept {
+  std::vector<std::string> total_str;
+  auto eff_rate{toStr(tax_->total_profit_ / data_->amount * Date::kYearDays /
+                      (month_->accrual_date - data_->date) * 100.0L)};
+  auto tbalance{toStr((data_->type == DepositType::CAPITALIZATION)
+                          ? month_->balance
+                          : data_->amount + tax_->total_profit_)};
+  auto tax_prof{toStr(tax_->total_profit_ - tax_->total_tax_)};
+  auto tprofit{toStr(tax_->total_profit_)};
+  auto ttax{toStr(tax_->total_tax_)};
+  auto balance{toStr(month_->balance)};
 
-  stream << std::fixed << std::setprecision(precision) << val;
+  total_str.emplace_back(std::string("Profit\n") + tprofit);
+  total_str.emplace_back(std::string("Total tax\n") + ttax);
+  total_str.emplace_back(std::string("Profit with tax\n") + tax_prof);
+  total_str.emplace_back(std::string("Effective rate\n") + eff_rate);
+  total_str.emplace_back(std::string("Total balance\n") + tbalance);
+  total_str.emplace_back(std::string("Balance\n") + balance);
 
-  return stream.str();
+  return total_str;
+}
+
+const std::vector<std::vector<std::string>> &DepositModel::table()
+    const noexcept {
+  return table_;
+}
+
+const std::vector<std::vector<std::string>> &DepositModel::taxTable()
+    const noexcept {
+  return tax_table_;
 }
