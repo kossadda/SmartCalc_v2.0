@@ -30,7 +30,7 @@ void DepositModel::clear() noexcept {
 
 void DepositModel::calculatePayments() noexcept {
   month_->current = data_->date;
-  month_->accrual_date = data_->date;
+  month_->payment_date = data_->date;
   month_->balance = data_->amount;
   tax_->nontaxable = data_->tax_rate * kNonTaxSum / 100.0L;
   Date last_day{lastDepositDay()};
@@ -42,7 +42,7 @@ void DepositModel::calculatePayments() noexcept {
 
     calculateTaxes(last_day);
 
-    month_->current = month_->accrual_date;
+    month_->current = month_->payment_date;
   }
 }
 
@@ -71,42 +71,42 @@ void DepositModel::addPeriod(const Date &last_day) noexcept {
   std::size_t period{static_cast<std::size_t>(data_->freq)};
 
   if (data_->freq == Frequency::ENDTERM) {
-    month_->accrual_date = last_day;
+    month_->payment_date = last_day;
   } else if (data_->freq == Frequency::DAY) {
-    month_->accrual_date.addDays(1);
+    month_->payment_date.addDays(1);
   } else if (data_->freq == Frequency::WEEK) {
-    month_->accrual_date.addDays(7);
+    month_->payment_date.addDays(7);
   } else {
-    month_->accrual_date.addDepositMonth(period);
+    month_->payment_date.addDepositMonth(period);
   }
 
-  if (month_->accrual_date > last_day) {
-    month_->accrual_date = last_day;
+  if (month_->payment_date > last_day) {
+    month_->payment_date = last_day;
   }
 }
 
 void DepositModel::calculatePeriod() {
-  month_->profit =
-      roundVal(formula(month_->current.leapDaysBetween(month_->accrual_date)));
+  month_->percent =
+      roundVal(formula(month_->current.leapDaysBetween(month_->payment_date)));
 
   if (data_->type == DepositType::CAPITALIZATION) {
-    month_->balance_changing = month_->profit;
-    month_->receiving = 0.0L;
-    month_->balance += roundVal(month_->profit);
+    month_->summary = month_->percent;
+    month_->main = 0.0L;
+    month_->balance += roundVal(month_->percent);
   } else {
-    month_->balance_changing = 0.0L;
-    month_->receiving = month_->profit;
+    month_->summary = 0.0L;
+    month_->main = month_->percent;
   }
 
-  tax_->total_profit_ += month_->profit;
+  tax_->total_profit_ += month_->percent;
   table_.push_back(monthToString());
 }
 
 void DepositModel::calculateTaxes(const Date &last_day) {
-  if (month_->current.year() != month_->accrual_date.year() ||
-      month_->accrual_date == last_day) {
-    if (month_->accrual_date == last_day) {
-      tax_->income += month_->profit;
+  if (month_->current.year() != month_->payment_date.year() ||
+      month_->payment_date == last_day) {
+    if (month_->payment_date == last_day) {
+      tax_->income += month_->percent;
     }
     tax_->year = month_->current.year();
 
@@ -122,10 +122,10 @@ void DepositModel::calculateTaxes(const Date &last_day) {
     tax_->income_deduction = 0.0L;
   }
 
-  if (month_->accrual_date != last_day) {
-    tax_->income += month_->profit;
+  if (month_->payment_date != last_day) {
+    tax_->income += month_->percent;
   } else {
-    tax_->income -= month_->profit;
+    tax_->income -= month_->percent;
   }
 }
 
@@ -155,10 +155,10 @@ std::string DepositModel::toStr(long double val) const noexcept {
 std::vector<std::string> DepositModel::monthToString() const noexcept {
   std::vector<std::string> str_month;
 
-  str_month.emplace_back(month_->accrual_date.currentDate());
-  str_month.emplace_back(toStr(month_->profit));
-  str_month.emplace_back(toStr(month_->balance_changing));
-  str_month.emplace_back(toStr(month_->receiving));
+  str_month.emplace_back(month_->payment_date.currentDate());
+  str_month.emplace_back(toStr(month_->percent));
+  str_month.emplace_back(toStr(month_->summary));
+  str_month.emplace_back(toStr(month_->main));
   str_month.emplace_back(toStr(month_->balance));
 
   return str_month;
@@ -180,7 +180,7 @@ std::vector<std::string> DepositModel::taxToString() const noexcept {
 std::vector<std::string> DepositModel::totalTable() const noexcept {
   std::vector<std::string> total_str;
   auto eff_rate{toStr(tax_->total_profit_ / data_->amount * Date::kYearDays /
-                      (month_->accrual_date - data_->date) * 100.0L)};
+                      (month_->payment_date - data_->date) * 100.0L)};
   auto tbalance{toStr((data_->type == DepositType::CAPITALIZATION)
                           ? month_->balance
                           : data_->amount + tax_->total_profit_)};

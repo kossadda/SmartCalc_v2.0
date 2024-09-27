@@ -51,7 +51,7 @@ class CreditModel {
     long double summary{};
     long double main{};
     long double percent{};
-    long double debt{};
+    long double balance{};
   };
 
   CreditModel();
@@ -64,9 +64,8 @@ class CreditModel {
   const std::vector<std::vector<std::string>> &table() const noexcept;
 
  private:
-  void calculateAnnuity() noexcept;
-  void calculateDifferentiated() noexcept;
-  long double formula(const Date &date, std::size_t month_part) const noexcept;
+  void calculatePeriod() noexcept;
+  long double formula(std::pair<std::size_t, std::size_t> days) const noexcept;
   long double roundVal(long double value) const noexcept;
   std::vector<std::string> monthToString() const noexcept;
   std::string toStr(long double val) const noexcept;

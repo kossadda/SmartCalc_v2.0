@@ -32,7 +32,7 @@ class DepositModel {
     YEAR = 12
   };
 
-  enum class TermType { DAYS, MONTHS, YEARS };
+  enum class TermType { YEARS, MONTHS, DAYS };
 
   enum class DepositType { DEFAULT, CAPITALIZATION };
 
@@ -63,12 +63,12 @@ class DepositModel {
 
   struct Month {
    public:
-    Date accrual_date;
+    Date payment_date;
     Date current;
-    long double profit;
-    long double balance_changing;
-    long double receiving;
-    long double balance;
+    long double summary{};
+    long double main{};
+    long double percent{};
+    long double balance{};
   };
 
   struct Tax {
@@ -92,9 +92,9 @@ class DepositModel {
   void clear() noexcept;
 
  private:
+  void calculatePeriod();
   Date lastDepositDay() const noexcept;
   void addPeriod(const Date &last_day) noexcept;
-  void calculatePeriod();
   void calculateTaxes(const Date &last_day);
   long double formula(std::pair<std::size_t, std::size_t> days) const noexcept;
   long double roundVal(long double value) const noexcept;
