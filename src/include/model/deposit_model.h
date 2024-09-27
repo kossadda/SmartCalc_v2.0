@@ -13,7 +13,9 @@
 #define SRC_INCLUDE_MODEL_DEPOSIT_MODEL_H_
 
 #include <cmath>
+#include <iomanip>
 #include <utility>
+#include <string>
 #include <vector>
 
 #include "include/additional/date.h"
@@ -81,8 +83,8 @@ class DepositModel {
 
   void addData(const Data &data) noexcept;
   void calculatePayments() noexcept;
-  const std::vector<Month> &table() const noexcept;
-  const std::vector<Tax> &taxTable() const noexcept;
+  const std::vector<std::vector<std::string>> &table() const noexcept;
+  const std::vector<std::vector<std::string>> &taxTable() const noexcept;
   void clear() noexcept;
 
  private:
@@ -92,6 +94,8 @@ class DepositModel {
   void calculateTaxes(const Date &last_day);
   long double formula(std::pair<std::size_t, std::size_t> days) const noexcept;
   long double roundVal(long double value) const noexcept;
+  std::vector<std::string> monthToString() const noexcept;
+  std::vector<std::string> taxToString() const noexcept;
 
   static constexpr long double kNonTaxSum = 1.0e+6L;
   static constexpr long double kNDFLRate = 13.0L;
@@ -99,8 +103,8 @@ class DepositModel {
   Data *data_;
   Month *month_;
   Tax *tax_;
-  std::vector<Month> table_;
-  std::vector<Tax> tax_table_;
+  std::vector<std::vector<std::string>> table_;
+  std::vector<std::vector<std::string>> tax_table_;
 };
 
 #endif  // SRC_INCLUDE_MODEL_DEPOSIT_MODEL_H_

@@ -29,14 +29,17 @@ class Table : public TopMenu {
 
   template <typename Controller>
   void fillTable(Controller *controller);
-  void setFormat(std::size_t rows, std::size_t cols, const QStringList &heads);
+  void setHeaders(QTableWidget *table, const QStringList &heads);
+  QGridLayout *infoGrid() noexcept;
+  QTableWidget *taxTable() noexcept;
+  QTableWidget *table() noexcept;
 
  private:
   void allocateMemory();
   void initView();
 
-  QGridLayout *main_grid_;
-  QTableWidget *table_;
+  QGridLayout *main_grid_, *info_grid_, *tax_grid_;
+  QTableWidget *table_, *tax_table_;
 };
 
 template <typename Controller>

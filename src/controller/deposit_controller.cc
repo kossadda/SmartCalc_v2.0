@@ -32,31 +32,16 @@ void DepositController::addDepositData(long double amount, std::size_t term,
 
   model_->addData(data);
   model_->clear();
-  table_.clear();
 }
 
-void DepositController::calculateDeposit() {
-  model_->calculatePayments();
+void DepositController::calculateDeposit() { model_->calculatePayments(); }
 
-  for (const auto& i : model_->table()) {
-    std::vector<std::string> str_month;
-
-    std::ostringstream sprofit, sbal_change, sreceiving, sbalance;
-    sprofit << std::fixed << std::setprecision(2) << i.profit;
-    sbal_change << std::fixed << std::setprecision(2) << i.balance_changing;
-    sreceiving << std::fixed << std::setprecision(2) << i.receiving;
-    sbalance << std::fixed << std::setprecision(2) << i.balance;
-
-    str_month.push_back(i.accrual_date.currentDate());
-    str_month.push_back(sprofit.str());
-    str_month.push_back(sbal_change.str());
-    str_month.push_back(sreceiving.str());
-    str_month.push_back(sbalance.str());
-
-    table_.push_back(str_month);
-  }
+const std::vector<std::vector<std::string>>& DepositController::table()
+    const noexcept {
+  return model_->table();
 }
 
-std::vector<std::vector<std::string>>& DepositController::table() noexcept {
-  return table_;
+const std::vector<std::vector<std::string>>& DepositController::taxTable()
+    const noexcept {
+  return model_->taxTable();
 }

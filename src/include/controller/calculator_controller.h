@@ -28,8 +28,6 @@ class CalculatorController {
   long double &variable();
 
  private:
-  std::string replacePi(std::string infix);
-
   CalculatorModel *model_;
 };
 

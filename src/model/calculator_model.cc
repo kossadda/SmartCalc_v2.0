@@ -260,7 +260,9 @@ std::string CalculatorModel::replaceNames(std::string infix) {
   for (auto i : infix) {
     if (i != ' ') result += i;
   }
-  
+
+  result = replaceSubstr(result, "π", "P");
+
   std::regex number_x_pattern{"(\\d+)x"};
   result = std::regex_replace(result, number_x_pattern, "$1*x");
 

@@ -18,7 +18,10 @@ Table::Table() {
 
 void Table::allocateMemory() {
   main_grid_ = new QGridLayout;
+  info_grid_ = new QGridLayout;
+  tax_grid_ = new QGridLayout;
   table_ = new QTableWidget{0, 5};
+  tax_table_ = new QTableWidget{0, 6};
 }
 
 void Table::initView() {
@@ -38,18 +41,34 @@ void Table::initView() {
   TopMenu::window_name->setText(QString{"Table"});
 
   main_grid_->addWidget(table_);
-  main_grid_->setContentsMargins(10, 10, 10, 10);
+  tax_grid_->addWidget(tax_table_);
+  main_grid_->setContentsMargins(10, 10, 10, 3);
+  tax_grid_->setContentsMargins(10, 0, 10, 3);
+  info_grid_->setContentsMargins(10, 0, 10, 10);
 
   table_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   table_->setStyleSheet(table_style);
   table_->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+  tax_table_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  tax_table_->setStyleSheet(table_style);
+  tax_table_->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  tax_table_->setMaximumHeight(100);
+
+  tax_table_->setVisible(false);
+
   TopMenu::main_layout->addLayout(main_grid_, 1, 0);
+  TopMenu::main_layout->addLayout(tax_grid_, 2, 0);
+  TopMenu::main_layout->addLayout(info_grid_, 3, 0);
 }
 
-void Table::setFormat(std::size_t rows, std::size_t cols,
-                      const QStringList &heads) {
-  table_->setRowCount(rows);
-  table_->setColumnCount(cols);
-  table_->setHorizontalHeaderLabels(heads);
+QTableWidget *Table::table() noexcept { return table_; }
+
+QTableWidget *Table::taxTable() noexcept { return tax_table_; }
+
+QGridLayout *Table::infoGrid() noexcept { return info_grid_; }
+
+void Table::setHeaders(QTableWidget *table, const QStringList &heads) {
+  table->setColumnCount(heads.size());
+  table->setHorizontalHeaderLabels(heads);
 }

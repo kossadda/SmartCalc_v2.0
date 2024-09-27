@@ -22,10 +22,10 @@ void testCredit(const Data &data, std::vector<long double> expected) {
 
   deposit.addData(data);
   deposit.calculatePayments();
-  std::vector<long double> result{0.0L, deposit.table().back().balance};
+  std::vector<long double> result{0.0L, std::stold(deposit.table().back()[4])};
   
   for(auto i : deposit.table()) {
-    result[0] += i.profit;
+    result[0] += std::stold(i[1]);
   }
 
   for (std::size_t i{}; i < expected.size(); ++i) {

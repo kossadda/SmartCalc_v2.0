@@ -23,9 +23,9 @@ void testCredit(const Data &data, std::vector<long double> expected) {
   std::vector<long double> result(3);
   
   for(auto i : credit.table()) {
-    result[0] += i.summary;
-    result[1] += i.main;
-    result[2] += i.percent;
+    result[0] += std::stold(i[1]);
+    result[1] += std::stold(i[2]);
+    result[2] += std::stold(i[3]);
   }
 
   for (std::size_t i{}; i < expected.size(); ++i) {

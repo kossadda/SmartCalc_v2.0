@@ -46,9 +46,12 @@ void CreditView::allocateMemory(CreditController *controller) {
   ldate_ = new QLabel{"Start date"};
   ltype_ = new QLabel{"Payment type"};
   lperc_ = new QLabel{"%"};
+  ltotal = new QLabel;
+  ltotaldebt = new QLabel;
+  totalinterest = new QLabel;
   vamount_ = new QDoubleValidator(1.0e-2, 1.0e+12, 2);
   vterm_ = new QDoubleValidator(1, 50, 0);
-  vrate_ = new QDoubleValidator(1.0e-2, 1.0e+3, 2);
+  vrate_ = new QDoubleValidator(1.0e-2, 1.0e+3, 3);
 }
 
 void CreditView::initView() {
@@ -96,6 +99,8 @@ void CreditView::initView() {
   QLabel *labels[]{lamount_, lterm_, lrate_, ldate_, ltype_, lperc_};
   std::pair<QLineEdit *, QDoubleValidator *> line_edits[]{
       {amount_, vamount_}, {term_, vterm_}, {rate_, vrate_}};
+
+  QLabel *infolab[]{ltotal, ltotaldebt, totalinterest};
 
   int lwidth{140}, lheight{45};
 
@@ -148,7 +153,14 @@ void CreditView::initView() {
 
   QStringList headers{"Date", "Amount of payment", "Principal payment",
                       "Interest payment", "Balance owed"};
-  table_->setFormat(0, 5, headers);
+  table_->setHeaders(table_->table(), headers);
+
+  for (std::size_t i{}; i < 3; ++i) {
+    table_->infoGrid()->addWidget(infolab[i], 0, i);
+    infolab[i]->setStyleSheet(label_style);
+    infolab[i]->setFixedSize(lwidth + 20, lheight + 20);
+    infolab[i]->setAlignment(Qt::AlignCenter);
+  }
 
   setLayout(main_grid_);
 

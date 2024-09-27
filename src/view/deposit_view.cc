@@ -33,7 +33,7 @@ void DepositView::allocateMemory(DepositController *controller) {
   }
 
   table_ = new Table{};
-  main_grid_ = new QGridLayout{};
+  main_grid_ = new QGridLayout;
   calculate_ = new QPushButton{QString{"Calculate"}};
   amount_ = new QLineEdit;
   term_ = new QLineEdit;
@@ -50,10 +50,16 @@ void DepositView::allocateMemory(DepositController *controller) {
   ldate_ = new QLabel{"Start date"};
   lfreq_ = new QLabel{"Pay frequency"};
   lperc_ = new QLabel{"%"};
+  leffrate = new QLabel;
+  laccured = new QLabel;
+  lbalance = new QLabel;
+  ltax = new QLabel;
+  lprofit = new QLabel;
+  lfullbalance = new QLabel;
   vamount_ = new QDoubleValidator(1.0e-2, 1.0e+12, 2);
   vterm_ = new QDoubleValidator(1, 50, 0);
-  vrate_ = new QDoubleValidator(1.0e-2, 1.0e+3, 2);
-  vtax_rate_ = new QDoubleValidator(1.0e-2, 1.0e+2, 2);
+  vrate_ = new QDoubleValidator(1.0e-2, 1.0e+3, 3);
+  vtax_rate_ = new QDoubleValidator(1.0e-2, 1.0e+2, 0);
 }
 
 void DepositView::initView() {
@@ -109,7 +115,7 @@ void DepositView::initView() {
       "QCheckBox{"
       "border: 1px solid rgba(40, 100, 180, 0.7);"
       "border-radius: 10px;"
-      "padding-left: 10px;"
+      "padding-left: 12px;"
       "background-color: rgba(0, 0, 0, 0.0);"
       "color: rgb(130, 180, 240); }"};
 
@@ -120,6 +126,8 @@ void DepositView::initView() {
       {term_, vterm_},
       {rate_, vrate_},
       {tax_rate_, vtax_rate_}};
+
+  QLabel *infolab[]{leffrate, laccured, lbalance, ltax, lprofit, lfullbalance};
 
   int lwidth{140}, lheight{45};
 
@@ -181,7 +189,16 @@ void DepositView::initView() {
 
   QStringList headers{"Date", "Interest accured", "Balance change", "Pay",
                       "Balance"};
-  table_->setFormat(0, 5, headers);
+  table_->setHeaders(table_->table(), headers);
+
+  for (std::size_t i{}; i < 6; ++i) {
+    table_->infoGrid()->addWidget(infolab[i], 0, i);
+    infolab[i]->setStyleSheet(label_style);
+    infolab[i]->setFixedSize(lwidth - 10, lheight + 20);
+    infolab[i]->setAlignment(Qt::AlignCenter);
+  }
+
+  table_->taxTable()->setVisible(true);
 
   setLayout(main_grid_);
 
@@ -195,6 +212,8 @@ void DepositView::calcClicked() {
     return;
   }
 
+  // QLabel *infolab[]{leffrate, laccured, lbalance, ltax, lprofit,
+  // lfullbalance};
   DepositController::TermType term_type;
   DepositController::DepositType type;
   DepositController::Frequency freq;
@@ -242,6 +261,11 @@ void DepositView::calcClicked() {
   controller_->calculateDeposit();
 
   table_->fillTable(controller_);
+
+  // for(std::size_t i{}; i < 6; ++i) {
+  // infolab[i];
+  // }
+
   table_->show();
 }
 

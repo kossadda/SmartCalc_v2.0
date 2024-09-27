@@ -50,6 +50,7 @@ class CreditView : public QWidget {
   QCalendarWidget *date_;
   QComboBox *type_, *term_type_;
   QLabel *lamount_, *lterm_, *lrate_, *ldate_, *ltype_, *lperc_;
+  QLabel *ltotal, *ltotaldebt, *totalinterest;
   QDoubleValidator *vamount_, *vterm_, *vrate_;
 };
 

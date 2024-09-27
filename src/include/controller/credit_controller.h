@@ -12,7 +12,6 @@
 #ifndef SRC_INCLUDE_CONTROLLER_CREDIT_CONTROLLER_H_
 #define SRC_INCLUDE_CONTROLLER_CREDIT_CONTROLLER_H_
 
-#include <iomanip>
 #include <string>
 #include <vector>
 
@@ -30,13 +29,11 @@ class CreditController {
                      long double rate, CreditType type, std::size_t day,
                      std::size_t month, std::size_t year);
   void calculateCredit();
-  std::vector<std::vector<std::string>> &table() noexcept;
+  const std::vector<std::vector<std::string>> &table() const noexcept;
   long double total() const noexcept;
 
  private:
   CreditModel *model_;
-  std::vector<std::vector<std::string>> table_;
-  long double total_{};
 };
 
 #endif  // SRC_INCLUDE_CONTROLLER_CREDIT_CONTROLLER_H_

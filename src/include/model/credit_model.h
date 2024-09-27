@@ -13,6 +13,8 @@
 #define SRC_INCLUDE_MODEL_CREDIT_MODEL_H_
 
 #include <cmath>
+#include <iomanip>
+#include <string>
 #include <vector>
 
 #include "include/additional/date.h"
@@ -49,7 +51,7 @@ class CreditModel {
 
   void addData(const Data &data) noexcept;
   void calculatePayments() noexcept;
-  const std::vector<Month> &table() const noexcept;
+  const std::vector<std::vector<std::string>> &table() const noexcept;
   void clear() noexcept;
 
  private:
@@ -57,10 +59,11 @@ class CreditModel {
   void calculateDifferentiated() noexcept;
   long double formula(const Date &date, std::size_t month_part) const noexcept;
   long double roundVal(long double value) const noexcept;
+  std::vector<std::string> monthToString() const noexcept;
 
   Data *data_;
   Month *month_;
-  std::vector<Month> table_;
+  std::vector<std::vector<std::string>> table_;
 };
 
 #endif  // SRC_INCLUDE_MODEL_CREDIT_MODEL_H_

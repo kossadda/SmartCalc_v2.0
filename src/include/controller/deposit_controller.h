@@ -12,7 +12,6 @@
 #ifndef SRC_INCLUDE_CONTROLLER_DEPOSIT_CONTROLLER_H_
 #define SRC_INCLUDE_CONTROLLER_DEPOSIT_CONTROLLER_H_
 
-#include <iomanip>
 #include <string>
 #include <vector>
 
@@ -32,12 +31,12 @@ class DepositController {
                       Frequency freq, std::size_t day, std::size_t month,
                       std::size_t year);
   void calculateDeposit();
-  std::vector<std::vector<std::string>> &table() noexcept;
+  const std::vector<std::vector<std::string>> &table() const noexcept;
+  const std::vector<std::vector<std::string>> &taxTable() const noexcept;
   long double total() const noexcept;
 
  private:
   DepositModel *model_;
-  std::vector<std::vector<std::string>> table_;
 };
 
 #endif  // SRC_INCLUDE_CONTROLLER_DEPOSIT_CONTROLLER_H_

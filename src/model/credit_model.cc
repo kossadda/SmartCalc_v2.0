@@ -28,7 +28,8 @@ void CreditModel::addData(const Data &data) noexcept {
 
 void CreditModel::clear() noexcept { table_.clear(); }
 
-const std::vector<CreditModel::Month> &CreditModel::table() const noexcept {
+const std::vector<std::vector<std::string>> &CreditModel::table()
+    const noexcept {
   return table_;
 }
 
@@ -84,7 +85,7 @@ void CreditModel::calculatePayments() noexcept {
 
     data_->date = next_month;
     month_->payment_date = data_->date;
-    table_.push_back(*month_);
+    table_.push_back(monthToString());
   }
 }
 
@@ -120,4 +121,22 @@ void CreditModel::calculateDifferentiated() noexcept {
 
   month_->summary = month_->main + month_->percent;
   month_->debt -= month_->main;
+}
+
+std::vector<std::string> CreditModel::monthToString() const noexcept {
+  std::vector<std::string> str_month;
+
+  std::ostringstream ssummary, smain, spercent, sdebt;
+  ssummary << std::fixed << std::setprecision(2) << month_->summary;
+  smain << std::fixed << std::setprecision(2) << month_->main;
+  spercent << std::fixed << std::setprecision(2) << month_->percent;
+  sdebt << std::fixed << std::setprecision(2) << month_->debt;
+
+  str_month.push_back(month_->payment_date.currentDate());
+  str_month.push_back(ssummary.str());
+  str_month.push_back(smain.str());
+  str_month.push_back(spercent.str());
+  str_month.push_back(sdebt.str());
+
+  return str_month;
 }

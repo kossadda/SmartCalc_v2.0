@@ -36,11 +36,13 @@ void DepositModel::clear() noexcept {
   tax_table_.clear();
 }
 
-const std::vector<DepositModel::Month> &DepositModel::table() const noexcept {
+const std::vector<std::vector<std::string>> &DepositModel::table()
+    const noexcept {
   return table_;
 }
 
-const std::vector<DepositModel::Tax> &DepositModel::taxTable() const noexcept {
+const std::vector<std::vector<std::string>> &DepositModel::taxTable()
+    const noexcept {
   return tax_table_;
 }
 
@@ -113,7 +115,7 @@ void DepositModel::calculatePeriod() {
     month_->receiving = month_->profit;
   }
 
-  table_.push_back(*month_);
+  table_.push_back(monthToString());
 }
 
 void DepositModel::calculateTaxes(const Date &last_day) {
@@ -126,7 +128,7 @@ void DepositModel::calculateTaxes(const Date &last_day) {
       tax_->tax_amount = roundVal(tax_->income_deduction * kNDFLRate / 100.0L);
     }
 
-    tax_table_.push_back(*tax_);
+    tax_table_.push_back(taxToString());
 
     tax_->income = 0.0L;
     tax_->income_deduction = 0.0L;
@@ -148,4 +150,43 @@ long double DepositModel::formula(
 
 long double DepositModel::roundVal(long double value) const noexcept {
   return std::round(value * 100.0L) / 100.0L;
+}
+
+std::vector<std::string> DepositModel::monthToString() const noexcept {
+  std::vector<std::string> str_month;
+
+  std::ostringstream sprofit, sbal_change, sreceiving, sbalance;
+  sprofit << std::fixed << std::setprecision(2) << month_->profit;
+  sbal_change << std::fixed << std::setprecision(2) << month_->balance_changing;
+  sreceiving << std::fixed << std::setprecision(2) << month_->receiving;
+  sbalance << std::fixed << std::setprecision(2) << month_->balance;
+
+  str_month.push_back(month_->accrual_date.currentDate());
+  str_month.push_back(sprofit.str());
+  str_month.push_back(sbal_change.str());
+  str_month.push_back(sreceiving.str());
+  str_month.push_back(sbalance.str());
+
+  return str_month;
+}
+
+std::vector<std::string> DepositModel::taxToString() const noexcept {
+  std::vector<std::string> str_year;
+
+  std::ostringstream sincome, sincome_deduc, snontax, stax, syear, sinfo;
+  syear << tax_->year;
+  sincome << std::fixed << std::setprecision(2) << tax_->income;
+  snontax << std::fixed << std::setprecision(2) << tax_->nontaxable;
+  sincome_deduc << std::fixed << std::setprecision(2) << tax_->income_deduction;
+  stax << std::fixed << std::setprecision(2) << tax_->tax_amount;
+  sinfo << "Pay by 01.12." << tax_->year + 1;
+
+  str_year.push_back(syear.str());
+  str_year.push_back(sincome.str());
+  str_year.push_back(snontax.str());
+  str_year.push_back(sincome_deduc.str());
+  str_year.push_back(stax.str());
+  str_year.push_back(sinfo.str());
+
+  return str_year;
 }
