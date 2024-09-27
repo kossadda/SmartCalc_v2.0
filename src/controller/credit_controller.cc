@@ -25,7 +25,9 @@ void CreditController::addCreditData(long double amount, std::size_t term,
                                      TermType term_type, long double rate,
                                      CreditType type, std::size_t day,
                                      std::size_t month, std::size_t year) {
-  CreditModel::Data data{amount, static_cast<long double>(term), term_type, rate, type, Date(day, month, year)};
+  CreditModel::Data data{amount,    static_cast<long double>(term),
+                         term_type, rate,
+                         type,      Date(day, month, year)};
 
   model_->addData(data);
   model_->clear();
@@ -36,4 +38,8 @@ void CreditController::calculateCredit() { model_->calculatePayments(); }
 const std::vector<std::vector<std::string>>& CreditController::table()
     const noexcept {
   return model_->table();
+}
+
+std::vector<std::string> CreditController::totalTable() const noexcept {
+  return model_->totalTable();
 }

@@ -13,26 +13,53 @@
 #include "include/model/credit_model.h"
 #include "include/model/deposit_model.h"
 
+#define YEARS DepositModel::TermType::YEARS
 #define MONTHS DepositModel::TermType::MONTHS
 #define DAYS DepositModel::TermType::DAYS
 using Data = DepositModel::Data;
 using Freq = DepositModel::Frequency;
 using Type = DepositModel::DepositType;
 
+void testDeposit(const Data& data, std::vector<long double> expected) {
+  DepositModel deposit;
+
+  deposit.addData(data);
+  deposit.calculatePayments();
+  std::vector<long double> result{0.0L, std::stold(deposit.table().back()[4])};
+
+  for (auto i : deposit.table()) {
+    result[0] += std::stold(i[1]);
+  }
+
+  for (std::size_t i{}; i < expected.size(); ++i) {
+    long double res = result.at(i);
+    long double exp = expected.at(i);
+    printf("\nRes : %.2Lf\nTrue: %.2Lf\n", res, exp);
+  }
+}
+
+// #define ANN CreditModel::CreditType::ANNUITY
+// #define DIF CreditModel::CreditType::DIFFERENTIATED
+// #define MONTHS CreditModel::TermType::MOHTHS
+// using Data = CreditModel::Data;
+
 // void testCredit(const Data &data, std::vector<long double> expected) {
-//   DepositModel deposit;
+//   CreditModel credit;
 
-//   deposit.addData(data);
-//   deposit.calculatePayments();
-//   std::vector<long double> result{0.0L, deposit.table().back().balance};
+//   credit.addData(data);
+//   credit.calculatePayments();
+//   std::vector<std::string> result{credit.totalTable()};
 
-//   for (auto i : deposit.table()) {
-//     result[0] += i.profit;
+//   for(std::string &i : result) {
+//     while(i[0] != '\n') {
+//       i.erase(i.begin());
+//     }
+//     i.erase(i.begin());
 //   }
 
 //   for (std::size_t i{}; i < expected.size(); ++i) {
-//     long double res = result.at(i);
-//     long double exp = expected.at(i);
+//     long double res = std::stold(result[i]);
+//     long double exp = expected[i];
 //     printf("\nRes : %.2Lf\nTrue: %.2Lf\n", res, exp);
 //   }
 // }
@@ -48,7 +75,13 @@ void testCalculating(const std::string& infix) {
 }
 
 int main() {
-  std::string infix = "P";
-  testCalculating(infix);
-  return 0;
+  Data data{1231223.43,
+            11,
+            YEARS,
+            12.445,
+            19,
+            Type::CAPITALIZATION,
+            Freq::HALFYEAR,
+            Date{27, 9, 2024}};
+  testDeposit(data, {3414603.89, 4645827.32});
 }

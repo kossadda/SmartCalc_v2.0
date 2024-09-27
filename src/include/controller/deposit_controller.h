@@ -33,7 +33,7 @@ class DepositController {
   void calculateDeposit();
   const std::vector<std::vector<std::string>> &table() const noexcept;
   const std::vector<std::vector<std::string>> &taxTable() const noexcept;
-  long double total() const noexcept;
+  std::vector<std::string> totalTable() const noexcept;
 
  private:
   DepositModel *model_;

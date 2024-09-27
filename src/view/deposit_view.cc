@@ -127,7 +127,7 @@ void DepositView::initView() {
       {rate_, vrate_},
       {tax_rate_, vtax_rate_}};
 
-  QLabel *infolab[]{leffrate, laccured, lbalance, ltax, lprofit, lfullbalance};
+  QLabel *infolab[]{lprofit, ltax, laccured, leffrate, lfullbalance, lbalance};
 
   int lwidth{140}, lheight{45};
 
@@ -193,18 +193,25 @@ void DepositView::initView() {
 
   for (std::size_t i{}; i < 6; ++i) {
     table_->infoGrid()->addWidget(infolab[i], 0, i);
-    infolab[i]->setStyleSheet(label_style);
+    infolab[i]->setStyleSheet(label_style.replace("16px", "13px"));
     infolab[i]->setFixedSize(lwidth - 10, lheight + 20);
     infolab[i]->setAlignment(Qt::AlignCenter);
   }
 
+  QStringList tax_headers{"Year",       "Income",
+                          "Deduction",  "Income-deduction",
+                          "Tax amount", "Pay before"};
+
   table_->taxTable()->setVisible(true);
+  table_->setHeaders(table_->taxTable(), tax_headers);
 
   setLayout(main_grid_);
 
   connect(calculate_, &QPushButton::clicked, this, &DepositView::calcClicked);
   connect(term_type_, &QComboBox::currentTextChanged, this,
           &DepositView::changeTermType);
+  connect(capital_, &QCheckBox::stateChanged, this,
+          &DepositView::changeDepositType);
 }
 
 void DepositView::calcClicked() {
@@ -212,8 +219,7 @@ void DepositView::calcClicked() {
     return;
   }
 
-  // QLabel *infolab[]{leffrate, laccured, lbalance, ltax, lprofit,
-  // lfullbalance};
+  QLabel *infolab[]{lprofit, ltax, laccured, leffrate, lfullbalance, lbalance};
   DepositController::TermType term_type;
   DepositController::DepositType type;
   DepositController::Frequency freq;
@@ -251,7 +257,7 @@ void DepositView::calcClicked() {
   long double amount{amount_->text().toDouble()};
   std::size_t term{term_->text().toUInt()};
   long double rate{rate_->text().toDouble()};
-  long double tax_rate{rate_->text().toDouble()};
+  long double tax_rate{tax_rate_->text().toDouble()};
 
   auto date = date_->selectedDate();
 
@@ -260,12 +266,14 @@ void DepositView::calcClicked() {
 
   controller_->calculateDeposit();
 
-  table_->fillTable(controller_);
+  table_->fillTable(table_->table(), controller_->table());
 
-  // for(std::size_t i{}; i < 6; ++i) {
-  // infolab[i];
-  // }
+  auto total{controller_->totalTable()};
+  for (std::size_t i{}; i < 6; ++i) {
+    infolab[i]->setText(QString::fromStdString(total[i]));
+  }
 
+  table_->fillTable(table_->taxTable(), controller_->taxTable());
   table_->show();
 }
 
@@ -303,9 +311,19 @@ void DepositView::onTextChanged(const QString &text) {
 void DepositView::changeTermType() {
   if (term_type_->currentIndex() == 0) {
     vterm_->setRange(1, 50);
-  } else {
+  } else if (term_type_->currentIndex() == 1) {
     vterm_->setRange(1, 600);
+  } else {
+    vterm_->setRange(1, 18250);
   }
 
   isValidInput(term_);
+}
+
+void DepositView::changeDepositType() {
+  if (capital_->isChecked()) {
+    freq_->removeItem(6);
+  } else {
+    freq_->addItem("End term");
+  }
 }

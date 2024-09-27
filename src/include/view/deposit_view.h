@@ -36,6 +36,7 @@ class DepositView : public QWidget {
   void calcClicked();
   void onTextChanged(const QString &text);
   void changeTermType();
+  void changeDepositType();
 
  private:
   void allocateMemory(DepositController *controller);

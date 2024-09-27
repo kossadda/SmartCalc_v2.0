@@ -30,7 +30,7 @@ class CreditController {
                      std::size_t month, std::size_t year);
   void calculateCredit();
   const std::vector<std::vector<std::string>> &table() const noexcept;
-  long double total() const noexcept;
+  std::vector<std::string> totalTable() const noexcept;
 
  private:
   CreditModel *model_;

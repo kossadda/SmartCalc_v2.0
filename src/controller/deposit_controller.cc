@@ -45,3 +45,7 @@ const std::vector<std::vector<std::string>>& DepositController::taxTable()
     const noexcept {
   return model_->taxTable();
 }
+
+std::vector<std::string> DepositController::totalTable() const noexcept {
+  return model_->totalTable();
+}

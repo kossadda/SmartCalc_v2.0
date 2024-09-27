@@ -53,13 +53,33 @@ void Table::initView() {
   tax_table_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   tax_table_->setStyleSheet(table_style);
   tax_table_->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-  tax_table_->setMaximumHeight(100);
+  tax_table_->setMaximumHeight(140);
 
   tax_table_->setVisible(false);
 
   TopMenu::main_layout->addLayout(main_grid_, 1, 0);
   TopMenu::main_layout->addLayout(tax_grid_, 2, 0);
   TopMenu::main_layout->addLayout(info_grid_, 3, 0);
+}
+
+void Table::fillTable(QTableWidget *table,
+                      const std::vector<std::vector<std::string>> &data) {
+  QTableWidgetItem *item;
+  table->setRowCount(data.size());
+
+  std::size_t row{};
+  for (const std::vector<std::string> &i : data) {
+    std::size_t col{};
+
+    for (const std::string &j : i) {
+      item = new QTableWidgetItem{QString::fromStdString(j)};
+      item->setTextAlignment(Qt::AlignCenter);
+      table->setItem(row, col, item);
+      ++col;
+    }
+
+    ++row;
+  }
 }
 
 QTableWidget *Table::table() noexcept { return table_; }

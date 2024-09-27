@@ -27,7 +27,14 @@ class CreditModel {
   struct Data {
    public:
     Data() = default;
-    Data(long double amount_, long double term_, TermType term_type_, long double rate_, CreditType type_, const Date &date_) : amount{amount_}, term{term_}, term_type{term_type_}, rate{rate_}, type{type_}, date{date_} {}
+    Data(long double amount_, long double term_, TermType term_type_,
+         long double rate_, CreditType type_, const Date &date_)
+        : amount{amount_},
+          term{term_},
+          term_type{term_type_},
+          rate{rate_},
+          type{type_},
+          date{date_} {}
 
     long double amount{};
     long double term{};
@@ -51,8 +58,9 @@ class CreditModel {
 
   void addData(const Data &data) noexcept;
   void calculatePayments() noexcept;
-  const std::vector<std::vector<std::string>> &table() const noexcept;
   void clear() noexcept;
+  std::vector<std::string> totalTable() const noexcept;
+  const std::vector<std::vector<std::string>> &table() const noexcept;
 
  private:
   void calculateAnnuity() noexcept;
@@ -60,10 +68,14 @@ class CreditModel {
   long double formula(const Date &date, std::size_t month_part) const noexcept;
   long double roundVal(long double value) const noexcept;
   std::vector<std::string> monthToString() const noexcept;
+  std::string ldoubleToString(long double val,
+                              std::size_t precision = 2UL) const noexcept;
 
   Data *data_;
   Month *month_;
   std::vector<std::vector<std::string>> table_;
+  Date *current_date;
+  long double total_{};
 };
 
 #endif  // SRC_INCLUDE_MODEL_CREDIT_MODEL_H_

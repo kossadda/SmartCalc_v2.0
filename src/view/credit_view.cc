@@ -157,8 +157,8 @@ void CreditView::initView() {
 
   for (std::size_t i{}; i < 3; ++i) {
     table_->infoGrid()->addWidget(infolab[i], 0, i);
-    infolab[i]->setStyleSheet(label_style);
-    infolab[i]->setFixedSize(lwidth + 20, lheight + 20);
+    infolab[i]->setStyleSheet(label_style.replace("16px", "13px"));
+    infolab[i]->setFixedSize(lwidth + 20, lheight + 10);
     infolab[i]->setAlignment(Qt::AlignCenter);
   }
 
@@ -174,6 +174,7 @@ void CreditView::calcClicked() {
     return;
   }
 
+  QLabel *infolab[]{ltotal, ltotaldebt, totalinterest};
   CreditController::TermType term_type;
   CreditController::CreditType type;
 
@@ -199,7 +200,13 @@ void CreditView::calcClicked() {
                              date.month(), date.year());
   controller_->calculateCredit();
 
-  table_->fillTable(controller_);
+  table_->fillTable(table_->table(), controller_->table());
+
+  auto total{controller_->totalTable()};
+  for (std::size_t i{}; i < 3; ++i) {
+    infolab[i]->setText(QString::fromStdString(total[i]));
+  }
+
   table_->show();
 }
 

@@ -17,6 +17,8 @@
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QTableWidget>
+#include <string>
+#include <vector>
 
 #include "include/controller/credit_controller.h"
 #include "include/controller/deposit_controller.h"
@@ -27,8 +29,8 @@ class Table : public TopMenu {
  public:
   Table();
 
-  template <typename Controller>
-  void fillTable(Controller *controller);
+  void fillTable(QTableWidget *table,
+                 const std::vector<std::vector<std::string>> &data);
   void setHeaders(QTableWidget *table, const QStringList &heads);
   QGridLayout *infoGrid() noexcept;
   QTableWidget *taxTable() noexcept;
@@ -41,23 +43,5 @@ class Table : public TopMenu {
   QGridLayout *main_grid_, *info_grid_, *tax_grid_;
   QTableWidget *table_, *tax_table_;
 };
-
-template <typename Controller>
-void Table::fillTable(Controller *controller) {
-  QTableWidgetItem *item;
-  table_->setRowCount(controller->table().size());
-
-  std::size_t row{};
-  for (auto i : controller->table()) {
-    std::size_t col{};
-    for (auto j : i) {
-      item = new QTableWidgetItem{QString::fromStdString(j)};
-      item->setTextAlignment(Qt::AlignCenter);
-      table_->setItem(row, col, item);
-      ++col;
-    }
-    ++row;
-  }
-}
 
 #endif  // SRC_INCLUDE_ADDITIONAL_TABLE_H_
