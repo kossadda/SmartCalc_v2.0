@@ -20,7 +20,7 @@
 class CreditController {
  public:
   using CreditType = CreditModel::CreditType;
-  enum class TermType { YEARS, MOHTHS };
+  using TermType = CreditModel::TermType;
 
   explicit CreditController(CreditModel *model = nullptr);
   ~CreditController();

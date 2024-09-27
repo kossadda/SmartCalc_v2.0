@@ -22,16 +22,16 @@
 class CreditModel {
  public:
   enum class CreditType { ANNUITY, DIFFERENTIATED };
+  enum class TermType { YEARS, MOHTHS };
 
   struct Data {
    public:
     Data() = default;
-    Data(long double amount_, long double term_, long double rate_,
-         CreditType type_, const Date &date_)
-        : amount{amount_}, term{term_}, rate{rate_}, type{type_}, date{date_} {}
+    Data(long double amount_, long double term_, TermType term_type_, long double rate_, CreditType type_, const Date &date_) : amount{amount_}, term{term_}, term_type{term_type_}, rate{rate_}, type{type_}, date{date_} {}
 
     long double amount{};
     long double term{};
+    TermType term_type;
     long double rate{};
     CreditType type;
     Date date;

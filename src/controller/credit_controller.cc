@@ -25,12 +25,7 @@ void CreditController::addCreditData(long double amount, std::size_t term,
                                      TermType term_type, long double rate,
                                      CreditType type, std::size_t day,
                                      std::size_t month, std::size_t year) {
-  if (term_type == TermType::YEARS) {
-    term *= Date::kYearMonths;
-  }
-
-  CreditModel::Data data{amount, static_cast<long double>(term), rate, type,
-                         Date(day, month, year)};
+  CreditModel::Data data{amount, static_cast<long double>(term), term_type, rate, type, Date(day, month, year)};
 
   model_->addData(data);
   model_->clear();

@@ -24,6 +24,10 @@ void CreditModel::addData(const Data &data) noexcept {
   data_->rate = data.rate;
   data_->type = data.type;
   data_->date = data.date;
+
+  if(data.term_type == TermType::YEARS) {
+    data_->term *= Date::kYearMonths;
+  }
 }
 
 void CreditModel::clear() noexcept { table_.clear(); }
