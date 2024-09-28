@@ -159,6 +159,7 @@ void CalculatorView::initView() {
   expr_->setMinimumHeight(150);
   expr_->setStyleSheet(text_expr_style);
   expr_->setAlignment(Qt::AlignRight);
+  expr_->setMaxLength(255);
 
   var_value_->setMinimumHeight(40);
   var_value_->setAlignment(Qt::AlignCenter);

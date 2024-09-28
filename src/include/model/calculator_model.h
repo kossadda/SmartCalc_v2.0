@@ -12,14 +12,10 @@
 #ifndef SRC_INCLUDE_MODEL_CALCULATOR_MODEL_H_
 #define SRC_INCLUDE_MODEL_CALCULATOR_MODEL_H_
 
-#include <cctype>
 #include <cmath>
-#include <iomanip>
-#include <iostream>
-#include <regex>
-#include <sstream>
-#include <stack>
 #include <string>
+#include <iomanip>
+#include <regex>
 
 namespace s21 {
 

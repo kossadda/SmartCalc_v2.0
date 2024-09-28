@@ -12,7 +12,7 @@
 #include "include/controller/calculator_controller.h"
 
 namespace s21 {
-  
+
 CalculatorController::CalculatorController(CalculatorModel* model) {
   if (model) {
     model_ = model;

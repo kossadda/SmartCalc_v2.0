@@ -13,9 +13,9 @@
 #define SRC_INCLUDE_MODEL_BASE_MODEL_H_
 
 #include <cmath>
-#include <iomanip>
 #include <string>
 #include <utility>
+#include <iomanip>
 #include <vector>
 
 #include "include/additional/date.h"
