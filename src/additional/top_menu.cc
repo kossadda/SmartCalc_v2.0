@@ -11,6 +11,8 @@
 
 #include "include/additional/top_menu.h"
 
+namespace s21 {
+
 TopMenu::TopMenu() : QWidget{} {
   allocateMemory();
   initView();
@@ -149,3 +151,5 @@ void TopMenu::mouseReleaseEvent(QMouseEvent *event) {
 void TopMenu::updatePosition() { move(*target_position_); }
 
 void TopMenu::closeWindow() { close(); }
+
+}  // namespace s21

@@ -20,6 +20,8 @@
 
 #include "include/additional/date.h"
 
+namespace s21 {
+
 class BaseModel {
  public:
   enum class TermType { YEARS, MONTHS, DAYS };
@@ -69,5 +71,7 @@ class BaseModel {
   Month *month_;
   std::vector<std::vector<std::string>> table_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_MODEL_BASE_MODEL_H_

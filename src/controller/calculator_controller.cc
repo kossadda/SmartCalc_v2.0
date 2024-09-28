@@ -11,6 +11,8 @@
 
 #include "include/controller/calculator_controller.h"
 
+namespace s21 {
+  
 CalculatorController::CalculatorController(CalculatorModel* model) {
   if (model) {
     model_ = model;
@@ -61,3 +63,5 @@ std::string CalculatorController::evaluate_str() {
 long double& CalculatorController::variable() noexcept {
   return model_->variable();
 }
+
+}  // namespace s21

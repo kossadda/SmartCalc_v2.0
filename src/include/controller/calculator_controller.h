@@ -16,6 +16,8 @@
 
 #include "include/model/calculator_model.h"
 
+namespace s21 {
+
 class CalculatorController {
  public:
   explicit CalculatorController(CalculatorModel *model = nullptr);
@@ -30,5 +32,7 @@ class CalculatorController {
  private:
   CalculatorModel *model_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_CONTROLLER_CALCULATOR_CONTROLLER_H_

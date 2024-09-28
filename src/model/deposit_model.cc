@@ -11,6 +11,8 @@
 
 #include "include/model/deposit_model.h"
 
+namespace s21 {
+
 DepositModel::DepositModel() : BaseModel{}, tax_{new Tax} {}
 
 DepositModel::~DepositModel() { delete tax_; }
@@ -170,3 +172,5 @@ const std::vector<std::vector<std::string>> &DepositModel::taxTable()
     const noexcept {
   return tax_table_;
 }
+
+}  // namespace s21

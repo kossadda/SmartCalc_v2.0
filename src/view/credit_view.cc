@@ -11,6 +11,8 @@
 
 #include "include/view/credit_view.h"
 
+namespace s21 {
+
 CreditView::CreditView(CreditController *controller) : QWidget{} {
   allocateMemory(controller);
   initView();
@@ -254,3 +256,5 @@ void CreditView::changeTermType() {
 
   isValidInput(term_);
 }
+
+}  // namespace s21

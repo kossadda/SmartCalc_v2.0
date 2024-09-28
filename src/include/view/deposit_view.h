@@ -25,6 +25,8 @@
 #include "include/additional/table.h"
 #include "include/controller/deposit_controller.h"
 
+namespace s21 {
+
 class DepositView : public QWidget {
   Q_OBJECT
 
@@ -56,5 +58,7 @@ class DepositView : public QWidget {
   QCheckBox *capital_;
   QDoubleValidator *vamount_, *vterm_, *vrate_, *vtax_rate_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_VIEW_DEPOSIT_VIEW_H_

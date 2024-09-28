@@ -11,6 +11,8 @@
 
 #include "include/view/deposit_view.h"
 
+namespace s21 {
+
 DepositView::DepositView(DepositController *controller) : QWidget{} {
   allocateMemory(controller);
   initView();
@@ -333,3 +335,5 @@ void DepositView::changeDepositType() {
     freq_->addItem("End term");
   }
 }
+
+}  // namespace s21

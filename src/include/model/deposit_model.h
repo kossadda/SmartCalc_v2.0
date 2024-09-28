@@ -19,6 +19,8 @@
 #include "include/additional/date.h"
 #include "include/model/base_model.h"
 
+namespace s21 {
+
 class DepositModel : public BaseModel {
  public:
   enum class Frequency {
@@ -64,5 +66,7 @@ class DepositModel : public BaseModel {
   std::vector<std::vector<std::string>> table_;
   std::vector<std::vector<std::string>> tax_table_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_MODEL_DEPOSIT_MODEL_H_

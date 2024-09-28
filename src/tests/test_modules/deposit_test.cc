@@ -11,15 +11,16 @@
 
 #include "tests/main_test.h"
 
-#define MONTHS DepositModel::TermType::MONTHS
-#define DAYS DepositModel::TermType::DAYS
-using Data = DepositModel::Data;
-using Freq = DepositModel::Frequency;
-using Type = DepositModel::Type;
+#define MONTHS s21::DepositModel::TermType::MONTHS
+#define DAYS s21::DepositModel::TermType::DAYS
+using Data = s21::DepositModel::Data;
+using Freq = s21::DepositModel::Frequency;
+using Type = s21::DepositModel::Type;
+using Date = s21::Date;
 
 void testDeposit(const Data &data, Freq freq,
                  std::vector<long double> expected) {
-  DepositModel deposit;
+  s21::DepositModel deposit;
 
   deposit.addData(data, 16, freq);
   deposit.calculatePayments();

@@ -11,13 +11,14 @@
 
 #include "tests/main_test.h"
 
-#define ANN CreditModel::Type::FIRST
-#define DIF CreditModel::Type::SECOND
-#define MONTHS CreditModel::TermType::MONTHS
-using Data = CreditModel::Data;
+#define ANN s21::CreditModel::Type::FIRST
+#define DIF s21::CreditModel::Type::SECOND
+#define MONTHS s21::CreditModel::TermType::MONTHS
+using Data = s21::CreditModel::Data;
+using Date = s21::Date;
 
 void testCredit(const Data &data, std::vector<long double> expected) {
-  CreditModel credit;
+  s21::CreditModel credit;
 
   credit.addData(data);
   credit.calculatePayments();

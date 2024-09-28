@@ -23,6 +23,8 @@
 #include <QTimer>
 #include <QWidget>
 
+namespace s21 {
+
 class TopMenu : public QWidget {
   Q_OBJECT
 
@@ -56,5 +58,7 @@ class TopMenu : public QWidget {
   QPoint *drag_position_, *target_position_;
   QTimer *move_timer_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_

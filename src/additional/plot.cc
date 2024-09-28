@@ -11,6 +11,8 @@
 
 #include "include/additional/plot.h"
 
+namespace s21 {
+
 Plot::Plot() : TopMenu{} {
   allocateMemory();
   initView();
@@ -185,3 +187,5 @@ void Plot::onTextChanged(const QString &text) {
 
   (void)text;
 }
+
+}  // namespace s21

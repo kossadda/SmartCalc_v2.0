@@ -11,6 +11,8 @@
 
 #include "include/model/calculator_model.h"
 
+namespace s21 {
+
 void CalculatorModel::add_expression(std::string infix,
                                      long double var) noexcept {
   variable_ = var;
@@ -345,3 +347,5 @@ bool CalculatorModel::isFunction(char c) const noexcept {
   return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' ||
          c == 'l' || c == 'L' || c == 'Q' || c == 'P';
 }
+
+}  // namespace s21

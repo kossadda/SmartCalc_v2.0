@@ -17,6 +17,8 @@
 
 #include "include/model/credit_model.h"
 
+namespace s21 {
+
 class CreditController {
  public:
   using Type = CreditModel::Type;
@@ -35,5 +37,7 @@ class CreditController {
  private:
   CreditModel *model_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_CONTROLLER_CREDIT_CONTROLLER_H_

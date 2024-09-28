@@ -11,6 +11,8 @@
 
 #include "include/controller/credit_controller.h"
 
+namespace s21 {
+
 CreditController::CreditController(CreditModel* model) {
   if (model) {
     model_ = model;
@@ -45,3 +47,5 @@ const std::vector<std::vector<std::string>>& CreditController::table()
 std::vector<std::string> CreditController::totalTable() const noexcept {
   return model_->totalTable();
 }
+
+}  // namespace s21

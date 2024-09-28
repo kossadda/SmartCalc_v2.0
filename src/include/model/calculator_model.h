@@ -21,6 +21,8 @@
 #include <stack>
 #include <string>
 
+namespace s21 {
+
 class CalculatorModel {
  public:
   CalculatorModel() = default;
@@ -47,5 +49,7 @@ class CalculatorModel {
   std::size_t size_;
   long double variable_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_MODEL_CALCULATOR_MODEL_H_

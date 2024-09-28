@@ -22,6 +22,8 @@
 #include "include/additional/top_menu.h"
 #include "include/controller/calculator_controller.h"
 
+namespace s21 {
+
 class Plot : public TopMenu {
   Q_OBJECT
 
@@ -49,5 +51,7 @@ class Plot : public TopMenu {
   QLineEdit *xbegin_, *xend_, *ybegin_, *yend_, *step_;
   QLabel *lx_, *ly_, *lbegin_, *lend_, *lstep_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_ADDITIONAL_PLOT_H_

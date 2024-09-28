@@ -11,6 +11,8 @@
 
 #include "include/additional/table.h"
 
+namespace s21 {
+
 Table::Table() {
   allocateMemory();
   initView();
@@ -92,3 +94,5 @@ void Table::setHeaders(QTableWidget *table, const QStringList &heads) {
   table->setColumnCount(heads.size());
   table->setHorizontalHeaderLabels(heads);
 }
+
+}  // namespace s21

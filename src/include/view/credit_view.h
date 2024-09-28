@@ -24,6 +24,8 @@
 #include "include/additional/table.h"
 #include "include/controller/credit_controller.h"
 
+namespace s21 {
+
 class CreditView : public QWidget {
   Q_OBJECT
 
@@ -53,5 +55,7 @@ class CreditView : public QWidget {
   QLabel *ltotal, *ltotaldebt, *totalinterest;
   QDoubleValidator *vamount_, *vterm_, *vrate_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_VIEW_CREDIT_VIEW_H_

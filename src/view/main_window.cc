@@ -11,6 +11,8 @@
 
 #include "include/view/main_window.h"
 
+namespace s21 {
+
 MainWindow::MainWindow() : TopMenu() {
   initMVC();
   initView();
@@ -61,3 +63,5 @@ void MainWindow::initView() {
 
   TopMenu::main_layout_->addWidget(tab_);
 }
+
+}  // namespace s21

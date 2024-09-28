@@ -11,6 +11,8 @@
 
 #include "include/model/base_model.h"
 
+namespace s21 {
+
 BaseModel::BaseModel() : data_{new Data}, month_{new Month} {}
 
 BaseModel::~BaseModel() {
@@ -63,3 +65,5 @@ void BaseModel::monthToTable() noexcept {
 
   table_.emplace_back(str_month);
 }
+
+}  // namespace s21

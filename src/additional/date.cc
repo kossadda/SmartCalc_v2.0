@@ -11,6 +11,8 @@
 
 #include "include/additional/date.h"
 
+namespace s21 {
+
 Date::Date(DateSize day, DateSize month, DateSize year)
     : day_{day}, month_{month}, year_{year} {
   if (!isValidDate()) {
@@ -271,3 +273,5 @@ Date::DateSize Date::day() const noexcept { return day_; }
 Date::DateSize Date::month() const noexcept { return month_; }
 
 Date::DateSize Date::year() const noexcept { return year_; }
+
+}  // namespace s21

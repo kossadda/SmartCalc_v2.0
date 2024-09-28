@@ -11,6 +11,8 @@
 
 #include "include/view/calculator_view.h"
 
+namespace s21 {
+
 CalculatorView::CalculatorView(CalculatorController *controller) : QWidget{} {
   allocateMemory(controller);
   initView();
@@ -80,7 +82,7 @@ void CalculatorView::initView() {
       "padding: 5px;"
       "text-align: left;"
       "padding-left: 20px;"
-      "icon: url(:/plot_.png);"
+      "icon: url(:/plot.png);"
       "qproperty-iconSize: 24px 24px; }"
       "QPushButton:pressed { background-color: rgb(26, 77, 144); }"};
   QString func_button_style{
@@ -330,6 +332,8 @@ void CalculatorView::plotClicked() {
     plot_->show();
     bplot_->setStyleSheet(
         bplot_->styleSheet().replace("47, 47, 47", "20, 55, 130"));
-    beq_->setText("plot_");
+    beq_->setText("plot");
   }
 }
+
+}  // namespace s21

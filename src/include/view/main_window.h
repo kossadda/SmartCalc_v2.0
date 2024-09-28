@@ -19,6 +19,8 @@
 #include "include/view/credit_view.h"
 #include "include/view/deposit_view.h"
 
+namespace s21 {
+
 class MainWindow : public TopMenu {
   Q_OBJECT
 
@@ -43,5 +45,7 @@ class MainWindow : public TopMenu {
   DepositController *deposit_controller_;
   DepositView *deposit_view_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_VIEW_MAIN_WINDOW_H_

@@ -11,6 +11,8 @@
 
 #include "include/controller/deposit_controller.h"
 
+namespace s21 {
+
 DepositController::DepositController(DepositModel* model) {
   if (model) {
     model_ = model;
@@ -51,3 +53,5 @@ const std::vector<std::vector<std::string>>& DepositController::taxTable()
 std::vector<std::string> DepositController::totalTable() const noexcept {
   return model_->totalTable();
 }
+
+}  // namespace s21

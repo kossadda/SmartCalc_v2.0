@@ -18,6 +18,8 @@
 #include <utility>
 #include <vector>
 
+namespace s21 {
+
 class Date {
  public:
   using DateSize = uint16_t;
@@ -65,5 +67,7 @@ class Date {
   DateSize month_{};
   DateSize year_{};
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_ADDITIONAL_DATE_H_

@@ -17,6 +17,8 @@
 
 #include "include/model/deposit_model.h"
 
+namespace s21 {
+
 class DepositController {
  public:
   using Type = DepositModel::Type;
@@ -38,5 +40,7 @@ class DepositController {
  private:
   DepositModel *model_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_CONTROLLER_DEPOSIT_CONTROLLER_H_

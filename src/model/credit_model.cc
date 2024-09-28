@@ -11,6 +11,8 @@
 
 #include "include/model/credit_model.h"
 
+namespace s21 {
+
 CreditModel::CreditModel() : BaseModel{} {}
 
 void CreditModel::addData(const Data &data) noexcept {
@@ -107,3 +109,5 @@ std::vector<std::string> CreditModel::totalTable() const noexcept {
 
   return total;
 }
+
+}  // namespace s21

@@ -24,6 +24,8 @@
 #include "include/additional/plot.h"
 #include "include/controller/calculator_controller.h"
 
+namespace s21 {
+
 class CalculatorView : public QWidget {
   Q_OBJECT
 
@@ -64,5 +66,7 @@ class CalculatorView : public QWidget {
   QLineEdit *expr_, *var_value_;
   QLabel *lvar_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_VIEW_CALCULATOR_VIEW_H_

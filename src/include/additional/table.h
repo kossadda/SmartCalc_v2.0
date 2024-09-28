@@ -23,6 +23,8 @@
 #include "include/controller/credit_controller.h"
 #include "include/controller/deposit_controller.h"
 
+namespace s21 {
+
 class Table : public TopMenu {
   Q_OBJECT
 
@@ -43,5 +45,7 @@ class Table : public TopMenu {
   QGridLayout *main_grid_, *info_grid_, *tax_grid_;
   QTableWidget *table_, *tax_table_;
 };
+
+}  // namespace s21
 
 #endif  // SRC_INCLUDE_ADDITIONAL_TABLE_H_
