@@ -28,11 +28,11 @@ void CreditView::allocateMemory(CreditController *controller) {
   if (controller) {
     controller_ = controller;
   } else {
-    controller_ = new CreditController{};
+    controller_ = new CreditController;
   }
 
   table_ = new Table{};
-  main_grid_ = new QGridLayout{};
+  main_grid_ = new QGridLayout;
   calculate_ = new QPushButton{QString{"Calculate"}};
   amount_ = new QLineEdit;
   term_ = new QLineEdit;
@@ -167,6 +167,10 @@ void CreditView::initView() {
   connect(calculate_, &QPushButton::clicked, this, &CreditView::calcClicked);
   connect(term_type_, &QComboBox::currentTextChanged, this,
           &CreditView::changeTermType);
+
+  setTabOrder(rate_, amount_);
+  setTabOrder(amount_, term_);
+  setTabOrder(term_, rate_);
 }
 
 void CreditView::calcClicked() {

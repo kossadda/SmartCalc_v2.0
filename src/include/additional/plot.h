@@ -29,7 +29,7 @@ class Plot : public TopMenu {
   Plot();
 
   void build(CalculatorController *controller);
-  bool isValidInput(QLineEdit *line);
+  bool isValidInput(QLineEdit *line) const noexcept;
 
  signals:
   void windowClosed();
@@ -41,12 +41,13 @@ class Plot : public TopMenu {
   void onTextChanged(const QString &text);
 
  private:
-  QCustomPlot *plot;
-  QGridLayout *settings;
-  QLineEdit *xbegin, *xend, *ybegin, *yend, *step;
-  QLabel *lx, *ly, *lbegin, *lend, *lstep;
+  void allocateMemory();
+  void initView();
 
-  double current_x_min, current_x_max, current_y_min, current_y_max;
+  QCustomPlot *plot_;
+  QGridLayout *settings_;
+  QLineEdit *xbegin_, *xend_, *ybegin_, *yend_, *step_;
+  QLabel *lx_, *ly_, *lbegin_, *lend_, *lstep_;
 };
 
 #endif  // SRC_INCLUDE_ADDITIONAL_PLOT_H_

@@ -29,8 +29,8 @@ class DepositController {
   void addDepositData(long double amount, std::size_t term, TermType term_type,
                       long double rate, long double tax_rate, Type type,
                       Frequency freq, std::size_t day, std::size_t month,
-                      std::size_t year);
-  void calculateDeposit();
+                      std::size_t year) noexcept;
+  void calculateDeposit() noexcept;
   const std::vector<std::vector<std::string>> &table() const noexcept;
   const std::vector<std::vector<std::string>> &taxTable() const noexcept;
   std::vector<std::string> totalTable() const noexcept;

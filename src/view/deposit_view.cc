@@ -29,10 +29,10 @@ void DepositView::allocateMemory(DepositController *controller) {
   if (controller) {
     controller_ = controller;
   } else {
-    controller_ = new DepositController{};
+    controller_ = new DepositController;
   }
 
-  table_ = new Table{};
+  table_ = new Table;
   main_grid_ = new QGridLayout;
   calculate_ = new QPushButton{QString{"Calculate"}};
   amount_ = new QLineEdit;
@@ -212,6 +212,12 @@ void DepositView::initView() {
           &DepositView::changeTermType);
   connect(capital_, &QCheckBox::stateChanged, this,
           &DepositView::changeDepositType);
+
+  setTabOrder(capital_, amount_);
+  setTabOrder(amount_, term_);
+  setTabOrder(term_, rate_);
+  setTabOrder(rate_, tax_rate_);
+  setTabOrder(tax_rate_, capital_);
 }
 
 void DepositView::calcClicked() {

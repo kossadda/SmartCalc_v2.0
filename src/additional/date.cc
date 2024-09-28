@@ -12,36 +12,26 @@
 #include "include/additional/date.h"
 
 Date::Date(DateSize day, DateSize month, DateSize year)
-    : day_{day}, month_{month}, year_{year}, dates_{0,  31, 28, 31, 30, 31, 30,
-                                                    31, 31, 30, 31, 30, 31} {
-  refreshYearDates();
-
+    : day_{day}, month_{month}, year_{year} {
   if (!isValidDate()) {
     throw std::invalid_argument("Date:: invalid date");
   }
 }
 
 Date::Date(const Date &other)
-    : day_{other.day_},
-      month_{other.month_},
-      year_{other.year_},
-      leap_{other.leap_},
-      dates_{other.dates_} {}
+    : day_{other.day_}, month_{other.month_}, year_{other.year_} {}
 
-void Date::refreshYearDates() noexcept {
-  leap_ = isYearLeap(year_);
+Date::DateSize Date::daysInMonth(DateSize month) const noexcept {
+  DateSize days[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  if (isYearLeap(year_)) days[1] = 29;
 
-  if (leap_) {
-    dates_[2] = kLeapFebDays;
-  } else {
-    dates_[2] = kFebDays;
-  }
+  return days[month - 1];
 }
 
 bool Date::isValidDate() const noexcept {
   bool valid{true};
 
-  if (month_ > kYearMonths && day_ > dates_[month_]) {
+  if (month_ > kYearMonths && day_ > daysInMonth(month_)) {
     valid = false;
   } else if (!day_ || !month_ || !year_) {
     valid = false;
@@ -51,6 +41,9 @@ bool Date::isValidDate() const noexcept {
 }
 
 bool Date::isYearLeap(DateSize year) noexcept {
+  const std::size_t kBigLeapInterval = 400;
+  const std::size_t kSmallLeapInterval = 4;
+  const std::size_t kLeapExcectInterval = 100;
   bool leap{false};
 
   if (!(year % kBigLeapInterval)) {
@@ -66,26 +59,20 @@ std::size_t Date::daysPassedInYear() const noexcept {
   std::size_t days{day_};
 
   for (DateSize i{1}; i < month_; ++i) {
-    days += dates_[i];
+    days += daysInMonth(i);
   }
 
   return days;
 }
 
 std::size_t Date::daysLeftInYear() const noexcept {
-  return ((leap_) ? kLeapYearDays : kYearDays) - daysPassedInYear();
-}
-
-std::size_t Date::daysLeftInMonth() const noexcept {
-  return dates_[month_] - day_;
+  return ((isYearLeap(year_)) ? kLeapYearDays : kYearDays) - daysPassedInYear();
 }
 
 Date &Date::operator=(const Date &other) noexcept {
   day_ = other.day_;
   month_ = other.month_;
   year_ = other.year_;
-  leap_ = other.leap_;
-  dates_ = other.dates_;
 
   return *this;
 }
@@ -174,13 +161,12 @@ Date &Date::addCreditMonth(DateSize init_day) noexcept {
   if (month_ + 1 > kYearMonths) {
     month_ = 1;
     ++year_;
-    refreshYearDates();
   } else {
     ++month_;
   }
 
-  if (init_day > dates_[month_]) {
-    day_ = dates_[month_];
+  if (init_day > daysInMonth(month_)) {
+    day_ = daysInMonth(month_);
   } else {
     day_ = init_day;
   }
@@ -193,13 +179,12 @@ Date &Date::addDepositMonth(std::size_t term) noexcept {
   std::size_t days_turn{};
 
   for (std::size_t i{}; i < term; ++i) {
-    days_turn += temp.dates_[temp.month_];
+    days_turn += temp.daysInMonth(temp.month_);
     ++temp.month_;
 
     if (temp.month_ > kYearMonths) {
       ++temp.year_;
       temp.month_ = 1;
-      temp.refreshYearDates();
     }
   }
 
@@ -210,13 +195,12 @@ Date &Date::addDepositMonth(std::size_t term) noexcept {
 
 Date &Date::addDays(std::size_t term) noexcept {
   for (std::size_t i{}; i < term; ++i) {
-    if (day_ + 1 > dates_[month_]) {
+    if (day_ + 1 > daysInMonth(month_)) {
       day_ = 1;
 
       if (month_ + 1 > kYearMonths) {
         month_ = 1;
         ++year_;
-        refreshYearDates();
       } else {
         ++month_;
       }

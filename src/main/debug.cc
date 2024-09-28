@@ -65,9 +65,12 @@ void testDeposit(const Data& data, Freq freq,
 // }
 
 void testCalculating(const std::string& infix) {
-  CalculatorModel model{infix};
+  CalculatorModel model;
 
-  std::cout << "\n" << model.evaluate() << "\n\n";
+  model.add_expression(infix, 0);
+  model.to_postfix();
+
+  std::cout << "\n" << model.evaluate_str() << "\n\n";
 
   std::cout << "\n"
             << ((model.validate()) ? "Validation success" : "Validation failed")
@@ -75,6 +78,6 @@ void testCalculating(const std::string& infix) {
 }
 
 int main() {
-  Data data{10000, 12, MONTHS, 15, Type::FIRST, Date{28, 9, 2024}};
-  testDeposit(data, Freq::MONTH, {1500.61, 10000});
+  std::string infix = "88.3/8";
+  testCalculating(infix);
 }

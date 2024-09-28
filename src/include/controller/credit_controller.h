@@ -27,8 +27,8 @@ class CreditController {
 
   void addCreditData(long double amount, std::size_t term, TermType term_type,
                      long double rate, Type type, std::size_t day,
-                     std::size_t month, std::size_t year);
-  void calculateCredit();
+                     std::size_t month, std::size_t year) noexcept;
+  void calculateCredit() noexcept;
   const std::vector<std::vector<std::string>> &table() const noexcept;
   std::vector<std::string> totalTable() const noexcept;
 

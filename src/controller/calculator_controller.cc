@@ -15,19 +15,20 @@ CalculatorController::CalculatorController(CalculatorModel* model) {
   if (model) {
     model_ = model;
   } else {
-    model_ = new CalculatorModel{};
+    model_ = new CalculatorModel;
   }
 }
 
 CalculatorController::~CalculatorController() { delete model_; }
 
 void CalculatorController::infix_to_postfix(std::string infix,
-                                            long double var) {
+                                            long double var) noexcept {
   model_->add_expression(infix, var);
   model_->to_postfix();
 }
 
-bool CalculatorController::validate(std::string infix, long double var) {
+bool CalculatorController::validate(std::string infix,
+                                    long double var) noexcept {
   model_->add_expression(infix, var);
 
   return model_->validate();
@@ -46,15 +47,17 @@ long double CalculatorController::evaluate_num() {
 }
 
 std::string CalculatorController::evaluate_str() {
-  std::stringstream ss;
+  std::string str;
 
   try {
-    ss << model_->evaluate();
+    str = model_->evaluate_str();
   } catch (const std::invalid_argument& exception) {
-    ss << exception.what();
+    str = exception.what();
   }
 
-  return ss.str();
+  return str;
 }
 
-long double& CalculatorController::variable() { return model_->variable(); }
+long double& CalculatorController::variable() noexcept {
+  return model_->variable();
+}

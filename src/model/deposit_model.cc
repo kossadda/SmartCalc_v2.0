@@ -147,7 +147,7 @@ void DepositModel::taxToTable() noexcept {
 std::vector<std::string> DepositModel::totalTable() const noexcept {
   std::vector<std::string> total_str;
   auto eff_rate{toStr(tax_->total_profit_ / data_->amount * Date::kYearDays /
-                      (month_->payment_date - data_->date))};
+                      (month_->payment_date - data_->date) * 100.0L)};
   auto tbalance{toStr((data_->type == Type::SECOND)
                           ? month_->balance
                           : data_->amount + tax_->total_profit_)};

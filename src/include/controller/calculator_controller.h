@@ -21,11 +21,11 @@ class CalculatorController {
   explicit CalculatorController(CalculatorModel *model = nullptr);
   ~CalculatorController();
 
-  bool validate(std::string infix, long double var = 0);
-  void infix_to_postfix(std::string infix, long double var);
+  bool validate(std::string infix, long double var = 0) noexcept;
+  void infix_to_postfix(std::string infix, long double var) noexcept;
   std::string evaluate_str();
   long double evaluate_num();
-  long double &variable();
+  long double &variable() noexcept;
 
  private:
   CalculatorModel *model_;

@@ -29,7 +29,6 @@ class Date {
   static bool isYearLeap(DateSize year) noexcept;
   std::size_t daysPassedInYear() const noexcept;
   std::size_t daysLeftInYear() const noexcept;
-  std::size_t daysLeftInMonth() const noexcept;
   Date &addCreditMonth(DateSize init_day) noexcept;
   Date &addDepositMonth(std::size_t term) noexcept;
   Date &addDays(std::size_t term) noexcept;
@@ -52,27 +51,19 @@ class Date {
   std::string currentDate() const noexcept;
 
   static const DateSize kYearMonths = 12;
-  static const DateSize kLeapFebDays = 29;
-  static const DateSize kFebDays = 28;
   static const std::size_t kYearDays = 365;
   static const std::size_t kLeapYearDays = 366;
-  static const std::size_t kBigLeapInterval = 400;
-  static const std::size_t kSmallLeapInterval = 4;
-  static const std::size_t kLeapExcectInterval = 100;
 
  private:
   enum class DateCompare { DATE_EQUAL, DATE_BEFORE, DATE_AFTER };
 
   bool isValidDate() const noexcept;
   DateCompare compareDate(const Date &other) const noexcept;
-  void refreshYearDates() noexcept;
+  DateSize daysInMonth(DateSize month) const noexcept;
 
   DateSize day_{};
   DateSize month_{};
   DateSize year_{};
-  bool leap_{};
-
-  std::vector<DateSize> dates_;
 };
 
 #endif  // SRC_INCLUDE_ADDITIONAL_DATE_H_

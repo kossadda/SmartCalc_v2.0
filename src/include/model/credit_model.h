@@ -30,8 +30,6 @@ class CreditModel : public BaseModel {
 
  private:
   void calculatePeriod() noexcept override;
-
-  long double total_{};
 };
 
 #endif  // SRC_INCLUDE_MODEL_CREDIT_MODEL_H_

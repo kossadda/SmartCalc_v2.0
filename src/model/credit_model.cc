@@ -22,10 +22,7 @@ void CreditModel::addData(const Data &data) noexcept {
   }
 }
 
-void CreditModel::clear() noexcept {
-  table_.clear();
-  total_ = 0.0L;
-}
+void CreditModel::clear() noexcept { table_.clear(); }
 
 void CreditModel::calculatePayments() noexcept {
   Date::DateSize const_day{data_->date.day()};
@@ -36,9 +33,9 @@ void CreditModel::calculatePayments() noexcept {
 
   if (data_->type == Type::FIRST) {
     long double monthly_percent = data_->rate / Date::kYearMonths;
-    month_->summary = roundVal(
-        month_->balance * monthly_percent /
-        (1.0L - std::pow((1.0L + monthly_percent), -data_->term)));
+    month_->summary =
+        roundVal(month_->balance * monthly_percent /
+                 (1.0L - std::pow((1.0L + monthly_percent), -data_->term)));
   } else {
     month_->main = roundVal(month_->balance / data_->term);
   }
@@ -55,7 +52,6 @@ void CreditModel::calculatePayments() noexcept {
 
     monthToTable();
     month_->current = month_->payment_date;
-    total_ += month_->percent;
   }
 }
 
@@ -97,10 +93,13 @@ void CreditModel::calculatePeriod() noexcept {
 
 std::vector<std::string> CreditModel::totalTable() const noexcept {
   std::vector<std::string> total;
+  long double percent{};
 
-  auto profit{toStr(total_)};
+  for (auto i : table_) percent += std::stold(i[1]);
+
+  auto profit{toStr(percent)};
   auto debt{toStr(data_->amount)};
-  auto ttotal{toStr(data_->amount + total_)};
+  auto ttotal{toStr(data_->amount + percent)};
 
   total.emplace_back(std::string("Interest paid\n") + profit);
   total.emplace_back(std::string("Debt paid\n") + debt);

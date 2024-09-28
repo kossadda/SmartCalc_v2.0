@@ -15,7 +15,7 @@ CreditController::CreditController(CreditModel* model) {
   if (model) {
     model_ = model;
   } else {
-    model_ = new CreditModel{};
+    model_ = new CreditModel;
   }
 }
 
@@ -24,16 +24,18 @@ CreditController::~CreditController() { delete model_; }
 void CreditController::addCreditData(long double amount, std::size_t term,
                                      TermType term_type, long double rate,
                                      Type type, std::size_t day,
-                                     std::size_t month, std::size_t year) {
-  CreditModel::Data data{amount,    static_cast<long double>(term),
-                         term_type, rate,
-                         type,      Date(day, month, year)};
+                                     std::size_t month,
+                                     std::size_t year) noexcept {
+  CreditModel::Data data(amount, term, term_type, rate, type,
+                         Date(day, month, year));
 
   model_->addData(data);
   model_->clear();
 }
 
-void CreditController::calculateCredit() { model_->calculatePayments(); }
+void CreditController::calculateCredit() noexcept {
+  model_->calculatePayments();
+}
 
 const std::vector<std::vector<std::string>>& CreditController::table()
     const noexcept {

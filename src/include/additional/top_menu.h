@@ -41,17 +41,20 @@ class TopMenu : public QWidget {
   void updatePosition();
 
  protected:
-  QGridLayout *main_layout;
-  QLabel *image_label, *window_name;
-  QGridLayout *grid;
-  QPushButton *close_but, *collapse_but;
-  QSpacerItem *space1, *space2;
-  QFrame *top_frame;
+  QGridLayout *main_layout_;
+  QLabel *image_label_, *window_name_;
+  QGridLayout *grid_;
+  QPushButton *close_but_, *collapse_but_;
+  QSpacerItem *space1_, *space2_;
+  QFrame *top_frame_;
 
  private:
+  void allocateMemory();
+  void initView();
+
   bool dragging{false};
-  QPoint *drag_position, *target_position;
-  QTimer *move_timer;
+  QPoint *drag_position_, *target_position_;
+  QTimer *move_timer_;
 };
 
 #endif  // SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_

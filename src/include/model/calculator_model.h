@@ -14,6 +14,7 @@
 
 #include <cctype>
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <regex>
 #include <sstream>
@@ -23,20 +24,21 @@
 class CalculatorModel {
  public:
   CalculatorModel() = default;
-  explicit CalculatorModel(std::string infix, long double var = 0);
 
-  void add_expression(std::string infix, long double var);
-  void to_postfix();
-  bool validate();
+  void add_expression(std::string infix, long double var) noexcept;
+  void to_postfix() noexcept;
+  bool validate() const noexcept;
   long double evaluate();
-  long double &variable();
+  std::string evaluate_str();
+  long double &variable() noexcept;
 
  private:
-  std::string replaceNames(std::string infix);
-  std::string replaceSubstr(std::string str, const char *from, const char *to);
+  std::string replaceNames(std::string infix) const noexcept;
+  std::string replaceSubstr(std::string str, const char *from,
+                            const char *to) const;
   int getPrecedence(char op);
-  bool isFunction(char c);
-  bool isOperator(char c);
+  bool isFunction(char c) const noexcept;
+  bool isOperator(char c) const noexcept;
 
   static constexpr long double kLdoubleMinVal{1.0e-15L};
 

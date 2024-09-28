@@ -36,9 +36,9 @@ void Table::initView() {
 
   setMinimumSize(900, 700);
   setWindowIcon(QIcon{":table.png"});
-  TopMenu::image_label->setPixmap(QPixmap{":table.png"});
+  TopMenu::image_label_->setPixmap(QPixmap{":table.png"});
   setWindowTitle(QString{"Table"});
-  TopMenu::window_name->setText(QString{"Table"});
+  TopMenu::window_name_->setText(QString{"Table"});
 
   main_grid_->addWidget(table_);
   tax_grid_->addWidget(tax_table_);
@@ -57,9 +57,9 @@ void Table::initView() {
 
   tax_table_->setVisible(false);
 
-  TopMenu::main_layout->addLayout(main_grid_, 1, 0);
-  TopMenu::main_layout->addLayout(tax_grid_, 2, 0);
-  TopMenu::main_layout->addLayout(info_grid_, 3, 0);
+  TopMenu::main_layout_->addLayout(main_grid_, 1, 0);
+  TopMenu::main_layout_->addLayout(tax_grid_, 2, 0);
+  TopMenu::main_layout_->addLayout(info_grid_, 3, 0);
 }
 
 void Table::fillTable(QTableWidget *table,

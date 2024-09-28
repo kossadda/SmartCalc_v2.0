@@ -11,20 +11,16 @@
 
 #include "include/model/calculator_model.h"
 
-CalculatorModel::CalculatorModel(std::string infix, long double var) {
-  add_expression(infix, var);
-  to_postfix();
-}
-
-void CalculatorModel::add_expression(std::string infix, long double var) {
+void CalculatorModel::add_expression(std::string infix,
+                                     long double var) noexcept {
   variable_ = var;
   postfix_ = std::string{};
   infix_ = replaceNames(infix);
 }
 
-long double &CalculatorModel::variable() { return variable_; }
+long double &CalculatorModel::variable() noexcept { return variable_; }
 
-void CalculatorModel::to_postfix() {
+void CalculatorModel::to_postfix() noexcept {
   std::stack<char> ops;
   size_ = infix_.size();
 
@@ -86,7 +82,7 @@ void CalculatorModel::to_postfix() {
   }
 }
 
-bool CalculatorModel::validate() {
+bool CalculatorModel::validate() const noexcept {
   const std::string valid_chars{"()^+-*/msctSCTQLlPxe1234567890."};
   std::size_t open_br{};
   std::size_t close_br{};
@@ -240,8 +236,21 @@ long double CalculatorModel::evaluate() {
   return operands.top();
 }
 
+std::string CalculatorModel::evaluate_str() {
+  std::ostringstream stream;
+  long double result{evaluate()};
+  stream << std::fixed << std::setprecision(7) << result;
+  std::string result_str{stream.str()};
+
+  while (result_str.back() == '0') {
+    result_str.pop_back();
+  }
+
+  return result_str;
+}
+
 std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
-                                           const char *to) {
+                                           const char *to) const {
   std::string from_{from};
   std::string to_{to};
   size_t start_pos{};
@@ -254,7 +263,7 @@ std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
   return str;
 }
 
-std::string CalculatorModel::replaceNames(std::string infix) {
+std::string CalculatorModel::replaceNames(std::string infix) const noexcept {
   std::string result;
 
   for (auto i : infix) {
@@ -328,11 +337,11 @@ int CalculatorModel::getPrecedence(char op) {
   return priority;
 }
 
-bool CalculatorModel::isOperator(char c) {
+bool CalculatorModel::isOperator(char c) const noexcept {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == 'm';
 }
 
-bool CalculatorModel::isFunction(char c) {
+bool CalculatorModel::isFunction(char c) const noexcept {
   return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' ||
          c == 'l' || c == 'L' || c == 'Q' || c == 'P';
 }

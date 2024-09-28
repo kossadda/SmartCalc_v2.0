@@ -17,15 +17,15 @@ MainWindow::MainWindow() : TopMenu() {
 }
 
 void MainWindow::initMVC() {
-  calculator_model_ = new CalculatorModel{};
+  calculator_model_ = new CalculatorModel;
   calculator_controller_ = new CalculatorController{calculator_model_};
   calculator_view_ = new CalculatorView{calculator_controller_};
 
-  credit_model_ = new CreditModel{};
+  credit_model_ = new CreditModel;
   credit_controller_ = new CreditController{credit_model_};
   credit_view_ = new CreditView{credit_controller_};
 
-  deposit_model_ = new DepositModel{};
+  deposit_model_ = new DepositModel;
   deposit_controller_ = new DepositController{deposit_model_};
   deposit_view_ = new DepositView{deposit_controller_};
 }
@@ -59,5 +59,5 @@ void MainWindow::initView() {
   tab_->setCurrentWidget(calculator_view_);
   setlocale(LC_NUMERIC, "C");
 
-  TopMenu::main_layout->addWidget(tab_);
+  TopMenu::main_layout_->addWidget(tab_);
 }

@@ -32,36 +32,37 @@ class CalculatorView : public QWidget {
   ~CalculatorView();
 
  private slots:
-  void plotWindowClosed();
-  void validateExpression();
-  void validateVar();
+  void plotWindowClosed() noexcept;
+  void validateExpression() noexcept;
+  void validateVar() noexcept;
 
-  void modClicked();
-  void clearClicked();
-  void delClicked();
-  void eqClicked();
+  void modClicked() noexcept;
+  void clearClicked() noexcept;
+  void delClicked() noexcept;
+  void eqClicked() noexcept;
   void plotClicked();
   void unarClicked();
-  void numberButtonClicked();
-  void functionButtonClicked();
+  void numberButtonClicked() noexcept;
+  void functionButtonClicked() noexcept;
 
  private:
   void allocateMemory(CalculatorController *controller);
   void initView();
 
   CalculatorController *controller_;
-  Plot *plot;
-  bool valid{false};
-  bool valid_var{true};
+  Plot *plot_;
+  bool valid_{false};
+  bool valid_var_{true};
 
-  QFrame *button_frame;
-  QGridLayout *button_grid, *main_grid;
-  QPushButton *bsin, *bcos, *btan, *basin, *bacos, *batan, *bsqrt, *bmod, *blog,
-      *bln, *bunar, *bscience, *bpi, *bpow, *bopenbr, *bclosebr, *bdiv, *bmul,
-      *bminus, *bplus, *bvar, *bdot, *beq, *bclear, *bdel, *bzero, *bone, *btwo,
-      *bthree, *bfour, *bfive, *bsix, *bseven, *beight, *bnine, *bplot;
-  QLineEdit *expr, *var_value;
-  QLabel *lvar;
+  QFrame *button_frame_;
+  QGridLayout *button_grid_, *main_grid_;
+  QPushButton *bsin_, *bcos_, *btan_, *basin_, *bacos_, *batan_, *bsqrt_,
+      *bmod_, *blog_, *bln_, *bunar_, *bscience_, *bpi_, *bpow_, *bopenbr_,
+      *bclosebr_, *bdiv_, *bmul_, *bminus_, *bplus_, *bvar_, *bdot_, *beq_,
+      *bclear_, *bdel_, *bzero_, *bone_, *btwo_, *bthree_, *bfour_, *bfive_,
+      *bsix_, *bseven_, *beight_, *bnine_, *bplot_;
+  QLineEdit *expr_, *var_value_;
+  QLabel *lvar_;
 };
 
 #endif  // SRC_INCLUDE_VIEW_CALCULATOR_VIEW_H_

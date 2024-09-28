@@ -11,20 +11,27 @@
 
 #include "include/additional/plot.h"
 
-Plot::Plot()
-    : TopMenu{},
-      plot{new QCustomPlot{}},
-      settings{new QGridLayout{}},
-      xbegin{new QLineEdit{QString{"-10.0"}}},
-      xend{new QLineEdit{QString{"10.0"}}},
-      ybegin{new QLineEdit{QString{"-25.0"}}},
-      yend{new QLineEdit{QString{"25.0"}}},
-      step{new QLineEdit{QString{"0.01"}}},
-      lx{new QLabel{QString{"x"}}},
-      ly{new QLabel{QString{"y"}}},
-      lbegin{new QLabel{QString{"begin"}}},
-      lend{new QLabel{QString{"end"}}},
-      lstep{new QLabel{QString{"step"}}} {
+Plot::Plot() : TopMenu{} {
+  allocateMemory();
+  initView();
+}
+
+void Plot::allocateMemory() {
+  plot_ = new QCustomPlot{};
+  settings_ = new QGridLayout{};
+  xbegin_ = new QLineEdit{QString{"-10.0"}};
+  xend_ = new QLineEdit{QString{"10.0"}};
+  ybegin_ = new QLineEdit{QString{"-25.0"}};
+  yend_ = new QLineEdit{QString{"25.0"}};
+  step_ = new QLineEdit{QString{"0.01"}};
+  lx_ = new QLabel{QString{"x"}};
+  ly_ = new QLabel{QString{"y"}};
+  lbegin_ = new QLabel{QString{"begin"}};
+  lend_ = new QLabel{QString{"end"}};
+  lstep_ = new QLabel{QString{"step_"}};
+}
+
+void Plot::initView() {
   QString qline_style{
       "border-radius: 10px;"
       "background-color:  rgb(47, 47, 47);"
@@ -39,41 +46,41 @@ Plot::Plot()
 
   QColor dark_blue{40, 100, 180, 200};
 
-  setWindowIcon(QIcon{":plot.png"});
-  TopMenu::image_label->setPixmap(QPixmap{":plot.png"});
+  setWindowIcon(QIcon{":plot_.png"});
+  TopMenu::image_label_->setPixmap(QPixmap{":plot_.png"});
   setWindowTitle(QString{"Plot"});
-  TopMenu::window_name->setText(QString{"Plot"});
+  TopMenu::window_name_->setText(QString{"Plot"});
 
-  plot->setBackground(QBrush{QColor{0, 0, 0, 0}});
-  plot->xAxis->setLabelColor(dark_blue);
-  plot->yAxis->setLabelColor(dark_blue);
-  plot->xAxis->setBasePen(QPen{dark_blue});
-  plot->yAxis->setBasePen(QPen{dark_blue});
-  plot->xAxis->setTickLabelColor(Qt::white);
-  plot->yAxis->setTickLabelColor(Qt::white);
-  plot->xAxis->setTickPen(QPen{dark_blue});
-  plot->yAxis->setTickPen(QPen{dark_blue});
-  plot->xAxis->setSubTickPen(QPen{dark_blue});
-  plot->yAxis->setSubTickPen(QPen{dark_blue});
-  plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  plot->setInteraction(QCP::iRangeZoom, true);
-  plot->setInteraction(QCP::iRangeDrag, true);
+  plot_->setBackground(QBrush{QColor{0, 0, 0, 0}});
+  plot_->xAxis->setLabelColor(dark_blue);
+  plot_->yAxis->setLabelColor(dark_blue);
+  plot_->xAxis->setBasePen(QPen{dark_blue});
+  plot_->yAxis->setBasePen(QPen{dark_blue});
+  plot_->xAxis->setTickLabelColor(Qt::white);
+  plot_->yAxis->setTickLabelColor(Qt::white);
+  plot_->xAxis->setTickPen(QPen{dark_blue});
+  plot_->yAxis->setTickPen(QPen{dark_blue});
+  plot_->xAxis->setSubTickPen(QPen{dark_blue});
+  plot_->yAxis->setSubTickPen(QPen{dark_blue});
+  plot_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  plot_->setInteraction(QCP::iRangeZoom, true);
+  plot_->setInteraction(QCP::iRangeDrag, true);
 
-  TopMenu::main_layout->addWidget(plot);
-  settings->addWidget(lbegin, 0, 1, 1, 1, Qt::AlignCenter);
-  settings->addWidget(lend, 0, 2, 1, 1, Qt::AlignCenter);
-  settings->addWidget(lstep, 0, 3, 1, 1, Qt::AlignCenter);
-  settings->addWidget(lx, 1, 0, 1, 1, Qt::AlignCenter);
-  settings->addWidget(ly, 2, 0, 1, 1, Qt::AlignCenter);
-  settings->addWidget(xbegin, 1, 1, 1, 1);
-  settings->addWidget(xend, 1, 2, 1, 1);
-  settings->addWidget(ybegin, 2, 1, 1, 1);
-  settings->addWidget(yend, 2, 2, 1, 1);
-  settings->addWidget(step, 1, 3, 2, 1);
-  settings->setContentsMargins(20, 0, 20, 10);
-  step->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  TopMenu::main_layout_->addWidget(plot_);
+  settings_->addWidget(lbegin_, 0, 1, 1, 1, Qt::AlignCenter);
+  settings_->addWidget(lend_, 0, 2, 1, 1, Qt::AlignCenter);
+  settings_->addWidget(lstep_, 0, 3, 1, 1, Qt::AlignCenter);
+  settings_->addWidget(lx_, 1, 0, 1, 1, Qt::AlignCenter);
+  settings_->addWidget(ly_, 2, 0, 1, 1, Qt::AlignCenter);
+  settings_->addWidget(xbegin_, 1, 1, 1, 1);
+  settings_->addWidget(xend_, 1, 2, 1, 1);
+  settings_->addWidget(ybegin_, 2, 1, 1, 1);
+  settings_->addWidget(yend_, 2, 2, 1, 1);
+  settings_->addWidget(step_, 1, 3, 2, 1);
+  settings_->setContentsMargins(20, 0, 20, 10);
+  step_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  QVector<QLineEdit *> lines{xbegin, xend, ybegin, yend, step};
+  QVector<QLineEdit *> lines{xbegin_, xend_, ybegin_, yend_, step_};
   QDoubleValidator *range_validator =
       new QDoubleValidator(-1000000, 1000000, 7);
   QDoubleValidator *step_validator = new QDoubleValidator(1e-3, 1e+1, 3);
@@ -85,7 +92,7 @@ Plot::Plot()
     i->setStyleSheet(qline_style);
     connect(i, &QLineEdit::textChanged, this, &Plot::onTextChanged);
 
-    if (i == step) {
+    if (i == step_) {
       i->setMinimumHeight(60);
       i->setValidator(step_validator);
     } else {
@@ -94,13 +101,13 @@ Plot::Plot()
     }
   }
 
-  lbegin->setStyleSheet(qlabel_style);
-  lend->setStyleSheet(qlabel_style);
-  lx->setStyleSheet(qlabel_style);
-  ly->setStyleSheet(qlabel_style);
-  lstep->setStyleSheet(qlabel_style);
+  lbegin_->setStyleSheet(qlabel_style);
+  lend_->setStyleSheet(qlabel_style);
+  lx_->setStyleSheet(qlabel_style);
+  ly_->setStyleSheet(qlabel_style);
+  lstep_->setStyleSheet(qlabel_style);
 
-  TopMenu::main_layout->addLayout(settings, 2, 0);
+  TopMenu::main_layout_->addLayout(settings_, 2, 0);
 }
 
 void Plot::closeEvent(QCloseEvent *event) {
@@ -109,24 +116,24 @@ void Plot::closeEvent(QCloseEvent *event) {
 }
 
 void Plot::build(CalculatorController *controller) {
-  if (5 != isValidInput(step) + isValidInput(xend) + isValidInput(ybegin) +
-               isValidInput(yend) + isValidInput(xbegin)) {
+  if (5 != isValidInput(step_) + isValidInput(xend_) + isValidInput(ybegin_) +
+               isValidInput(yend_) + isValidInput(xbegin_)) {
     return;
   }
 
-  plot->clearItems();
+  plot_->clearItems();
   long double prev{controller->evaluate_num()};
   long double result{}, diff{};
   QVector<double> x, y;
 
-  long double step_val = step->text().toDouble();
-  long double x_begin = xbegin->text().toDouble();
-  long double x_end = xend->text().toDouble();
-  long double y_begin = ybegin->text().toDouble();
-  long double y_end = yend->text().toDouble();
+  long double step_val = step_->text().toDouble();
+  long double x_begin = xbegin_->text().toDouble();
+  long double x_end = xend_->text().toDouble();
+  long double y_begin = ybegin_->text().toDouble();
+  long double y_end = yend_->text().toDouble();
 
-  plot->xAxis->setRange(x_begin, x_end);
-  plot->yAxis->setRange(y_begin, y_end);
+  plot_->xAxis->setRange(x_begin, x_end);
+  plot_->yAxis->setRange(y_begin, y_end);
 
   for (long double i = x_begin; i <= x_end; i += step_val) {
     controller->variable() = i;
@@ -143,12 +150,12 @@ void Plot::build(CalculatorController *controller) {
     prev = result;
   }
 
-  plot->addGraph(plot->xAxis, plot->yAxis)->setPen(QPen{QColor(255, 0, 0)});
-  plot->graph(0)->setData(x, y);
-  plot->replot();
+  plot_->addGraph(plot_->xAxis, plot_->yAxis)->setPen(QPen{QColor(255, 0, 0)});
+  plot_->graph(0)->setData(x, y);
+  plot_->replot();
 }
 
-bool Plot::isValidInput(QLineEdit *line) {
+bool Plot::isValidInput(QLineEdit *line) const noexcept {
   const QValidator *validator = line->validator();
   bool valid{false};
 

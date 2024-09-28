@@ -25,7 +25,8 @@ void DepositController::addDepositData(long double amount, std::size_t term,
                                        TermType term_type, long double rate,
                                        long double tax_rate, Type type,
                                        Frequency freq, std::size_t day,
-                                       std::size_t month, std::size_t year) {
+                                       std::size_t month,
+                                       std::size_t year) noexcept {
   DepositModel::Data data(amount, term, term_type, rate, type,
                           Date(day, month, year));
 
@@ -33,7 +34,9 @@ void DepositController::addDepositData(long double amount, std::size_t term,
   model_->addData(data, tax_rate, freq);
 }
 
-void DepositController::calculateDeposit() { model_->calculatePayments(); }
+void DepositController::calculateDeposit() noexcept {
+  model_->calculatePayments();
+}
 
 const std::vector<std::vector<std::string>>& DepositController::table()
     const noexcept {
