@@ -18,18 +18,25 @@ BaseModel::~BaseModel() {
   delete month_;
 }
 
+BaseModel::Data::Data(long double amount_, long double term_,
+                      TermType term_type_, long double rate_, Type type_,
+                      const Date &date_)
+    : amount{amount_},
+      term{term_},
+      term_type{term_type_},
+      rate{rate_},
+      type{type_},
+      date{date_} {}
+
 const std::vector<std::vector<std::string>> &BaseModel::table() const noexcept {
   return table_;
 }
 
 long double BaseModel::formula(
     std::pair<std::size_t, std::size_t> days) noexcept {
-  long double default_sum = (month_->balance * data_->rate / 100.0L) /
-                            static_cast<long double>(Date::kYearDays) *
-                            static_cast<long double>(days.first);
-  long double leap_sum = (month_->balance * data_->rate / 100.0L) /
-                         static_cast<long double>(Date::kLeapYearDays) *
-                         static_cast<long double>(days.second);
+  long double base_sum = month_->balance * data_->rate;
+  long double default_sum = base_sum / Date::kYearDays * days.first;
+  long double leap_sum = base_sum / Date::kLeapYearDays * days.second;
   return default_sum + leap_sum;
 }
 

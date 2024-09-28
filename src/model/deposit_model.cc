@@ -19,6 +19,7 @@ void DepositModel::addData(const Data &data, long double tax_rate,
                            Frequency freq) noexcept {
   *tax_ = Tax{};
   *data_ = data;
+  data_->rate /= 100.0L;
   tax_->nontaxable *= tax_rate;
   freq_ = freq;
 }
@@ -106,12 +107,14 @@ void DepositModel::calculateTaxes(const Date &last_day) {
       month_->payment_date == last_day) {
     if (month_->payment_date == last_day) {
       tax_->income += month_->percent;
+      tax_->year = last_day.year();
+    } else {
+      tax_->year = month_->current.year();
     }
-    tax_->year = month_->current.year();
 
     if (tax_->income > tax_->nontaxable) {
       tax_->income_deduction = tax_->income - tax_->nontaxable;
-      tax_->tax_amount = roundVal(tax_->income_deduction * kNDFLRate / 100.0L);
+      tax_->tax_amount = roundVal(tax_->income_deduction * kNDFLRate);
       tax_->total_tax_ += tax_->tax_amount;
     }
 
@@ -144,7 +147,7 @@ void DepositModel::taxToTable() noexcept {
 std::vector<std::string> DepositModel::totalTable() const noexcept {
   std::vector<std::string> total_str;
   auto eff_rate{toStr(tax_->total_profit_ / data_->amount * Date::kYearDays /
-                      (month_->payment_date - data_->date) * 100.0L)};
+                      (month_->payment_date - data_->date))};
   auto tbalance{toStr((data_->type == Type::SECOND)
                           ? month_->balance
                           : data_->amount + tax_->total_profit_)};

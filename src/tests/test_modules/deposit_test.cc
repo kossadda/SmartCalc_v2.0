@@ -1,12 +1,12 @@
 /**
  * @file deposit_test.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief 
+ * @brief
  * @version 1.0
  * @date 2024-09-25
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #include "tests/main_test.h"
@@ -17,21 +17,23 @@ using Data = DepositModel::Data;
 using Freq = DepositModel::Frequency;
 using Type = DepositModel::Type;
 
-void testDeposit(const Data &data, Freq freq, std::vector<long double> expected) {
+void testDeposit(const Data &data, Freq freq,
+                 std::vector<long double> expected) {
   DepositModel deposit;
 
   deposit.addData(data, 16, freq);
   deposit.calculatePayments();
   std::vector<long double> result{0.0L, std::stold(deposit.table().back()[4])};
-  
-  for(auto i : deposit.table()) {
+
+  for (auto i : deposit.table()) {
     result[0] += std::stold(i[1]);
   }
 
   for (std::size_t i{}; i < expected.size(); ++i) {
     long double res = result.at(i);
     long double exp = expected.at(i);
-    EXPECT_NEAR(res, exp, 1e-3) << "\nRes : " << res << "\nTrue: " << exp << '\n';
+    EXPECT_NEAR(res, exp, 1e-3)
+        << "\nRes : " << res << "\nTrue: " << exp << '\n';
   }
 }
 

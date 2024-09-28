@@ -15,6 +15,7 @@ CreditModel::CreditModel() : BaseModel{} {}
 
 void CreditModel::addData(const Data &data) noexcept {
   *data_ = data;
+  data_->rate /= 100.0L;
 
   if (data_->term_type == TermType::YEARS) {
     data_->term *= Date::kYearMonths;
@@ -34,10 +35,10 @@ void CreditModel::calculatePayments() noexcept {
   month_->balance = data_->amount;
 
   if (data_->type == Type::FIRST) {
-    long double monthly_percent = data_->rate / (100.0L * Date::kYearMonths);
+    long double monthly_percent = data_->rate / Date::kYearMonths;
     month_->summary = roundVal(
         month_->balance * monthly_percent /
-        (1.0L - std::pow((1.0L + monthly_percent), data_->term * (-1))));
+        (1.0L - std::pow((1.0L + monthly_percent), -data_->term)));
   } else {
     month_->main = roundVal(month_->balance / data_->term);
   }

@@ -11,47 +11,43 @@
 
 
 #================================== PROJECT ===================================#
-PROJECT_NAME = smartcalc
+PROJECT_NAME     =  smartcalc
 #==============================================================================#
 
 #================================== COMPILER ==================================#
-CXX = g++
+CXX              =  g++
 #==============================================================================#
 
 #=============================== DIRECTORY NAMES ==============================#
-TEST_DIR = ./tests
-DVI_DIR = ../docs
-DIST_DIR = ../dist
-BUILD = ../bin
-TEST_BUILD = ./test_bin
-MAIN_DIR = ./main
-MODEL_DIR = ./model
-VIEW_DIR = ./view
-CONTROLLER_DIR = ./controller
-ADDITIONAL_DIR = ./additional
-INCLUDE_DIR = ./include
-EXCLUDE_FILES = qcustomplot*
+TEST_DIR         =  ./tests
+DVI_DIR          =  ../docs
+DIST_DIR         =  ../dist
+BUILD            =  ../bin
+TEST_BUILD       =  ./test_bin
+MAIN_DIR         =  ./main
+MODEL_DIR        =  ./model
+VIEW_DIR         =  ./view
+CONTROLLER_DIR   =  ./controller
+ADDITIONAL_DIR   =  ./additional
+INCLUDE_DIR      =  ./include
+EXCLUDE_FILE1    =  qcustomplot.*
+EXCLUDE_FILE2    =  CMakeLists.txt
 #==============================================================================#
 
 #==================================== FLAGS ===================================#
-# MAIN FLAGS FOR COMPILER
-CXXFLAGS = -Wall -Wextra -pedantic -std=c++17 -g
-
-# CHECK LIBRARY FOR LINKING
-LDFLAGS = -lgtest -lgtest_main
-
-# FLAGS FOR VALGRING TEST
-VAL = --tool=memcheck --leak-check=yes
+CXXFLAGS         =  -Wall -Wextra -pedantic -std=c++17 -g
+LDFLAGS          =  -lgtest -lgtest_main
+VAL              =  --tool=memcheck --leak-check=yes
 #==============================================================================#
 
 #=========================== LIST OF FILE AND DIRS  ===========================#
-ALL_MODULES_DIR = $(INCLUDE_DIR) $(MODEL_DIR) $(VIEW_DIR) $(CONTROLLER_DIR) $(ADDITIONAL_DIR) $(MAIN_DIR)
-MODULES = $(shell find $(ALL_MODULES_DIR) -type f ! -name $(EXCLUDE_FILES))
-TESTS = $(shell find $(TEST_DIR) -type f")
+ALL_MODULES_DIR  =  $(INCLUDE_DIR) $(MODEL_DIR) $(VIEW_DIR) $(CONTROLLER_DIR) $(ADDITIONAL_DIR) $(MAIN_DIR)
+MODULES          =  $(shell find $(ALL_MODULES_DIR) -type f ! -name $(EXCLUDE_FILE1))
+TESTS            =  $(shell find $(TEST_DIR) -type f ! -name $(EXCLUDE_FILE2))
 #==============================================================================#
 
 #======================== LIST OF FILES TO CLANG-FORMAT =======================#
-ALL_FILES = $(MODULES) $(TESTS)
+ALL_FILES        =  $(MODULES) $(TESTS)
 #==============================================================================#
 
 

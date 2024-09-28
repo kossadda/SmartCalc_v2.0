@@ -22,8 +22,8 @@ void testCredit(const Data &data, std::vector<long double> expected) {
   credit.addData(data);
   credit.calculatePayments();
   std::vector<long double> result(3);
-  
-  for(auto i : credit.table()) {
+
+  for (auto i : credit.table()) {
     result[0] += std::stold(i[3]);
     result[1] += std::stold(i[2]);
     result[2] += std::stold(i[1]);
@@ -32,7 +32,8 @@ void testCredit(const Data &data, std::vector<long double> expected) {
   for (std::size_t i{}; i < expected.size(); ++i) {
     long double res = result.at(i);
     long double exp = expected.at(i);
-    EXPECT_NEAR(res, exp, 1e-3) << "\nRes : " << res << "\nTrue: " << exp << '\n';
+    EXPECT_NEAR(res, exp, 1e-3)
+        << "\nRes : " << res << "\nTrue: " << exp << '\n';
   }
 }
 

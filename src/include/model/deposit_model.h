@@ -32,7 +32,7 @@ class DepositModel : public BaseModel {
   };
 
   struct Tax {
-    Date::DateSize year{};
+    Date::DateSize year;
     long double income{};
     long double nontaxable{10000.0L};
     long double income_deduction{};
@@ -57,7 +57,7 @@ class DepositModel : public BaseModel {
   void calculateTaxes(const Date &last_day);
   void taxToTable() noexcept;
 
-  static constexpr long double kNDFLRate = 13.0L;
+  static constexpr long double kNDFLRate = 0.13L;
 
   Frequency freq_;
   Tax *tax_;
