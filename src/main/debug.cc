@@ -13,17 +13,16 @@
 #include "include/model/credit_model.h"
 #include "include/model/deposit_model.h"
 
-#define MONTHS DepositModel::TermType::MONTHS
-#define DAYS DepositModel::TermType::DAYS
-using Data = DepositModel::Data;
-using Freq = DepositModel::Frequency;
-using Type = DepositModel::Type;
+#define MONTHS s21::DepositModel::TermType::MONTHS
+#define DAYS s21::DepositModel::TermType::DAYS
+using Data = s21::DepositModel::Data;
+using Freq = s21::DepositModel::Frequency;
+using Type = s21::DepositModel::Type;
 
-void testDeposit(const Data& data, Freq freq,
-                 std::vector<long double> expected) {
-  DepositModel deposit;
+void testDeposit(const Data &data, std::vector<long double> expected) {
+  s21::DepositModel deposit;
 
-  deposit.addData(data, 16, freq);
+  deposit.addData(data);
   deposit.calculatePayments();
   std::vector<long double> result{0.0L, std::stold(deposit.table().back()[4])};
 
@@ -65,7 +64,7 @@ void testDeposit(const Data& data, Freq freq,
 // }
 
 void testCalculating(const std::string& infix) {
-  CalculatorModel model;
+  s21::CalculatorModel model;
 
   model.add_expression(infix, 0);
   model.to_postfix();
@@ -78,6 +77,6 @@ void testCalculating(const std::string& infix) {
 }
 
 int main() {
-  std::string infix = "88.3/8";
-  testCalculating(infix);
+  Data data{10000, 12, MONTHS, 15, 16, Type::FIRST, Freq::DAY, s21::Date{1, 1, 2020}, std::vector<s21::DepositModel::Operation>{}};
+  testDeposit(data, {1500.61, 10000});
 }

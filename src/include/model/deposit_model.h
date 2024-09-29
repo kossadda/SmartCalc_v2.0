@@ -33,6 +33,26 @@ class DepositModel : public BaseModel {
     YEAR = 12
   };
 
+  enum class OperationType {
+    REFILL, WITHDRAWAL
+  };
+
+  struct Operation {
+    Date date;
+    long double sum;
+    OperationType type;
+  };
+
+  struct Data {
+    Data() = default;
+    Data(long double amount_, long double term_, TermType term_type_,
+         long double rate_, long double tax_rate_, Type type_, Frequency freq_, const Date &date_, std::vector<Operation> *ops_ = nullptr);
+    BaseModel::Data *base;
+    Frequency freq;
+    long double tax_rate{};
+    std::vector<Operation> ops;
+  };
+
   struct Tax {
     Date::DateSize year;
     long double income{};
@@ -48,7 +68,7 @@ class DepositModel : public BaseModel {
 
   const std::vector<std::vector<std::string>> &taxTable() const noexcept;
   std::vector<std::string> totalTable() const noexcept override;
-  void addData(const Data &data, long double tax_rate, Frequency freq) noexcept;
+  void addData(const Data &data) noexcept;
   void calculatePayments() noexcept override;
   void clear() noexcept override;
 
@@ -61,9 +81,8 @@ class DepositModel : public BaseModel {
 
   static constexpr long double kNDFLRate = 0.13L;
 
-  Frequency freq_;
+  Data *data_;
   Tax *tax_;
-  std::vector<std::vector<std::string>> table_;
   std::vector<std::vector<std::string>> tax_table_;
 };
 

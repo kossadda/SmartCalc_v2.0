@@ -13,10 +13,9 @@
 
 namespace s21 {
 
-BaseModel::BaseModel() : data_{new Data}, month_{new Month} {}
+BaseModel::BaseModel() : month_{new Month} {}
 
 BaseModel::~BaseModel() {
-  delete data_;
   delete month_;
 }
 

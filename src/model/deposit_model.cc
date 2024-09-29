@@ -13,28 +13,40 @@
 
 namespace s21 {
 
-DepositModel::DepositModel() : BaseModel{}, tax_{new Tax} {}
+DepositModel::DepositModel() : BaseModel{}, data_{new Data}, tax_{new Tax} {}
 
-DepositModel::~DepositModel() { delete tax_; }
+DepositModel::~DepositModel() { 
+  delete data_->base;
+  delete data_;
+  delete tax_;
+}
 
-void DepositModel::addData(const Data &data, long double tax_rate,
-                           Frequency freq) noexcept {
+DepositModel::Data::Data(long double amount_, long double term_, TermType term_type_, long double rate_, long double tax_rate_, Type type_, Frequency freq_, const Date &date_, std::vector<Operation> *ops_) : base{new BaseModel::Data{amount_, term_, term_type_, rate_, type_, date_}}, freq{freq_},tax_rate{tax_rate_} {
+  if(ops_) {
+    ops = *ops_;
+  }
+}
+
+void DepositModel::addData(const Data &data) noexcept {
   *tax_ = Tax{};
-  *data_ = data;
-  data_->rate /= 100.0L;
-  tax_->nontaxable *= tax_rate;
-  freq_ = freq;
+  data_->base = data.base;
+  data_->freq = data.freq;
+  data_->tax_rate = data.tax_rate;
+  data_->ops = data.ops;
+  tax_->nontaxable *= data_->tax_rate;
+  BaseModel::data_ = data_->base;
+  BaseModel::data_->rate /= 100.0L;
 }
 
 void DepositModel::clear() noexcept {
-  BaseModel::table_.clear();
+  table_.clear();
   tax_table_.clear();
 }
 
 void DepositModel::calculatePayments() noexcept {
-  month_->current = data_->date;
-  month_->payment_date = data_->date;
-  month_->balance = data_->amount;
+  month_->current = BaseModel::data_->date;
+  month_->payment_date = BaseModel::data_->date;
+  month_->balance = BaseModel::data_->amount;
   Date last_day{lastDepositDay()};
 
   while (month_->current != last_day) {
@@ -52,12 +64,12 @@ Date DepositModel::lastDepositDay() const noexcept {
   Date last_day{month_->current};
   Date::DateSize init_day{month_->current.day()};
 
-  if (data_->term_type == TermType::DAYS) {
-    last_day.addDays(data_->term);
+  if (BaseModel::data_->term_type == TermType::DAYS) {
+    last_day.addDays(BaseModel::data_->term);
   } else {
-    std::size_t term = data_->term;
+    std::size_t term = BaseModel::data_->term;
 
-    if (data_->term_type == TermType::YEARS) {
+    if (BaseModel::data_->term_type == TermType::YEARS) {
       term *= Date::kYearMonths;
     }
 
@@ -70,13 +82,13 @@ Date DepositModel::lastDepositDay() const noexcept {
 }
 
 void DepositModel::addPeriod(const Date &last_day) noexcept {
-  std::size_t period{static_cast<std::size_t>(freq_)};
+  std::size_t period{static_cast<std::size_t>(data_->freq)};
 
-  if (freq_ == Frequency::ENDTERM) {
+  if (data_->freq == Frequency::ENDTERM) {
     month_->payment_date = last_day;
-  } else if (freq_ == Frequency::DAY) {
+  } else if (data_->freq == Frequency::DAY) {
     month_->payment_date.addDays(1);
-  } else if (freq_ == Frequency::WEEK) {
+  } else if (data_->freq == Frequency::WEEK) {
     month_->payment_date.addDays(7);
   } else {
     month_->payment_date.addDepositMonth(period);
@@ -91,7 +103,7 @@ void DepositModel::calculatePeriod() noexcept {
   month_->percent =
       roundVal(formula(month_->current.leapDaysBetween(month_->payment_date)));
 
-  if (data_->type == Type::FIRST) {
+  if (BaseModel::data_->type == Type::FIRST) {
     month_->summary = 0.0L;
     month_->main = month_->percent;
   } else {
@@ -148,11 +160,11 @@ void DepositModel::taxToTable() noexcept {
 
 std::vector<std::string> DepositModel::totalTable() const noexcept {
   std::vector<std::string> total_str;
-  auto eff_rate{toStr(tax_->total_profit_ / data_->amount * Date::kYearDays /
-                      (month_->payment_date - data_->date) * 100.0L)};
-  auto tbalance{toStr((data_->type == Type::SECOND)
+  auto eff_rate{toStr(tax_->total_profit_ / BaseModel::data_->amount * Date::kYearDays /
+                      (month_->payment_date - BaseModel::data_->date) * 100.0L)};
+  auto tbalance{toStr((BaseModel::data_->type == Type::SECOND)
                           ? month_->balance
-                          : data_->amount + tax_->total_profit_)};
+                          : BaseModel::data_->amount + tax_->total_profit_)};
   auto tax_prof{toStr(tax_->total_profit_ - tax_->total_tax_)};
   auto tprofit{toStr(tax_->total_profit_)};
   auto ttax{toStr(tax_->total_tax_)};

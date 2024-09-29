@@ -13,7 +13,13 @@
 
 namespace s21 {
 
-CreditModel::CreditModel() : BaseModel{} {}
+CreditModel::CreditModel() : BaseModel{} {
+  data_ = new Data;
+}
+
+CreditModel::~CreditModel() {
+  delete data_;
+}
 
 void CreditModel::addData(const Data &data) noexcept {
   *data_ = data;

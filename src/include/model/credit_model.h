@@ -24,6 +24,7 @@ namespace s21 {
 class CreditModel : public BaseModel {
  public:
   CreditModel();
+  ~CreditModel();
 
   std::vector<std::string> totalTable() const noexcept override;
   void addData(const Data &data) noexcept;
