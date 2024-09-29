@@ -21,8 +21,9 @@ DepositModel::~DepositModel() {
   delete tax_;
 }
 
-DepositModel::Operation::Operation(long double sum_, OperationType type_, const Date &date_) : sum{sum_}, type{type_}, date{date_} {}
-
+DepositModel::Operation::Operation(long double sum_, OperationType type_,
+                                   const Date &date_)
+    : sum{sum_}, type{type_}, date{date_} {}
 
 DepositModel::Data::Data(long double amount_, long double term_,
                          TermType term_type_, long double rate_,
@@ -60,7 +61,7 @@ void DepositModel::calculatePayments() noexcept {
   month_->balance = BaseModel::data_->amount;
   Date last_day{lastDepositDay()};
 
-  while(month_->current != last_day) {
+  while (month_->current != last_day) {
     addPeriod(last_day);
 
     calculateOperations();
@@ -114,7 +115,8 @@ void DepositModel::addPeriod(const Date &last_day) noexcept {
 }
 
 void DepositModel::calculatePeriod() noexcept {
-  month_->percent = roundVal(formula(month_->current, month_->payment_date) + data_->ops_percent);
+  month_->percent = roundVal(formula(month_->current, month_->payment_date) +
+                             data_->ops_percent);
 
   if (BaseModel::data_->type == Type::FIRST) {
     month_->summary = 0.0L;
@@ -159,22 +161,22 @@ void DepositModel::calculateTaxes(const Date &last_day) {
 
 void DepositModel::calculateOperations() {
   data_->ops_percent = 0.0L;
-  
-  if(!data_->ops.size()) {
+
+  if (!data_->ops.size()) {
     return;
   }
-  
+
   auto op = data_->ops.begin();
   Date payment_date{month_->payment_date};
 
-  while(op->date >= month_->current && op->date < month_->payment_date) {
+  while (data_->ops.size() && op->date >= month_->current &&
+         op->date < month_->payment_date) {
     if (op->type == OperationType::WITHDRAWAL &&
-        (BaseModel::data_->amount < op->sum ||
-         BaseModel::data_->amount - op->sum < 0)) {
+        (month_->balance < op->sum || month_->balance - op->sum < 0)) {
       data_->ops.erase(data_->ops.begin());
       continue;
     } else {
-      if(op->type == OperationType::REFILL) {
+      if (op->type == OperationType::REFILL) {
         month_->summary = op->sum;
       } else {
         month_->summary = -op->sum;
@@ -190,7 +192,7 @@ void DepositModel::calculateOperations() {
     monthToTable();
 
     data_->ops.erase(data_->ops.begin());
-    if(data_->ops.size()) {
+    if (data_->ops.size()) {
       op = data_->ops.begin();
     } else {
       break;

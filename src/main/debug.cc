@@ -15,6 +15,8 @@
 
 #define MONTHS s21::DepositModel::TermType::MONTHS
 #define DAYS s21::DepositModel::TermType::DAYS
+using Op = s21::DepositModel::Operation;
+using OpType = s21::DepositModel::OperationType;
 using Data = s21::DepositModel::Data;
 using Freq = s21::DepositModel::Frequency;
 using Type = s21::DepositModel::Type;
@@ -77,9 +79,11 @@ void testCalculating(const std::string& infix) {
 }
 
 int main() {
-  s21::DepositModel::Operation op{25000, s21::DepositModel::OperationType::REFILL, s21::Date{5, 1, 2024}};
-  std::vector<s21::DepositModel::Operation> ops;
-  ops.push_back(op);
-  Data data{150000, 12, MONTHS, 15, 16, Type::SECOND, Freq::MONTH, s21::Date{23, 11, 2023}, &ops};
-  testDeposit(data, {27636.03, 202636.03});
+  Op op_1{22222222, OpType::WITHDRAWAL, s21::Date{2, 2, 2015}};
+  Op op_2{11111111, OpType::WITHDRAWAL, s21::Date{2, 2, 2018}};
+  std::vector<Op> ops{op_1, op_2};
+  Data data{8737647.43, 121,          MONTHS,    8.476,
+            16,         Type::SECOND, Freq::DAY, s21::Date{31, 1, 2015},
+            &ops};
+  testDeposit(data, {2667113.45, 293649.88});
 }
