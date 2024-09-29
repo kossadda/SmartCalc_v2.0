@@ -15,14 +15,24 @@ namespace s21 {
 
 DepositModel::DepositModel() : BaseModel{}, data_{new Data}, tax_{new Tax} {}
 
-DepositModel::~DepositModel() { 
+DepositModel::~DepositModel() {
   delete data_->base;
   delete data_;
   delete tax_;
 }
 
-DepositModel::Data::Data(long double amount_, long double term_, TermType term_type_, long double rate_, long double tax_rate_, Type type_, Frequency freq_, const Date &date_, std::vector<Operation> *ops_) : base{new BaseModel::Data{amount_, term_, term_type_, rate_, type_, date_}}, freq{freq_},tax_rate{tax_rate_} {
-  if(ops_) {
+DepositModel::Operation::Operation(long double sum_, OperationType type_, const Date &date_) : sum{sum_}, type{type_}, date{date_} {}
+
+
+DepositModel::Data::Data(long double amount_, long double term_,
+                         TermType term_type_, long double rate_,
+                         long double tax_rate_, Type type_, Frequency freq_,
+                         const Date &date_, std::vector<Operation> *ops_)
+    : base{new BaseModel::Data{amount_, term_, term_type_, rate_, type_,
+                               date_}},
+      freq{freq_},
+      tax_rate{tax_rate_} {
+  if (ops_) {
     ops = *ops_;
   }
 }
@@ -36,6 +46,7 @@ void DepositModel::addData(const Data &data) noexcept {
   tax_->nontaxable *= data_->tax_rate;
   BaseModel::data_ = data_->base;
   BaseModel::data_->rate /= 100.0L;
+  sortOperations();
 }
 
 void DepositModel::clear() noexcept {
@@ -49,14 +60,17 @@ void DepositModel::calculatePayments() noexcept {
   month_->balance = BaseModel::data_->amount;
   Date last_day{lastDepositDay()};
 
-  while (month_->current != last_day) {
+  while(month_->current != last_day) {
     addPeriod(last_day);
+
+    calculateOperations();
 
     calculatePeriod();
 
     calculateTaxes(last_day);
 
     month_->current = month_->payment_date;
+    monthToTable();
   }
 }
 
@@ -100,8 +114,7 @@ void DepositModel::addPeriod(const Date &last_day) noexcept {
 }
 
 void DepositModel::calculatePeriod() noexcept {
-  month_->percent =
-      roundVal(formula(month_->current.leapDaysBetween(month_->payment_date)));
+  month_->percent = roundVal(formula(month_->current, month_->payment_date) + data_->ops_percent);
 
   if (BaseModel::data_->type == Type::FIRST) {
     month_->summary = 0.0L;
@@ -111,12 +124,11 @@ void DepositModel::calculatePeriod() noexcept {
     month_->main = 0.0L;
     month_->balance += roundVal(month_->percent);
   }
-
-  tax_->total_profit_ += month_->percent;
-  monthToTable();
 }
 
 void DepositModel::calculateTaxes(const Date &last_day) {
+  tax_->total_profit_ += month_->percent;
+
   if (month_->current.year() != month_->payment_date.year() ||
       month_->payment_date == last_day) {
     if (month_->payment_date == last_day) {
@@ -145,6 +157,47 @@ void DepositModel::calculateTaxes(const Date &last_day) {
   }
 }
 
+void DepositModel::calculateOperations() {
+  data_->ops_percent = 0.0L;
+  
+  if(!data_->ops.size()) {
+    return;
+  }
+  
+  auto op = data_->ops.begin();
+  Date payment_date{month_->payment_date};
+
+  while(op->date >= month_->current && op->date < month_->payment_date) {
+    if (op->type == OperationType::WITHDRAWAL &&
+        (BaseModel::data_->amount < op->sum ||
+         BaseModel::data_->amount - op->sum < 0)) {
+      data_->ops.erase(data_->ops.begin());
+      continue;
+    } else {
+      if(op->type == OperationType::REFILL) {
+        month_->summary = op->sum;
+      } else {
+        month_->summary = -op->sum;
+      }
+    }
+
+    data_->ops_percent += formula(month_->current, op->date);
+
+    month_->current = op->date;
+    month_->balance += month_->summary;
+    month_->main = 0.0L;
+    month_->percent = 0.0L;
+    monthToTable();
+
+    data_->ops.erase(data_->ops.begin());
+    if(data_->ops.size()) {
+      op = data_->ops.begin();
+    } else {
+      break;
+    }
+  }
+}
+
 void DepositModel::taxToTable() noexcept {
   std::vector<std::string> str_year;
 
@@ -158,10 +211,24 @@ void DepositModel::taxToTable() noexcept {
   tax_table_.emplace_back(str_year);
 }
 
+void DepositModel::sortOperations() {
+  Operation temp;
+  for (std::size_t i{}; i < data_->ops.size(); ++i) {
+    for (std::size_t j{}; j < data_->ops.size() - i - 1; ++j) {
+      if (data_->ops[j + 1].date < data_->ops[j].date) {
+        temp = data_->ops[j];
+        data_->ops[j] = data_->ops[j + 1];
+        data_->ops[j + 1] = temp;
+      }
+    }
+  }
+}
+
 std::vector<std::string> DepositModel::totalTable() const noexcept {
   std::vector<std::string> total_str;
-  auto eff_rate{toStr(tax_->total_profit_ / BaseModel::data_->amount * Date::kYearDays /
-                      (month_->payment_date - BaseModel::data_->date) * 100.0L)};
+  auto eff_rate{
+      toStr(tax_->total_profit_ / BaseModel::data_->amount * Date::kYearDays /
+            (month_->payment_date - BaseModel::data_->date) * 100.0L)};
   auto tbalance{toStr((BaseModel::data_->type == Type::SECOND)
                           ? month_->balance
                           : BaseModel::data_->amount + tax_->total_profit_)};

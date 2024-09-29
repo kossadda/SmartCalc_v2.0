@@ -64,7 +64,7 @@ class BaseModel {
 
  protected:
   void monthToTable() noexcept;
-  long double formula(std::pair<std::size_t, std::size_t> days) noexcept;
+  long double formula(const Date &begin, const Date &end) noexcept;
   virtual void calculatePeriod() noexcept = 0;
 
   Data *data_;

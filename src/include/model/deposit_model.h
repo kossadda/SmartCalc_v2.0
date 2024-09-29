@@ -33,24 +33,26 @@ class DepositModel : public BaseModel {
     YEAR = 12
   };
 
-  enum class OperationType {
-    REFILL, WITHDRAWAL
-  };
+  enum class OperationType { REFILL, WITHDRAWAL };
 
   struct Operation {
-    Date date;
-    long double sum;
+    Operation() = default;
+    Operation(long double sum_, OperationType type_, const Date &date_);
+    long double sum{};
     OperationType type;
+    Date date;
   };
 
   struct Data {
     Data() = default;
     Data(long double amount_, long double term_, TermType term_type_,
-         long double rate_, long double tax_rate_, Type type_, Frequency freq_, const Date &date_, std::vector<Operation> *ops_ = nullptr);
+         long double rate_, long double tax_rate_, Type type_, Frequency freq_,
+         const Date &date_, std::vector<Operation> *ops_ = nullptr);
     BaseModel::Data *base;
     Frequency freq;
     long double tax_rate{};
     std::vector<Operation> ops;
+    long double ops_percent{};
   };
 
   struct Tax {
@@ -77,6 +79,8 @@ class DepositModel : public BaseModel {
   Date lastDepositDay() const noexcept;
   void addPeriod(const Date &last_day) noexcept;
   void calculateTaxes(const Date &last_day);
+  void calculateOperations();
+  void sortOperations();
   void taxToTable() noexcept;
 
   static constexpr long double kNDFLRate = 0.13L;

@@ -13,6 +13,7 @@
 #define SRC_INCLUDE_MODEL_CREDIT_MODEL_H_
 
 #include <cmath>
+#include <stack>
 #include <string>
 #include <vector>
 

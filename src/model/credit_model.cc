@@ -13,13 +13,9 @@
 
 namespace s21 {
 
-CreditModel::CreditModel() : BaseModel{} {
-  data_ = new Data;
-}
+CreditModel::CreditModel() : BaseModel{} { data_ = new Data; }
 
-CreditModel::~CreditModel() {
-  delete data_;
-}
+CreditModel::~CreditModel() { delete data_; }
 
 void CreditModel::addData(const Data &data) noexcept {
   *data_ = data;
@@ -58,14 +54,13 @@ void CreditModel::calculatePayments() noexcept {
       month_->balance = 0.0L;
     }
 
-    monthToTable();
     month_->current = month_->payment_date;
+    monthToTable();
   }
 }
 
 void CreditModel::calculatePeriod() noexcept {
-  month_->percent =
-      roundVal(formula(month_->current.leapDaysBetween(month_->payment_date)));
+  month_->percent = roundVal(formula(month_->current, month_->payment_date));
 
   if (data_->type == Type::FIRST) {
     static long double rest{};

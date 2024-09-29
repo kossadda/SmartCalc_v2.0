@@ -15,9 +15,7 @@ namespace s21 {
 
 BaseModel::BaseModel() : month_{new Month} {}
 
-BaseModel::~BaseModel() {
-  delete month_;
-}
+BaseModel::~BaseModel() { delete month_; }
 
 BaseModel::Data::Data(long double amount_, long double term_,
                       TermType term_type_, long double rate_, Type type_,
@@ -33,11 +31,13 @@ const std::vector<std::vector<std::string>> &BaseModel::table() const noexcept {
   return table_;
 }
 
-long double BaseModel::formula(
-    std::pair<std::size_t, std::size_t> days) noexcept {
+long double BaseModel::formula(const Date &begin, const Date &end) noexcept {
+  std::pair<std::size_t, std::size_t> days{begin.leapDaysBetween(end)};
+
   long double base_sum = month_->balance * data_->rate;
   long double default_sum = base_sum / Date::kYearDays * days.first;
   long double leap_sum = base_sum / Date::kLeapYearDays * days.second;
+
   return default_sum + leap_sum;
 }
 
@@ -56,7 +56,7 @@ std::string BaseModel::toStr(long double val) noexcept {
 void BaseModel::monthToTable() noexcept {
   std::vector<std::string> str_month;
 
-  str_month.emplace_back(month_->payment_date.currentDate());
+  str_month.emplace_back(month_->current.currentDate());
   str_month.emplace_back(toStr(month_->percent));
   str_month.emplace_back(toStr(month_->main));
   str_month.emplace_back(toStr(month_->summary));

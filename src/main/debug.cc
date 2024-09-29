@@ -19,7 +19,7 @@ using Data = s21::DepositModel::Data;
 using Freq = s21::DepositModel::Frequency;
 using Type = s21::DepositModel::Type;
 
-void testDeposit(const Data &data, std::vector<long double> expected) {
+void testDeposit(const Data& data, std::vector<long double> expected) {
   s21::DepositModel deposit;
 
   deposit.addData(data);
@@ -77,6 +77,9 @@ void testCalculating(const std::string& infix) {
 }
 
 int main() {
-  Data data{10000, 12, MONTHS, 15, 16, Type::FIRST, Freq::DAY, s21::Date{1, 1, 2020}, std::vector<s21::DepositModel::Operation>{}};
-  testDeposit(data, {1500.61, 10000});
+  s21::DepositModel::Operation op{25000, s21::DepositModel::OperationType::REFILL, s21::Date{5, 1, 2024}};
+  std::vector<s21::DepositModel::Operation> ops;
+  ops.push_back(op);
+  Data data{150000, 12, MONTHS, 15, 16, Type::SECOND, Freq::MONTH, s21::Date{23, 11, 2023}, &ops};
+  testDeposit(data, {27636.03, 202636.03});
 }
