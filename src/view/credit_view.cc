@@ -36,9 +36,9 @@ void CreditView::allocateMemory(CreditController *controller) {
   table_ = new Table{};
   main_grid_ = new QGridLayout;
   calculate_ = new QPushButton{QString{"Calculate"}};
-  amount_ = new QLineEdit;
-  term_ = new QLineEdit;
-  rate_ = new QLineEdit;
+  amount_ = new QLineEdit{"0.0"};
+  term_ = new QLineEdit{"1"};
+  rate_ = new QLineEdit{"0.0"};
   date_ = new QCalendarWidget;
   type_ = new QComboBox;
   term_type_ = new QComboBox;
@@ -104,7 +104,7 @@ void CreditView::initView() {
 
   QLabel *infolab[]{ltotal, ltotaldebt, totalinterest};
 
-  int lwidth{140}, lheight{45};
+  int lwidth{160}, lheight{43};
 
   main_grid_->setContentsMargins(15, 20, 10, 15);
   main_grid_->setVerticalSpacing(10);
@@ -176,7 +176,7 @@ void CreditView::initView() {
 }
 
 void CreditView::calcClicked() {
-  if (isValidInput(amount_) + isValidInput(term_) + isValidInput(rate_) != 3) {
+  if (!isValidAll()) {
     return;
   }
 
@@ -232,6 +232,19 @@ bool CreditView::isValidInput(QLineEdit *line) {
   } else {
     line->setStyleSheet(
         line->styleSheet().replace("200, 0, 0", "255, 255, 255"));
+  }
+
+  return valid;
+}
+
+bool CreditView::isValidAll() {
+  QLineEdit *lines[]{amount_, term_, rate_};
+  bool valid{true};
+
+  for (std::size_t i{}; i < 3; ++i) {
+    if (!isValidInput(lines[i])) {
+      valid = false;
+    }
   }
 
   return valid;

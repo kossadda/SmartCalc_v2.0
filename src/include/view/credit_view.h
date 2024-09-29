@@ -42,6 +42,7 @@ class CreditView : public QWidget {
   void allocateMemory(CreditController *controller);
   void initView();
   bool isValidInput(QLineEdit *line);
+  bool isValidAll();
 
   CreditController *controller_;
   Table *table_;

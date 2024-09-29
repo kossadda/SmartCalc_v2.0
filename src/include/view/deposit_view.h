@@ -15,11 +15,13 @@
 #include <QCalendarWidget>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QDateEdit>
 #include <QDoubleValidator>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QTableWidget>
 #include <QWidget>
 
 #include "include/additional/table.h"
@@ -39,24 +41,32 @@ class DepositView : public QWidget {
   void onTextChanged(const QString &text);
   void changeTermType();
   void changeDepositType();
+  void addOperationRow();
+  void deleteOperationRow();
 
  private:
   void allocateMemory(DepositController *controller);
+  void initStyle();
   void initView();
   bool isValidInput(QLineEdit *line);
+  bool isValidAll();
 
   DepositController *controller_;
   Table *table_;
 
   QGridLayout *main_grid_;
-  QPushButton *calculate_;
+  QPushButton *calculate_, *add_row_;
   QLineEdit *amount_, *term_, *rate_, *tax_rate_;
-  QCalendarWidget *date_;
+  QDateEdit *date_;
   QComboBox *freq_, *term_type_;
   QLabel *lamount_, *lterm_, *lrate_, *ltax_rate_, *ldate_, *lfreq_, *lperc_;
   QLabel *leffrate, *laccured, *lbalance, *ltax, *lprofit, *lfullbalance;
   QCheckBox *capital_;
   QDoubleValidator *vamount_, *vterm_, *vrate_, *vtax_rate_;
+  QTableWidget *operations_;
+
+  QString label_style_, line_edit_style_, button_style_, combo_box_style_,
+      date_style_, radio_style_, table_style_;
 };
 
 }  // namespace s21

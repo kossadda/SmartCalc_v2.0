@@ -13,9 +13,9 @@
 #define SRC_INCLUDE_MODEL_CALCULATOR_MODEL_H_
 
 #include <cmath>
-#include <string>
 #include <iomanip>
 #include <regex>
+#include <string>
 
 namespace s21 {
 
