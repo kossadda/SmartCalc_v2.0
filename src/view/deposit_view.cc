@@ -38,10 +38,10 @@ void DepositView::allocateMemory(DepositController *controller) {
   main_grid_ = new QGridLayout;
   calculate_ = new QPushButton{QString{"Calculate"}};
   add_row_ = new QPushButton{QString{"+"}};
-  amount_ = new QLineEdit{"0.0"};
-  term_ = new QLineEdit{"1"};
-  rate_ = new QLineEdit{"0.0"};
-  tax_rate_ = new QLineEdit{"0.0"};
+  amount_ = new QLineEdit;
+  term_ = new QLineEdit;
+  rate_ = new QLineEdit;
+  tax_rate_ = new QLineEdit;
   date_ = new QDateEdit{QDate::currentDate()};
   freq_ = new QComboBox;
   capital_ = new QCheckBox("  Capitalization");
@@ -200,9 +200,7 @@ void DepositView::initView() {
 }
 
 void DepositView::calcClicked() {
-  if (!isValidAll()) {
-    return;
-  }
+  if (!isValidAll()) return;
 
   QLabel *infolab[]{lprofit, ltax, laccured, leffrate, lfullbalance, lbalance};
   DepositController::TermType term_type;
@@ -248,6 +246,7 @@ void DepositView::calcClicked() {
 
   controller_->addDepositData(amount, term, term_type, rate, tax_rate, type,
                               freq, date.day(), date.month(), date.year());
+  fillOperationTable();
 
   controller_->calculateDeposit();
 
@@ -340,7 +339,7 @@ void DepositView::addOperationRow() {
 
   QDateEdit *date = new QDateEdit{QDate::currentDate()};
   QComboBox *type = new QComboBox;
-  QLineEdit *sum = new QLineEdit{"0.0"};
+  QLineEdit *sum = new QLineEdit;
   QPushButton *del = new QPushButton{"x"};
   add_row_ = new QPushButton{"+"};
 
@@ -377,6 +376,28 @@ void DepositView::deleteOperationRow() {
   if (button) {
     int row = operations_->indexAt(button->pos()).row();
     operations_->removeRow(row);
+  }
+}
+
+void DepositView::fillOperationTable() noexcept {
+  long double sum;
+  QComboBox *wtype;
+  QDate date;
+  DepositController::OperationType type;
+  for (int i{}; i < operations_->rowCount() - 1; ++i) {
+    sum = (qobject_cast<QLineEdit *>(operations_->cellWidget(i, 1)))
+              ->text()
+              .toDouble();
+    date = qobject_cast<QDateEdit *>(operations_->cellWidget(i, 0))->date();
+    wtype = qobject_cast<QComboBox *>(operations_->cellWidget(i, 2));
+
+    if (wtype->currentIndex()) {
+      type = DepositController::OperationType::WITHDRAWAL;
+    } else {
+      type = DepositController::OperationType::REFILL;
+    }
+
+    controller_->addOperation(sum, type, date.day(), date.month(), date.year());
   }
 }
 

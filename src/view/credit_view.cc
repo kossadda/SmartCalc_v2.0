@@ -36,9 +36,9 @@ void CreditView::allocateMemory(CreditController *controller) {
   table_ = new Table{};
   main_grid_ = new QGridLayout;
   calculate_ = new QPushButton{QString{"Calculate"}};
-  amount_ = new QLineEdit{"0.0"};
-  term_ = new QLineEdit{"1"};
-  rate_ = new QLineEdit{"0.0"};
+  amount_ = new QLineEdit;
+  term_ = new QLineEdit;
+  rate_ = new QLineEdit;
   date_ = new QCalendarWidget;
   type_ = new QComboBox;
   term_type_ = new QComboBox;
@@ -176,9 +176,7 @@ void CreditView::initView() {
 }
 
 void CreditView::calcClicked() {
-  if (!isValidAll()) {
-    return;
-  }
+  if (!isValidAll()) return;
 
   QLabel *infolab[]{ltotal, ltotaldebt, totalinterest};
   CreditController::TermType term_type;

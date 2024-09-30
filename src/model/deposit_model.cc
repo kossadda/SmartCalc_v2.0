@@ -47,12 +47,16 @@ void DepositModel::addData(const Data &data) noexcept {
   tax_->nontaxable *= data_->tax_rate;
   BaseModel::data_ = data_->base;
   BaseModel::data_->rate /= 100.0L;
-  sortOperations();
+}
+
+void DepositModel::addOperation(const Operation &op) noexcept {
+  data_->ops.push_back(op);
 }
 
 void DepositModel::clear() noexcept {
   table_.clear();
   tax_table_.clear();
+  data_->ops.clear();
 }
 
 void DepositModel::calculatePayments() noexcept {
@@ -60,6 +64,7 @@ void DepositModel::calculatePayments() noexcept {
   month_->payment_date = BaseModel::data_->date;
   month_->balance = BaseModel::data_->amount;
   Date last_day{lastDepositDay()};
+  sortOperations();
 
   while (month_->current != last_day) {
     addPeriod(last_day);

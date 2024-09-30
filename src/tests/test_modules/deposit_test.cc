@@ -1685,7 +1685,7 @@ TEST(deposit, withdrawalByEndTerm_5) {
   testDeposit(data, {29082700.15, 51452425.23});
 }
 
-TEST(deposit, hardestCombinedWithTaxes_1) {
+TEST(deposit, combinated_1) {
   Op op_1{1111111, OpType::WITHDRAWAL, Date{3, 5, 2026}};
   Op op_2{2222222, OpType::WITHDRAWAL, Date{29, 2, 2028}};
   Op op_3{5555555, OpType::REFILL, Date{3, 7, 2029}};
@@ -1697,7 +1697,7 @@ TEST(deposit, hardestCombinedWithTaxes_1) {
   testDeposit(data, {27771206.62, 8112519.85});
 }
 
-TEST(deposit, hardestCombinedWithTaxes_2) {
+TEST(deposit, combinated_2) {
   Op op_1{2533444, OpType::REFILL, Date{1, 2, 2029}};
   Op op_2{1245234, OpType::WITHDRAWAL, Date{5, 6, 2030}};
   Op op_3{2222222, OpType::WITHDRAWAL, Date{1, 1, 2031}};
@@ -1710,7 +1710,7 @@ TEST(deposit, hardestCombinedWithTaxes_2) {
   testDeposit(data, {7904118.47, 20301214.59});
 }
 
-TEST(deposit, hardestCombinedWithTaxes_3) {
+TEST(deposit, combinated_3) {
   Op op_1{6672311, OpType::WITHDRAWAL, Date{4, 12, 2029}};
   Op op_2{42335566, OpType::REFILL, Date{1, 2, 2030}};
   Op op_3{31000000, OpType::WITHDRAWAL, Date{7, 2, 2030}};
@@ -1724,7 +1724,7 @@ TEST(deposit, hardestCombinedWithTaxes_3) {
   testDeposit(data, {18969788.40, 26830577.39});
 }
 
-TEST(deposit, hardestCombinedWithTaxes_4) {
+TEST(deposit, combinated_4) {
   Op op_1{6672311, OpType::WITHDRAWAL, Date{4, 12, 2029}};
   Op op_2{42335566, OpType::REFILL, Date{1, 2, 2030}};
   Op op_3{31000000, OpType::WITHDRAWAL, Date{7, 2, 2030}};
@@ -1738,7 +1738,7 @@ TEST(deposit, hardestCombinedWithTaxes_4) {
   testDeposit(data, {291466976.93, 350581144.04});
 }
 
-TEST(deposit, hardestCombinedWithTaxes_5) {
+TEST(deposit, combinated_5) {
   Op op_1{42335566, OpType::REFILL, Date{23, 6, 2025}};
   Op op_2{1987656, OpType::REFILL, Date{29, 7, 2025}};
   Op op_3{12001233, OpType::WITHDRAWAL, Date{8, 8, 2025}};

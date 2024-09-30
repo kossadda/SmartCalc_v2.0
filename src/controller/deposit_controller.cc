@@ -40,6 +40,13 @@ void DepositController::calculateDeposit() noexcept {
   model_->calculatePayments();
 }
 
+void DepositController::addOperation(long double sum, OperationType type,
+                                     std::size_t day, std::size_t month,
+                                     std::size_t year) noexcept {
+  DepositModel::Operation op{sum, type, Date(day, month, year)};
+  model_->addOperation(op);
+}
+
 const std::vector<std::vector<std::string>>& DepositController::table()
     const noexcept {
   return model_->table();

@@ -50,6 +50,7 @@ class DepositView : public QWidget {
   void initView();
   bool isValidInput(QLineEdit *line);
   bool isValidAll();
+  void fillOperationTable() noexcept;
 
   DepositController *controller_;
   Table *table_;

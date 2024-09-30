@@ -48,7 +48,7 @@ class DepositModel : public BaseModel {
     Data(long double amount_, long double term_, TermType term_type_,
          long double rate_, long double tax_rate_, Type type_, Frequency freq_,
          const Date &date_, std::vector<Operation> *ops_ = nullptr);
-    BaseModel::Data *base;
+    BaseModel::Data *base{};
     Frequency freq;
     long double tax_rate{};
     std::vector<Operation> ops;
@@ -71,6 +71,7 @@ class DepositModel : public BaseModel {
   const std::vector<std::vector<std::string>> &taxTable() const noexcept;
   std::vector<std::string> totalTable() const noexcept override;
   void addData(const Data &data) noexcept;
+  void addOperation(const Operation &op) noexcept;
   void calculatePayments() noexcept override;
   void clear() noexcept override;
 

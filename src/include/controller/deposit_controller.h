@@ -24,6 +24,7 @@ class DepositController {
   using Type = DepositModel::Type;
   using Frequency = DepositModel::Frequency;
   using TermType = DepositModel::TermType;
+  using OperationType = DepositModel::OperationType;
 
   explicit DepositController(DepositModel *model = nullptr);
   ~DepositController();
@@ -33,6 +34,8 @@ class DepositController {
                       Frequency freq, std::size_t day, std::size_t month,
                       std::size_t year) noexcept;
   void calculateDeposit() noexcept;
+  void addOperation(long double sum, OperationType type, std::size_t day,
+                    std::size_t month, std::size_t year) noexcept;
   const std::vector<std::vector<std::string>> &table() const noexcept;
   const std::vector<std::vector<std::string>> &taxTable() const noexcept;
   std::vector<std::string> totalTable() const noexcept;
