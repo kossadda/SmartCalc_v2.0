@@ -2,142 +2,162 @@
 
 Implementation of SmartCalc v2.0.
 
-The russian version of the task can be found in the repository.
+The Russian version of the README can be found in the repository.
 
-💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
+## Table of Contents
+1. [Appearance](#appearance)
+2. [Project Description](#project-description)
+3. [Project Build](#project-build)
+4. [Detailed Implementation Description](#detailed-implementation-description)
+5. [Feedback](#feedback)
 
-## Contents
+<br>
 
-1. [Chapter I](#chapter-i) \
-   1.1. [Introduction](#introduction)
-2. [Chapter II](#chapter-ii) \
-   2.1. [Information](#information)
-3. [Chapter III](#chapter-iii) \
-   3.1. [Part 1](#part-1-implementation-of-smartcalc-v20) \
-   3.2. [Part 2](#part-2-bonus-credit-calculator) \
-   3.3. [Part 3](#part-3-bonus-deposit-calculator)
+## Appearance
 
+![Engineer](./misc/img/calculator.png) <br>
+![Credit](./misc/img/credit.png) <br>
+![Deposit](./misc/img/deposit.png) <br>
 
-## Chapter I
+## Project Description
 
-![smartcalcv2.0](misc/images/smartcalcv2.0.PNG)
+The goal of this project is to implement an extended version of a standard calculator using the C++ programming language and the MVC (Model-View-Controller) pattern. In addition to basic arithmetic operations such as addition, subtraction, multiplication, and division, the calculator supports the evaluation of arithmetic expressions with precedence as well as certain mathematical functions (sine, cosine, logarithm, etc.). The calculator also supports the use of the variable `x` and plotting the corresponding function. Additional features include credit and deposit calculators.
 
-Planet Earth, 20 August 1983.
+### Scientific Calculator
 
-Chris has put a paper cup of coffee on the table beside you, and that wakes you up.
+- The program is developed in C++ using the C17 standard and the g++ compiler, along with additional libraries and QT modules.
+- The code resides in the `src` folder.
+- The build process is managed with a Makefile, which includes standard GNU targets: `all`, `install`, `uninstall`, `clean`, `dvi`, `dist`, and `test`. The installation is placed in the `bin` directory.
+- The program is developed following structured programming principles.
+- The code is formatted according to the Google Style Guide.
+- Unit tests covering the modules responsible for expression evaluation are implemented using the GTest library.
+- The graphical user interface (GUI) is built using QT libraries with an API for C17.
+- The input can include both integers and floating-point numbers (written using a dot). Numbers in exponential notation are also supported.
+- The calculation is performed after the full expression is entered and the `=` button is pressed.
+- The program evaluates arbitrary expressions in infix notation, with or without the `x` variable.
+- The user can plot a graph of a function defined by an expression containing the `x` variable (complete with axes, a scale indicator, and a grid with adaptive spacing).
+    - The user can adjust the graph's scale.
+- The domain and range of functions are limited to at least the interval from `-1,000,000` to `1,000,000`.
+    - The domain and range for graph plotting must be specified by the user.
+- The program guarantees accuracy up to 7 decimal places.
+- The user can input up to 255 characters.
+- Infix notation expressions support the following arithmetic operations and mathematical functions:
 
-*"Pure black Americano, I hear you like it. It'll help you wake up."*
+**Arithmetic Operators**:
 
-*"Oh yes, I really need it, thank you. Where were we?"* you asked as you sipped your hot coffee.
+| Operator Name         | Infix Notation (Classic)   | Prefix Notation (Polish Notation) | Postfix Notation (Reverse Polish Notation) |
+| --------------------- | -------------------------- | --------------------------------- | ----------------------------------------- |
+| Parentheses           | (a + b)                    | (+ a b)                           | a b +                                     |
+| Addition              | a + b                      | + a b                             | a b +                                     |
+| Subtraction           | a - b                      | - a b                             | a b -                                     |
+| Multiplication        | a * b                      | * a b                             | a b *                                     |
+| Division              | a / b                      | / a b                             | a b \                                     |
+| Exponentiation        | a ^ b                      | ^ a b                             | a b ^                                     |
+| Modulo                | a mod b                    | mod a b                           | a b mod                                   |
+| Unary Plus            | +a                         | +a                                | a+                                        |
+| Unary Minus           | -a                         | -a                                | a-                                        |
 
-*"Have you finished the basic logic for the calculator?"*
+> Expressions where the multiplication sign `*` is omitted are handled.
 
-*"Ah, it's still a work in progress. The meeting with Steve is tomorrow?"*
+**Functions**:
 
-*"That's right. If we can show him some basic arithmetic operations with a refactored program structure, I think he'll like it.*
+| Description                        | Function  |   
+| ----------------------------------- | --------- |  
+| Calculates cosine                  | cos(x)    |   
+| Calculates sine                    | sin(x)    |  
+| Calculates tangent                 | tan(x)    |  
+| Calculates arccosine               | acos(x)   | 
+| Calculates arcsine                 | asin(x)   | 
+| Calculates arctangent              | atan(x)   |
+| Calculates square root             | sqrt(x)   |
+| Calculates natural logarithm       | ln(x)     | 
+| Calculates common logarithm        | log(x)    |
 
-For more than a week now, you've been spending your evenings helping Chris Espinosa rewrite an object-oriented calculator. His latest version, using the standard structured approach, turned out not to be flexible and extensible enough for Steve Jobs, who was bursting with ideas. So you and Chris decided to try the emerging object-oriented programming paradigm in the young C++ language to solve these problems. Of course, learning new technologies caused some... difficulties, but there is hope that it will not be necessary to completely rewrite the calculator for the eighth time.
+### Credit Calculator
 
-*"Well, let's speed things up."*
+The `Credit Calculator` mode offers:
 
-*"By the way, I met a developer from Norway the other day: Torkve or Trykve, I can't remember.* \
-*Anyway, he told me about a scheme for organising data and application logic that allows us to change some components very flexibly and quickly. For example, we can completely separate the interface from the rest of the code, you know? And if Steve doesn't like something in the interface, it can be changed quickly and safely. We wouldn't even have to rewrite the tests for the rest of the logic."*
+- Input: total loan amount, loan term, interest rate, loan date, type (annuity or differentiated), early repayment options (shortening the term or reducing payments)
+- Output: monthly payment, total interest, total payment, and a monthly report
 
-*"Sounds like exactly what we need! I'm all ears."*
+### Deposit Calculator
 
-## Introduction
+The `Deposit Calculator` mode offers:
 
-In this project, you'll need to implement an extended version of the standard calculator in C++ using the object-oriented programming paradigm, implementing the same functions as the application previously developed in the SmartCalc v1.0 project. In addition to basic arithmetic operations such as add/subtract and multiply/divide, the calculator needs to be able to calculate arithmetic expressions by following the order, as well as some mathematical functions (sine, cosine, logarithm, etc.). Besides calculating expressions, it should also support the use of the variable _x_ and the graphing of the corresponding function. As for other improvements, you could consider a credit and deposit calculator.
+- Input: deposit amount, deposit term, interest rate, tax rate, deposit date, payment frequency, interest capitalization, and operations (additional deposits or partial withdrawals)
+- Output: accrued interest, tax amount, total balance at the end of the term, and a monthly report
 
+## Project Build
 
-## Chapter II
+The Makefile includes the following main targets for working with the project:
 
-## Information
+| #  | Target           | Description                                                                              |
+|----| ---------------- | ---------------------------------------------------------------------------------------- |
+| 1  | `all`            | Builds the project and generates documentation.                                           |
+| 2  | `install`        | Builds the project.                                                                       |
+| 3  | `uninstall`      | Uninstalls the project.                                                                   |
+| 4  | `clean`          | Cleans the repository of generated files.                                                 |
+| 5  | `dvi`            | Generates documentation in HTML and manual formats.                                       |
+| 6  | `dist`           | Compresses the project into a tar archive.                                                |
+| 7  | `test`           | Runs unit tests.                                                                          |
+| 8  | `clang_check`    | Checks code compliance with Google Style.                                                 |
+| 9  | `cpplint`        | Lints the code to ensure Google Style compliance.                                         |
+| 10 | `valgrind`       | Tests the program's memory usage using Valgrind.                                          |
+| 11 | `dependencies`   | Installs necessary dependencies for building and testing the project.                     |
 
-Note that you should use *Dijkstra's algorithm* to translate expressions into *reverse Polish notation* to implement the calculator. You can find all the necessary information in the SmartCalc v1.0 project description to refresh your knowledge.
+<br>
 
-### MVC pattern
+> Building the project on any operating system requires CMake and QTBase version 5.15 or higher.
 
-The Model-View-Controller (MVC) pattern is a scheme for separating application modules into three macro components: a model that contains the business logic, a view that is a UI form for interacting with the program, and a controller that modifies the model by user action.
+## Detailed Implementation Description
 
-The concept of MVC was introduced in 1978 by Trygve Reenskaug, who was working on the Smalltalk programming language at Xerox PARC. Later, Steve Burbeck implemented the pattern in Smalltalk-80.
-The final version of the MVC concept was published in Technology Object in 1988. The MVC pattern continued to evolve, giving rise to variants such as HMVC, MVA, MVVM.
+The calculator allows switching between the scientific, credit, and deposit modes via a top tab bar.
 
-The primary need for this pattern stems from developers' desire to separate the business logic of the program from the views, making it easier to replace views and reuse logic once implemented in other environments. Having a model separate from the view, and a controller to interact with it, allows you to reuse or modify code you have already written more efficiently.
+### Scientific Calculator: Key Features
 
-The model stores and accesses the main data, performs operations on requests defined by the business logic of the program, i.e. it is responsible for the part of the program that handles all the algorithms and information processing. These models, modified by the controller, affect the display of information on the user interface. The model in this programme should be the class library that performs the calculations. This library must provide all the necessary classes and methods to perform them. And this is the business logic of the program, because it provides the means to solve the problem.
+It has two working modes:
 
-A controller is a thin macro component that performs model modifications. It is used to generate requests to the model. In code, it looks like a kind of "facade" for the model, that is, a set of methods that already work directly with the model. It is called thin because the ideal controller contains no additional logic other than calling one or more methods of the model. The controller acts as a link between the interface and the model. This allows the model to be completely encapsulated from the representation. This separation is helpful in that it allows the view code to know nothing about the model code and to address only the controller, whose interface of the provided functions is unlikely to change much. The model, on the other hand, can change significantly, and if you "move" to other algorithms, technologies, or even programming languages in the model, only a small piece of code in the controller directly related to the model needs to be changed. Otherwise, it would probably be necessary to rewrite a significant part of the interface code, as it would depend very much on the implementation of the model. So when the user interacts with the interface, they call controller methods that modify the model.
+- Standard mode for evaluating mathematical expressions (including expressions with the `x` variable)
+- Graphing mode for plotting mathematical expressions.
 
-The view contains all the code associated with the programme interface. An ideal interface code should not contain any business logic. It just provides the form for interacting with the user.
+1. Most calculations and features were verified against the calculator at `web2.0calc.com`. Additional details were sourced from Google and Windows calculators.
+2. The input is validated interactively to help users correct errors in mathematical expressions.
+3. Trigonometric and logarithmic functions require parentheses after them.
+4. The calculator supports implicit multiplication between numbers/functions/parentheses, such as `5log(2)`.
+5. Scientific notation and the Euler number are supported. For example, `5e-2` is interpreted as `0.05`, and `5e*2` as `5*(Euler's number)*2`.
+6. When using the `x` variable, a field for entering the value of `x` appears, which is also validated interactively.
+7. An expression will not be evaluated if the `x` variable's value is invalid.
+8. The domain and range for graphing must be specified by the user and are limited to `{1000000:-1000000}`.
+9. A step size for the graph can be specified for more accurate plots. The allowed step size ranges from `{0.001:100}` (note: smaller steps increase computation time for large ranges).
+10. Graph zooming and panning are supported.
 
-![](misc/images/MVC-Process.png)
+### Credit Calculator: Key Features
 
+1. Based on the advanced credit calculator from `calcus.ru`.
+2. All user input fields are validated interactively.
+3. The loan amount ranges from `{0.01:999999999999.99}`.
+4. The loan term ranges from `{1:600}` months, `{1:50}` years.
+5. The interest rate ranges from `{0.001:999}`.
+6. Upon pressing `Calculate`, a full loan report is generated, including monthly breakdowns and total payments.
 
-## Chapter III
+### Deposit Calculator: Key Features
 
-## Part 1. Implementation of SmartCalc v2.0
+1. Based on the deposit calculator from `calcus.ru`.
+2. All user input fields are validated interactively.
+3. The deposit amount ranges from `{0.01:999999999999.99}`.
+4. The deposit term ranges from `{1:18250}` days, `{1:600}` months, `{1:50}` years.
+5. The interest rate ranges from `{0.001:999}`.
+6. Additional deposits and partial withdrawals are supported.
+7. The same range applies to deposit amounts and withdrawal/additional deposit fields.
+8. Various interest capitalization periods are available.
+9. Upon pressing `Calculate`, a full report is generated, including monthly breakdowns, total interest, and taxes.
 
-You need to implement the SmartCalc v2.0:
+## Feedback
 
-- The program must be developed in C++ language of C++17 standard;
-- The program code must be located in the src folder;
-- When writing code it is necessary to follow the Google style;
-- Classes must be implemented within the `s21` namespace;
-- Prepare full coverage of expression calculation modules with unit-tests using the GTest library;
-- The program must be built with Makefile which contains standard set of targets for GNU-programs: all, install, uninstall, clean, dvi, dist, tests. Installation directory could be arbitrary;
-- GUI implementation, based on any GUI library with API for C++17:
-  * For Linux: GTK+, CEF, Qt, JUCE;
-  * For Mac: GTK+, CEF, Qt, JUCE, SFML, Nanogui, Nngui;
-- The program must be implemented using the MVC pattern, and also:
-   - there should be no business logic code in the view code;
-   - there should be no interface code in the controller and the model;
-   - controllers must be thin;
-- Both integers and real numbers with a dot can be input into the program. You should provide the input of numbers in exponential notation;
-- The calculation must be done after you complete entering the calculating expression and press the `=` symbol;
-- Calculating arbitrary bracketed arithmetic expressions in infix notation;
-- Calculate arbitrary bracketed arithmetic expressions in infix notation with substitution of the value of the variable _x_ as a number;
-- Plotting a graph of a function given by an expression in infix notation with the variable _x_ (with coordinate axes, mark of the used scale and an adaptive grid);
-   - It is not necessary to provide the user with the ability to change the scale;
-- Domain and codomain of a function are limited to at least numbers from -1000000 to 1000000;
-   - To plot a graph of a function it is necessary to additionally specify the displayed domain and codomain;
-- Verifiable accuracy of the fractional part is at least to 7 decimal places;
-- Users must be able to enter up to 255 characters;
-- Bracketed arithmetic expressions in infix notation must support the following arithmetic operations and mathematical functions:
-   - **Arithmetic operators**:
-     | Operator name | Infix notation <br /> (Classic) | Prefix notation <br /> (Polish notation) |  Postfix notation <br /> (Reverse Polish notation) |
-      | --------- | ------ | ------ | ------ |
-      | Brackets | (a + b) | (+ a b) | a b + |
-      | Addition | a + b | + a b | a b + |
-      | Subtraction | a - b | - a b | a b - |
-      | Multiplication | a * b | * a b | a b * |
-      | Division | a / b | / a b | a b \ |
-      | Power | a ^ b | ^ a b | a b ^ |
-      | Modulus | a mod b | mod a b | a b mod |
-      | Unary plus | +a | +a | a+ |
-      | Unary minus | -a | -a | a- |
-      >Note that the multiplication operator contains the obligatory sign `*`. Processing an expression with the omitted `*` sign is optional and is left to the developer's decision.
-   - **Functions**:
-      | Function description | Function |
-      | ------ | ------ |
-      | Computes cosine | cos(x) |
-      | Computes sine | sin(x) |
-      | Computes tangent | tan(x) |
-      | Computes arc cosine | acos(x) |
-      | Computes arc sine | asin(x) |
-      | Computes arc tangent | atan(x) |
-      | Computes square root | sqrt(x) |
-      | Computes natural logarithm | ln(x) |
-      | Computes common logarithm | log(x) |
+|          |                       |
+| ---------| --------------------- |
+| Email    | gabilov1997@gmail.com |
+| Telegram | @kossadda             |
+| VK       | vk.com/kossadda       |
 
-## Part 2. Bonus. Credit calculator
-
-Provide a special mode "credit calculator" (you can take banki.ru and calcus.ru as an example):
-- Input: total credit amount, term, interest rate, type (annuity, differentiated);
-- Output: monthly payment, overpayment on credit, total payment.
-
-## Part 3. Bonus. Deposit calculator
-
-Provide a special mode "deposit profitability calculator" (you can take banki.ru and calcus.ru as an example):
-- Input: deposit amount, deposit term, interest rate, tax rate, periodicity of payments, capitalization of interest, replenishments list, partial withdrawals list;
-- Output: accrued interest, tax amount, deposit amount by the end of the term.
+[Back to top](#smartcalc-v20)
