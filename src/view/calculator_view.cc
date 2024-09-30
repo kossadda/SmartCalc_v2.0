@@ -66,7 +66,7 @@ void CalculatorView::allocateMemory(CalculatorController *controller) {
   bseven_ = new QPushButton{QString{"7"}};
   beight_ = new QPushButton{QString{"8"}};
   bnine_ = new QPushButton{QString{"9"}};
-  bplot_ = new QPushButton{QString{"Graph"}};
+  bplot_ = new QPushButton{QString{" Graph"}};
   expr_ = new QLineEdit;
   var_value_ = new QLineEdit{QString{"0.0"}};
   lvar_ = new QLabel{QString{"   Value of variable X"}};
@@ -81,9 +81,9 @@ void CalculatorView::initView() {
       "border: 1px solid rgba(40, 100, 180, 0.7);"
       "padding: 5px;"
       "text-align: left;"
-      "padding-left: 20px;"
+      "padding-left: 15px;"
       "icon: url(:/plot.png);"
-      "qproperty-iconSize: 24px 24px; }"
+      "qproperty-iconSize: 21px 21px; }"
       "QPushButton:pressed { background-color: rgb(26, 77, 144); }"};
   QString func_button_style{
       "QPushButton:pressed { background-color: rgb(26, 77, 144); }"

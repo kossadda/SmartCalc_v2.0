@@ -197,6 +197,8 @@ void DepositView::initView() {
   line_edit_style_.replace("font-size: 17px", "font-size: 13px");
   button_style_.replace("47, 47, 47", "147, 18, 21");
   button_style_.replace("20, 55, 130", "47, 47, 47");
+  date_style_ = date_style_.replace("17px", "46px").replace("16px", "13px") +
+                "QDateEdit::up-button, QDateEdit::down-button { width: 0px; }";
 }
 
 void DepositView::calcClicked() {
@@ -337,7 +339,7 @@ void DepositView::addOperationRow() {
 
   operations_->removeCellWidget(operations_->rowCount(), 3);
 
-  QDateEdit *date = new QDateEdit{QDate::currentDate()};
+  QDateEdit *date = new QDateEdit{date_->date()};
   QComboBox *type = new QComboBox;
   QLineEdit *sum = new QLineEdit;
   QPushButton *del = new QPushButton{"x"};
@@ -360,7 +362,7 @@ void DepositView::addOperationRow() {
   int row_count{operations_->rowCount() - 1};
   operations_->setRowCount(operations_->rowCount() + 1);
 
-  operations_->setCellWidget(row_count, 0, new QDateEdit);
+  operations_->setCellWidget(row_count, 0, date);
   operations_->setCellWidget(row_count, 1, sum);
   operations_->setCellWidget(row_count, 2, type);
   operations_->setCellWidget(row_count, 3, del);
@@ -401,7 +403,7 @@ void DepositView::fillOperationTable() noexcept {
   }
 }
 
-void DepositView::initStyle() {
+void DepositView::initStyle() noexcept {
   label_style_ =
       "background-color: rgba(0, 0, 0, 0.0);"
       "padding-right: 5px;"

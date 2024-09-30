@@ -33,8 +33,9 @@ void MainWindow::initMVC() {
 }
 
 void MainWindow::initView() {
-  setWindowIcon(QIcon{":calculator.png"});
+  setWindowIcon(QIcon{":main.png"});
   setWindowTitle(QString{"SmartCalculator"});
+  image_label_->setPixmap(QPixmap{":main.png"});
 
   tab_ = new QTabWidget;
 
@@ -58,10 +59,12 @@ void MainWindow::initView() {
   tab_->addTab(calculator_view_, QIcon{":calculator.png"}, QString{"Engineer"});
   tab_->addTab(credit_view_, QIcon{":credit.png"}, QString{"Credit"});
   tab_->addTab(deposit_view_, QIcon{":deposit.png"}, QString{"Deposit"});
-  tab_->setCurrentWidget(deposit_view_);
+  tab_->setCurrentWidget(calculator_view_);
   setlocale(LC_NUMERIC, "C");
 
   TopMenu::main_layout_->addWidget(tab_);
 }
+
+void MainWindow::closeWindow() { QApplication::quit(); }
 
 }  // namespace s21

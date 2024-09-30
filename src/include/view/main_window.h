@@ -28,7 +28,7 @@ class MainWindow : public TopMenu {
   MainWindow();
 
  protected:
-  void closeWindow() override { QApplication::quit(); }
+  void closeWindow() override;
 
  private:
   void initMVC();

@@ -46,7 +46,7 @@ class DepositView : public QWidget {
 
  private:
   void allocateMemory(DepositController *controller);
-  void initStyle();
+  void initStyle() noexcept;
   void initView();
   bool isValidInput(QLineEdit *line);
   bool isValidAll();

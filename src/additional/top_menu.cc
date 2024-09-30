@@ -89,7 +89,6 @@ void TopMenu::initView() {
   main_layout_->setContentsMargins(0, 0, 0, 0);
   setLayout(main_layout_);
 
-  image_label_->setPixmap(QPixmap{":calculator.png"});
   image_label_->setFixedSize(25, 25);
   image_label_->setScaledContents(true);
 

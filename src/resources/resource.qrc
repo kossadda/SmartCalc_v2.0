@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>main.png</file>
         <file>calculator.png</file>
         <file>credit.png</file>
         <file>deposit.png</file>

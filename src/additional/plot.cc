@@ -30,7 +30,7 @@ void Plot::allocateMemory() {
   ly_ = new QLabel{QString{"y"}};
   lbegin_ = new QLabel{QString{"begin"}};
   lend_ = new QLabel{QString{"end"}};
-  lstep_ = new QLabel{QString{"step_"}};
+  lstep_ = new QLabel{QString{"step"}};
 }
 
 void Plot::initView() {
@@ -48,8 +48,8 @@ void Plot::initView() {
 
   QColor dark_blue{40, 100, 180, 200};
 
-  setWindowIcon(QIcon{":plot_.png"});
-  TopMenu::image_label_->setPixmap(QPixmap{":plot_.png"});
+  setWindowIcon(QIcon{":plot.png"});
+  TopMenu::image_label_->setPixmap(QPixmap{":plot.png"});
   setWindowTitle(QString{"Plot"});
   TopMenu::window_name_->setText(QString{"Plot"});
 
