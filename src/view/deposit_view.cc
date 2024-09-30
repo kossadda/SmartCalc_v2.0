@@ -166,7 +166,7 @@ void DepositView::initView() {
   for (std::size_t i{}; i < 6; ++i) {
     table_->infoGrid()->addWidget(infolab[i], 0, i);
     infolab[i]->setStyleSheet(label_style_.replace("16px", "13px"));
-    infolab[i]->setFixedSize(lwidth - 10, lheight + 20);
+    infolab[i]->setFixedSize(lwidth - 20, lheight + 20);
     infolab[i]->setAlignment(Qt::AlignCenter);
   }
 

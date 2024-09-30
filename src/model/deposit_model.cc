@@ -275,6 +275,10 @@ void DepositModel::sortOperations() {
       }
     }
   }
+
+  while (data_->ops.size() && data_->ops[0].date < BaseModel::data_->date) {
+    data_->ops.erase(data_->ops.begin());
+  }
 }
 
 /**

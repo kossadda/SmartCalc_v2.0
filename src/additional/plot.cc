@@ -117,11 +117,26 @@ void Plot::closeEvent(QCloseEvent *event) {
   event->accept();
 }
 
-void Plot::build(CalculatorController *controller) {
-  if (5 != isValidInput(step_) + isValidInput(xend_) + isValidInput(ybegin_) +
-               isValidInput(yend_) + isValidInput(xbegin_)) {
-    return;
+bool Plot::isValidAll() noexcept {
+  QLineEdit *lines[]{step_, xend_, ybegin_, yend_, xbegin_};
+  bool valid{true};
+
+  for (std::size_t i{}; i < 5; ++i) {
+    if (!isValidInput(lines[i])) {
+      valid = false;
+    }
   }
+
+  if (xbegin_->text().toDouble() > xend_->text().toDouble() ||
+      ybegin_->text().toDouble() > yend_->text().toDouble()) {
+    valid = false;
+  }
+
+  return valid;
+}
+
+void Plot::build(CalculatorController *controller) {
+  if (!isValidAll()) return;
 
   plot_->clearItems();
   long double prev{controller->evaluate_num()};

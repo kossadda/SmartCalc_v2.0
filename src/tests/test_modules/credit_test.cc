@@ -1,7 +1,7 @@
 /**
  * @file credit_test.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Test module for CreditModel class.
  * @version 1.0
  * @date 2024-09-20
  *

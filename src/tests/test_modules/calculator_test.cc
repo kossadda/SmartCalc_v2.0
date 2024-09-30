@@ -1,7 +1,7 @@
 /**
  * @file calculator_test.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Test module for CalculatorModel class.
  * @version 1.0
  * @date 2024-08-16
  *

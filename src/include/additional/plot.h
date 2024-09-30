@@ -45,6 +45,7 @@ class Plot : public BaseWindow {
  private:
   void allocateMemory();
   void initView();
+  bool isValidAll() noexcept;
 
   QCustomPlot *plot_;
   QGridLayout *settings_;
