@@ -1,7 +1,7 @@
 /**
  * @file date.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the Date class.
  * @version 1.0
  * @date 2024-09-19
  *
@@ -20,9 +20,10 @@
 
 namespace s21 {
 
+/// @brief Class representing a date.
 class Date {
  public:
-  using DateSize = uint16_t;
+  using DateSize = uint16_t;  ///< Type alias for date components.
 
   Date() = default;
   Date(DateSize day, DateSize month, DateSize year);
@@ -52,20 +53,21 @@ class Date {
   DateSize year() const noexcept;
   std::string currentDate() const noexcept;
 
-  static const DateSize kYearMonths = 12;
-  static const std::size_t kYearDays = 365;
-  static const std::size_t kLeapYearDays = 366;
+  static const DateSize kYearMonths = 12;    ///< Number of months in a year.
+  static const std::size_t kYearDays = 365;  ///< Number of days non-leap year.
+  static const std::size_t kLeapYearDays = 366;  ///< Number of days leap year.
 
  private:
+  /// @brief Enumeration for date comparison.
   enum class DateCompare { DATE_EQUAL, DATE_BEFORE, DATE_AFTER };
 
   bool isValidDate() const noexcept;
   DateCompare compareDate(const Date &other) const noexcept;
   DateSize daysInMonth(DateSize month) const noexcept;
 
-  DateSize day_{};
-  DateSize month_{};
-  DateSize year_{};
+  DateSize day_{};    ///< Day of the month.
+  DateSize month_{};  ///< Month of the year.
+  DateSize year_{};   ///< Year.
 };
 
 }  // namespace s21

@@ -1,7 +1,7 @@
 /**
  * @file main_window.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the MainWindow class.
  * @version 1.0
  * @date 2024-09-23
  *
@@ -13,7 +13,7 @@
 
 namespace s21 {
 
-MainWindow::MainWindow() : TopMenu() {
+MainWindow::MainWindow() : BaseWindow() {
   initMVC();
   initView();
 }
@@ -62,7 +62,7 @@ void MainWindow::initView() {
   tab_->setCurrentWidget(calculator_view_);
   setlocale(LC_NUMERIC, "C");
 
-  TopMenu::main_layout_->addWidget(tab_);
+  BaseWindow::main_layout_->addWidget(tab_);
 }
 
 void MainWindow::closeWindow() { QApplication::quit(); }

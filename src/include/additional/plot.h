@@ -1,7 +1,7 @@
 /**
  * @file plot.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the Plot class.
  * @version 1.0
  * @date 2024-09-11
  *
@@ -18,13 +18,13 @@
 #include <QLineEdit>
 #include <QVector>
 
+#include "include/additional/base_window.h"
 #include "include/additional/qcustomplot.h"
-#include "include/additional/top_menu.h"
 #include "include/controller/calculator_controller.h"
 
 namespace s21 {
 
-class Plot : public TopMenu {
+class Plot : public BaseWindow {
   Q_OBJECT
 
  public:

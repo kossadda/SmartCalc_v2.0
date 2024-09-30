@@ -1,7 +1,7 @@
 /**
  * @file credit_model.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the CreditModel class.
  * @version 1.0
  * @date 2024-09-19
  *
@@ -22,6 +22,7 @@
 
 namespace s21 {
 
+/// @brief Class for handling credit models.
 class CreditModel : public BaseModel {
  public:
   CreditModel();

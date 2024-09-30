@@ -1,7 +1,7 @@
 /**
  * @file plot.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the Plot class.
  * @version 1.0
  * @date 2024-09-11
  *
@@ -13,7 +13,7 @@
 
 namespace s21 {
 
-Plot::Plot() : TopMenu{} {
+Plot::Plot() : BaseWindow{} {
   allocateMemory();
   initView();
 }
@@ -49,9 +49,9 @@ void Plot::initView() {
   QColor dark_blue{40, 100, 180, 200};
 
   setWindowIcon(QIcon{":plot.png"});
-  TopMenu::image_label_->setPixmap(QPixmap{":plot.png"});
+  BaseWindow::image_label_->setPixmap(QPixmap{":plot.png"});
   setWindowTitle(QString{"Plot"});
-  TopMenu::window_name_->setText(QString{"Plot"});
+  BaseWindow::window_name_->setText(QString{"Plot"});
 
   plot_->setBackground(QBrush{QColor{0, 0, 0, 0}});
   plot_->xAxis->setLabelColor(dark_blue);
@@ -68,7 +68,7 @@ void Plot::initView() {
   plot_->setInteraction(QCP::iRangeZoom, true);
   plot_->setInteraction(QCP::iRangeDrag, true);
 
-  TopMenu::main_layout_->addWidget(plot_);
+  BaseWindow::main_layout_->addWidget(plot_);
   settings_->addWidget(lbegin_, 0, 1, 1, 1, Qt::AlignCenter);
   settings_->addWidget(lend_, 0, 2, 1, 1, Qt::AlignCenter);
   settings_->addWidget(lstep_, 0, 3, 1, 1, Qt::AlignCenter);
@@ -109,7 +109,7 @@ void Plot::initView() {
   ly_->setStyleSheet(qlabel_style);
   lstep_->setStyleSheet(qlabel_style);
 
-  TopMenu::main_layout_->addLayout(settings_, 2, 0);
+  BaseWindow::main_layout_->addLayout(settings_, 2, 0);
 }
 
 void Plot::closeEvent(QCloseEvent *event) {

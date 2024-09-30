@@ -34,7 +34,7 @@ set(CONTROLLERS
 set(ADDITIONAL
   ${CMAKE_SOURCE_DIR}/additional/plot.cc
   ${CMAKE_SOURCE_DIR}/additional/qcustomplot.cc
-  ${CMAKE_SOURCE_DIR}/additional/top_menu.cc
+  ${CMAKE_SOURCE_DIR}/additional/base_window.cc
   ${CMAKE_SOURCE_DIR}/additional/date.cc
   ${CMAKE_SOURCE_DIR}/additional/table.cc
 )
@@ -53,7 +53,7 @@ set(HEADERS
   ${CMAKE_SOURCE_DIR}/include/controller/deposit_controller.h
   ${CMAKE_SOURCE_DIR}/include/additional/qcustomplot.h
   ${CMAKE_SOURCE_DIR}/include/additional/plot.h
-  ${CMAKE_SOURCE_DIR}/include/additional/top_menu.h
+  ${CMAKE_SOURCE_DIR}/include/additional/base_window.h
   ${CMAKE_SOURCE_DIR}/include/additional/date.h
   ${CMAKE_SOURCE_DIR}/include/additional/table.h
 )

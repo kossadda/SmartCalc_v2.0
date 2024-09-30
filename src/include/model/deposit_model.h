@@ -1,7 +1,7 @@
 /**
  * @file deposit_model.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the DepositModel class.
  * @version 1.0
  * @date 2024-09-25
  *
@@ -21,8 +21,10 @@
 
 namespace s21 {
 
+/// @brief Class for handling deposit models.
 class DepositModel : public BaseModel {
  public:
+  /// @brief Enumeration for the frequency of interest accrual.
   enum class Frequency {
     DAY = 0,
     MONTH = 1,
@@ -33,36 +35,40 @@ class DepositModel : public BaseModel {
     YEAR = 12
   };
 
+  /// @brief Enumeration for the type of operation.
   enum class OperationType { REFILL, WITHDRAWAL };
 
+  /// @brief Structure to hold the operation data.
   struct Operation {
     Operation() = default;
     Operation(long double sum_, OperationType type_, const Date &date_);
-    long double sum{};
-    OperationType type;
-    Date date;
+    long double sum{};   ///< The sum of the operation.
+    OperationType type;  ///< The type of the operation.
+    Date date;           ///< The date of the operation.
   };
 
+  /// @brief Structure to hold the deposit data.
   struct Data {
     Data() = default;
     Data(long double amount_, long double term_, TermType term_type_,
          long double rate_, long double tax_rate_, Type type_, Frequency freq_,
          const Date &date_, std::vector<Operation> *ops_ = nullptr);
-    BaseModel::Data *base{};
-    Frequency freq;
-    long double tax_rate{};
-    std::vector<Operation> ops;
-    long double ops_percent{};
+    BaseModel::Data *base{};     ///< Pointer to the base data.
+    Frequency freq;              ///< The frequency of interest accrual.
+    long double tax_rate{};      ///< The tax rate.
+    std::vector<Operation> ops;  ///< The list of operations.
+    long double ops_percent{};   ///< The percentage of operations.
   };
 
+  /// @brief Structure to hold the tax data.
   struct Tax {
-    Date::DateSize year;
-    long double income{};
-    long double nontaxable{10000.0L};
-    long double income_deduction{};
-    long double tax_amount{};
-    long double total_profit_{};
-    long double total_tax_{};
+    Date::DateSize year;               ///< The year for tax calculation.
+    long double income{};              ///< The income for tax calculation.
+    long double nontaxable{10000.0L};  ///< The non-taxable income.
+    long double income_deduction{};    ///< The income deduction for tax calc.
+    long double tax_amount{};          ///< The tax amount.
+    long double total_profit_{};       ///< The total profit.
+    long double total_tax_{};          ///< The total tax.
   };
 
   DepositModel();
@@ -84,11 +90,11 @@ class DepositModel : public BaseModel {
   void sortOperations();
   void taxToTable() noexcept;
 
-  static constexpr long double kNDFLRate = 0.13L;
+  static constexpr long double kNDFLRate = 0.13L;  ///< The NDFL tax rate.
 
-  Data *data_;
-  Tax *tax_;
-  std::vector<std::vector<std::string>> tax_table_;
+  Data *data_;  ///< Pointer to the deposit data.
+  Tax *tax_;    ///< Pointer to the tax data.
+  std::vector<std::vector<std::string>> tax_table_;  ///< Table of tax data.
 };
 
 }  // namespace s21

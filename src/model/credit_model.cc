@@ -1,7 +1,7 @@
 /**
  * @file credit_model.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the CreditModel class.
  * @version 1.0
  * @date 2024-09-20
  *
@@ -13,10 +13,16 @@
 
 namespace s21 {
 
+/// @brief Constructs a CreditModel object.
 CreditModel::CreditModel() : BaseModel{} { data_ = new Data; }
 
+/// @brief Destructs the CreditModel object.
 CreditModel::~CreditModel() { delete data_; }
 
+/**
+ * @brief Adds data to the credit model.
+ * @param data The data to add.
+ */
 void CreditModel::addData(const Data &data) noexcept {
   *data_ = data;
   data_->rate /= 100.0L;
@@ -26,8 +32,10 @@ void CreditModel::addData(const Data &data) noexcept {
   }
 }
 
+/// @brief Clears the table of payments.
 void CreditModel::clear() noexcept { table_.clear(); }
 
+/// @brief Calculates the payments for the credit model.
 void CreditModel::calculatePayments() noexcept {
   Date::DateSize const_day{data_->date.day()};
   long double annuity_cycle{data_->amount};
@@ -59,6 +67,7 @@ void CreditModel::calculatePayments() noexcept {
   }
 }
 
+/// @brief Calculates the period for the credit model.
 void CreditModel::calculatePeriod() noexcept {
   month_->percent = roundVal(formula(month_->current, month_->payment_date));
 
@@ -94,6 +103,10 @@ void CreditModel::calculatePeriod() noexcept {
   month_->balance -= month_->main;
 }
 
+/**
+ * @brief Returns the total table of payments.
+ * @return The total table of payments.
+ */
 std::vector<std::string> CreditModel::totalTable() const noexcept {
   std::vector<std::string> total;
   long double percent{};

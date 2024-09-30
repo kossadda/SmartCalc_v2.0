@@ -1,7 +1,7 @@
 /**
  * @file main_window.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the MainWindow class.
  * @version 1.0
  * @date 2024-09-11
  *
@@ -14,14 +14,14 @@
 
 #include <QTabWidget>
 
-#include "include/additional/top_menu.h"
+#include "include/additional/base_window.h"
 #include "include/view/calculator_view.h"
 #include "include/view/credit_view.h"
 #include "include/view/deposit_view.h"
 
 namespace s21 {
 
-class MainWindow : public TopMenu {
+class MainWindow : public BaseWindow {
   Q_OBJECT
 
  public:

@@ -1,7 +1,7 @@
 /**
  * @file deposit_model.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the DepositModel class.
  * @version 1.0
  * @date 2024-09-25
  *
@@ -13,18 +13,38 @@
 
 namespace s21 {
 
+/// @brief Constructs a DepositModel object.
 DepositModel::DepositModel() : BaseModel{}, data_{new Data}, tax_{new Tax} {}
 
+/// @brief Destructs the DepositModel object.
 DepositModel::~DepositModel() {
   delete data_->base;
   delete data_;
   delete tax_;
 }
 
+/**
+ * @brief Constructs an Operation object with the given parameters.
+ * @param sum_ The sum of the operation.
+ * @param type_ The type of the operation.
+ * @param date_ The date of the operation.
+ */
 DepositModel::Operation::Operation(long double sum_, OperationType type_,
                                    const Date &date_)
     : sum{sum_}, type{type_}, date{date_} {}
 
+/**
+ * @brief Constructs a Data object with the given parameters.
+ * @param amount_ The amount of the deposit.
+ * @param term_ The term of the deposit.
+ * @param term_type_ The type of the term (years, months, days).
+ * @param rate_ The interest rate.
+ * @param tax_rate_ The tax rate.
+ * @param type_ The type of the deposit.
+ * @param freq_ The frequency of interest accrual.
+ * @param date_ The start date of the deposit.
+ * @param ops_ The list of operations.
+ */
 DepositModel::Data::Data(long double amount_, long double term_,
                          TermType term_type_, long double rate_,
                          long double tax_rate_, Type type_, Frequency freq_,
@@ -38,6 +58,10 @@ DepositModel::Data::Data(long double amount_, long double term_,
   }
 }
 
+/**
+ * @brief Adds data to the deposit model.
+ * @param data The data to add.
+ */
 void DepositModel::addData(const Data &data) noexcept {
   *tax_ = Tax{};
   data_->base = data.base;
@@ -49,16 +73,22 @@ void DepositModel::addData(const Data &data) noexcept {
   BaseModel::data_->rate /= 100.0L;
 }
 
+/**
+ * @brief Adds an operation to the deposit model.
+ * @param op The operation to add.
+ */
 void DepositModel::addOperation(const Operation &op) noexcept {
   data_->ops.push_back(op);
 }
 
+/// @brief Clears the table of payments and operations.
 void DepositModel::clear() noexcept {
   table_.clear();
   tax_table_.clear();
   data_->ops.clear();
 }
 
+/// @brief Calculates the payments for the deposit model.
 void DepositModel::calculatePayments() noexcept {
   month_->current = BaseModel::data_->date;
   month_->payment_date = BaseModel::data_->date;
@@ -80,6 +110,10 @@ void DepositModel::calculatePayments() noexcept {
   }
 }
 
+/**
+ * @brief Calculates the last day of the deposit.
+ * @return The last day of the deposit.
+ */
 Date DepositModel::lastDepositDay() const noexcept {
   Date last_day{month_->current};
   Date::DateSize init_day{month_->current.day()};
@@ -101,6 +135,10 @@ Date DepositModel::lastDepositDay() const noexcept {
   return last_day;
 }
 
+/**
+ * @brief Adds a period to the deposit model.
+ * @param last_day The last day of the deposit.
+ */
 void DepositModel::addPeriod(const Date &last_day) noexcept {
   std::size_t period{static_cast<std::size_t>(data_->freq)};
 
@@ -119,6 +157,7 @@ void DepositModel::addPeriod(const Date &last_day) noexcept {
   }
 }
 
+/// @brief Calculates the period for the deposit model.
 void DepositModel::calculatePeriod() noexcept {
   month_->percent = roundVal(formula(month_->current, month_->payment_date) +
                              data_->ops_percent);
@@ -133,6 +172,10 @@ void DepositModel::calculatePeriod() noexcept {
   }
 }
 
+/**
+ * @brief Calculates the taxes for the deposit model.
+ * @param last_day The last day of the deposit.
+ */
 void DepositModel::calculateTaxes(const Date &last_day) {
   tax_->total_profit_ += month_->percent;
 
@@ -164,6 +207,7 @@ void DepositModel::calculateTaxes(const Date &last_day) {
   }
 }
 
+/// @brief Calculates the operations for the deposit model.
 void DepositModel::calculateOperations() {
   data_->ops_percent = 0.0L;
 
@@ -205,6 +249,7 @@ void DepositModel::calculateOperations() {
   }
 }
 
+/// @brief Adds the tax data to the table.
 void DepositModel::taxToTable() noexcept {
   std::vector<std::string> str_year;
 
@@ -218,6 +263,7 @@ void DepositModel::taxToTable() noexcept {
   tax_table_.emplace_back(str_year);
 }
 
+/// @brief Sorts the operations by date.
 void DepositModel::sortOperations() {
   Operation temp;
   for (std::size_t i{}; i < data_->ops.size(); ++i) {
@@ -231,6 +277,10 @@ void DepositModel::sortOperations() {
   }
 }
 
+/**
+ * @brief Returns the total table of payments.
+ * @return The total table of payments.
+ */
 std::vector<std::string> DepositModel::totalTable() const noexcept {
   std::vector<std::string> total_str;
   auto eff_rate{
@@ -254,6 +304,10 @@ std::vector<std::string> DepositModel::totalTable() const noexcept {
   return total_str;
 }
 
+/**
+ * @brief Returns the table of tax data.
+ * @return The table of tax data.
+ */
 const std::vector<std::vector<std::string>> &DepositModel::taxTable()
     const noexcept {
   return tax_table_;

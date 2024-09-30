@@ -1,7 +1,7 @@
 /**
- * @file top_menu.h
+ * @file base_window.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the BaseWindow class.
  * @version 1.0
  * @date 2024-09-13
  *
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_
-#define SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_
+#ifndef SRC_INCLUDE_ADDITIONAL_BASE_WINDOW_H_
+#define SRC_INCLUDE_ADDITIONAL_BASE_WINDOW_H_
 
 #include <QFrame>
 #include <QGridLayout>
@@ -25,12 +25,12 @@
 
 namespace s21 {
 
-class TopMenu : public QWidget {
+class BaseWindow : public QWidget {
   Q_OBJECT
 
  public:
-  TopMenu();
-  ~TopMenu();
+  BaseWindow();
+  ~BaseWindow();
 
  protected slots:
   void paintEvent(QPaintEvent *event) override;
@@ -61,4 +61,4 @@ class TopMenu : public QWidget {
 
 }  // namespace s21
 
-#endif  // SRC_INCLUDE_ADDITIONAL_TOP_MENU_H_
+#endif  // SRC_INCLUDE_ADDITIONAL_BASE_WINDOW_H_

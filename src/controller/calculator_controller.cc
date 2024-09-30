@@ -1,7 +1,7 @@
 /**
  * @file calculator_controller.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the CalculatorController class.
  * @version 1.0
  * @date 2024-09-11
  *

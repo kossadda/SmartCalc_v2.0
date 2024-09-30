@@ -28,7 +28,9 @@ WARN_NO_PARAMDOC       = NO
 
 WARN_AS_ERROR          = NO
 
-INPUT                  = "./" ./../README.md
+INPUT                  = ./model ./include/model \
+												 ./additional/date.cc ./include/additional/date.h \
+												 ./../README.md
 
 FILE_PATTERNS          = *.cc \
                          *.h

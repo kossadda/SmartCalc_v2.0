@@ -1,7 +1,7 @@
 /**
  * @file credit_controller.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the CreditController class.
  * @version 1.0
  * @date 2024-09-23
  *

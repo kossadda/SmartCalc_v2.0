@@ -1,15 +1,3 @@
-################################################################################
-#                                 _       _     _                              #
-#                                (_)     | |   | |                             #
-#                __   ____ _ _ __ _  __ _| |__ | | ___  ___                    #
-#                \ \ / / _` | '__| |/ _` | '_ \| |/ _ \/ __|                   #
-#                 \ V / (_| | |  | | (_| | |_) | |  __/\__ \                   #
-#                  \_/ \__,_|_|  |_|\__,_|_.__/|_|\___||___/                   #
-#                                                                              #
-#                                                                              #
-################################################################################
-
-
 #================================== PROJECT ===================================#
 PROJECT_NAME     =  smartcalc
 #==============================================================================#
@@ -29,6 +17,7 @@ MODEL_DIR        =  ./model
 VIEW_DIR         =  ./view
 CONTROLLER_DIR   =  ./controller
 ADDITIONAL_DIR   =  ./additional
+RESOURCES_DIR    =  ./resources
 INCLUDE_DIR      =  ./include
 EXCLUDE_FILE1    =  qcustomplot.*
 EXCLUDE_FILE2    =  CMakeLists.txt
@@ -49,18 +38,6 @@ TESTS            =  $(shell find $(TEST_DIR) -type f ! -name $(EXCLUDE_FILE2))
 #======================== LIST OF FILES TO CLANG-FORMAT =======================#
 ALL_FILES        =  $(MODULES) $(TESTS)
 #==============================================================================#
-
-
-################################################################################
-#                      _                       _                               #
-#                     | |                     | |                              #
-#                    _| |_ __ _ _ __ __ _  ___| |_ ___                         #
-#                   |_  __/ _` | '__/ _` |/ _ \ __/ __|                        #
-#                     | || (_| | | | (_| |  __/ |_\__ \                        #
-#                      \__\__,_|_|  \__, |\___|\__|___/                        #
-#                                    __/ |                                     #
-#                                   |___/                                      #
-################################################################################
 
 
 #================================= MAIN TARGETS ===============================#
@@ -89,11 +66,15 @@ dvi:
 dist: uninstall
 	@rm -rf $(DIST_DIR)
 	@echo "Creating a distribution..."
-	@mkdir -p $(DIST_DIR)/$(PROJECT_NAME)
-	@cp -r ./ $(DIST_DIR)/$(PROJECT_NAME) && rm -rf $(DIST_DIR)/$(PROJECT_NAME)/tests
-	@tar -czf $(DIST_DIR)/$(PROJECT_NAME).tar.gz -C $(DIST_DIR) $(PROJECT_NAME)
-	@echo "Distribution created: $(DIST_DIR)/$(PROJECT_NAME).tar.gz"
+	@mkdir -p $(DIST_DIR)/$(PROJECT_NAME)/src
+	@cp -r $(ALL_MODULES_DIR) $(DIST_DIR)/$(PROJECT_NAME)/src
+	@cp -r $(RESOURCES_DIR) $(DIST_DIR)/$(PROJECT_NAME)/src
+	@cp -r Makefile $(DIST_DIR)/$(PROJECT_NAME)/src
+	@cp -r CMakeLists.txt $(DIST_DIR)/$(PROJECT_NAME)/src
+	@tar -czf $(PROJECT_NAME).tar.gz -C $(DIST_DIR) $(PROJECT_NAME)
 	@rm -rf $(DIST_DIR)/$(PROJECT_NAME)
+	@mv $(PROJECT_NAME).tar.gz $(DIST_DIR)
+	@echo "Distribution created: $(DIST_DIR)/$(PROJECT_NAME).tar.gz"
 
 test:
 	mkdir -p $(TEST_BUILD)
@@ -115,7 +96,6 @@ cpplint:
 valgrind:
 	valgrind $(VAL) ./$(BUILD)/$(PROJECT_NAME)
 #==============================================================================#
-
 
 #============================= ADDITIONAL TARGETS =============================#
 run:

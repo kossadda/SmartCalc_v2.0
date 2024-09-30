@@ -1,7 +1,7 @@
 /**
  * @file calculator_model.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the CalculatorModel class.
  * @version 1.0
  * @date 2024-08-13
  *
@@ -13,6 +13,11 @@
 
 namespace s21 {
 
+/**
+ * @brief Adds an expression to the calculator model.
+ * @param infix The infix expression.
+ * @param var The variable value.
+ */
 void CalculatorModel::add_expression(std::string infix,
                                      long double var) noexcept {
   variable_ = var;
@@ -20,8 +25,13 @@ void CalculatorModel::add_expression(std::string infix,
   infix_ = replaceNames(infix);
 }
 
+/**
+ * @brief Returns a reference to the variable value.
+ * @return A reference to the variable value.
+ */
 long double &CalculatorModel::variable() noexcept { return variable_; }
 
+/// @brief Converts the infix expression to postfix notation.
 void CalculatorModel::to_postfix() noexcept {
   std::stack<char> ops;
   size_ = infix_.size();
@@ -84,6 +94,10 @@ void CalculatorModel::to_postfix() noexcept {
   }
 }
 
+/**
+ * @brief Validates the infix expression.
+ * @return True if the expression is valid, false otherwise.
+ */
 bool CalculatorModel::validate() const noexcept {
   const std::string valid_chars{"()^+-*/msctSCTQLlPxe1234567890."};
   std::size_t open_br{};
@@ -144,6 +158,10 @@ bool CalculatorModel::validate() const noexcept {
   return valid;
 }
 
+/**
+ * @brief Evaluates the postfix expression.
+ * @return The result of the evaluation.
+ */
 long double CalculatorModel::evaluate() {
   std::stack<long double> operands;
   std::istringstream iss{postfix_};
@@ -238,6 +256,10 @@ long double CalculatorModel::evaluate() {
   return operands.top();
 }
 
+/**
+ * @brief Evaluates the postfix expression and returns the result as a string.
+ * @return The result of the evaluation as a string.
+ */
 std::string CalculatorModel::evaluate_str() {
   std::ostringstream stream;
   long double result{evaluate()};
@@ -251,6 +273,13 @@ std::string CalculatorModel::evaluate_str() {
   return result_str;
 }
 
+/**
+ * @brief Replaces substrings in the given string.
+ * @param str The input string.
+ * @param from The substring to replace.
+ * @param to The substring to replace with.
+ * @return The modified string.
+ */
 std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
                                            const char *to) const {
   std::string from_{from};
@@ -265,6 +294,11 @@ std::string CalculatorModel::replaceSubstr(std::string str, const char *from,
   return str;
 }
 
+/**
+ * @brief Replaces variable names in the infix expression.
+ * @param infix The infix expression.
+ * @return The modified infix expression.
+ */
 std::string CalculatorModel::replaceNames(std::string infix) const noexcept {
   std::string result;
 
@@ -322,6 +356,11 @@ std::string CalculatorModel::replaceNames(std::string infix) const noexcept {
   return result;
 }
 
+/**
+ * @brief Gets the precedence of an operator.
+ * @param op The operator.
+ * @return The precedence of the operator.
+ */
 int CalculatorModel::getPrecedence(char op) {
   int priority{};
 
@@ -339,10 +378,20 @@ int CalculatorModel::getPrecedence(char op) {
   return priority;
 }
 
+/**
+ * @brief Checks if a character is an operator.
+ * @param c The character to check.
+ * @return True if the character is an operator, false otherwise.
+ */
 bool CalculatorModel::isOperator(char c) const noexcept {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == 'm';
 }
 
+/**
+ * @brief Checks if a character is a function.
+ * @param c The character to check.
+ * @return True if the character is a function, false otherwise.
+ */
 bool CalculatorModel::isFunction(char c) const noexcept {
   return c == 's' || c == 'c' || c == 't' || c == 'S' || c == 'C' || c == 'T' ||
          c == 'l' || c == 'L' || c == 'Q' || c == 'P';

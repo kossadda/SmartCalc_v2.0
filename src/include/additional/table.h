@@ -1,7 +1,7 @@
 /**
  * @file table.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the Table class.
  * @version 1.0
  * @date 2024-09-23
  *
@@ -12,7 +12,7 @@
 #ifndef SRC_INCLUDE_ADDITIONAL_TABLE_H_
 #define SRC_INCLUDE_ADDITIONAL_TABLE_H_
 
-#include <include/additional/top_menu.h>
+#include <include/additional/base_window.h>
 
 #include <QGridLayout>
 #include <QHeaderView>
@@ -25,7 +25,7 @@
 
 namespace s21 {
 
-class Table : public TopMenu {
+class Table : public BaseWindow {
   Q_OBJECT
 
  public:

@@ -1,7 +1,7 @@
 /**
  * @file calculator_controller.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the CalculatorController class.
  * @version 1.0
  * @date 2024-09-11
  *

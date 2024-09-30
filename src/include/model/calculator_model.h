@@ -1,7 +1,7 @@
 /**
  * @file calculator_model.h
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Header file for the CalculatorModel class.
  * @version 1.0
  * @date 2024-08-13
  *
@@ -19,6 +19,7 @@
 
 namespace s21 {
 
+/// @brief Class for handling mathematical expressions and evaluating them.
 class CalculatorModel {
  public:
   CalculatorModel() = default;
@@ -38,12 +39,12 @@ class CalculatorModel {
   bool isFunction(char c) const noexcept;
   bool isOperator(char c) const noexcept;
 
-  static constexpr long double kLdoubleMinVal{1.0e-15L};
+  static constexpr long double kLdoubleMinVal{1.0e-15L};  ///< Minimum value.
 
-  std::string infix_;
-  std::string postfix_;
-  std::size_t size_;
-  long double variable_;
+  std::string infix_;     ///< The infix expression.
+  std::string postfix_;   ///< The postfix expression.
+  std::size_t size_;      ///< The size of the infix expression.
+  long double variable_;  ///< The variable value.
 };
 
 }  // namespace s21

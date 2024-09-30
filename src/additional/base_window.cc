@@ -1,7 +1,7 @@
 /**
- * @file top_menu.cc
+ * @file base_window.cc
  * @author kossadda (https://github.com/kossadda)
- * @brief
+ * @brief Implementation of the BaseWindow class.
  * @version 1.0
  * @date 2024-09-15
  *
@@ -9,21 +9,21 @@
  *
  */
 
-#include "include/additional/top_menu.h"
+#include "include/additional/base_window.h"
 
 namespace s21 {
 
-TopMenu::TopMenu() : QWidget{} {
+BaseWindow::BaseWindow() : QWidget{} {
   allocateMemory();
   initView();
 }
 
-TopMenu::~TopMenu() {
+BaseWindow::~BaseWindow() {
   delete drag_position_;
   delete target_position_;
 }
 
-void TopMenu::allocateMemory() {
+void BaseWindow::allocateMemory() {
   image_label_ = new QLabel{this};
   window_name_ = new QLabel{QString{"SmartCalculator"}, this};
   grid_ = new QGridLayout{this};
@@ -39,7 +39,7 @@ void TopMenu::allocateMemory() {
   move_timer_ = new QTimer{this};
 }
 
-void TopMenu::initView() {
+void BaseWindow::initView() {
   close_but_->setStyleSheet(
       QString{"QPushButton:pressed {"
               "background-color: rgb(147, 18, 21);}"
@@ -96,14 +96,15 @@ void TopMenu::initView() {
   setAttribute(Qt::WA_TranslucentBackground);
   setFixedSize(600, 700);
 
-  connect(close_but_, &QPushButton::clicked, this, &TopMenu::closeWindow);
-  connect(collapse_but_, &QPushButton::clicked, this, &TopMenu::showMinimized);
+  connect(close_but_, &QPushButton::clicked, this, &BaseWindow::closeWindow);
+  connect(collapse_but_, &QPushButton::clicked, this,
+          &BaseWindow::showMinimized);
 
-  connect(move_timer_, &QTimer::timeout, this, &TopMenu::updatePosition);
+  connect(move_timer_, &QTimer::timeout, this, &BaseWindow::updatePosition);
   move_timer_->setInterval(10);
 }
 
-void TopMenu::paintEvent(QPaintEvent *event) {
+void BaseWindow::paintEvent(QPaintEvent *event) {
   Q_UNUSED(event);
 
   QPainter painter(this);
@@ -122,7 +123,7 @@ void TopMenu::paintEvent(QPaintEvent *event) {
   QWidget::paintEvent(event);
 }
 
-void TopMenu::mousePressEvent(QMouseEvent *event) {
+void BaseWindow::mousePressEvent(QMouseEvent *event) {
   if (event->button() == Qt::LeftButton) {
     dragging = true;
     *drag_position_ =
@@ -131,7 +132,7 @@ void TopMenu::mousePressEvent(QMouseEvent *event) {
   }
 }
 
-void TopMenu::mouseMoveEvent(QMouseEvent *event) {
+void BaseWindow::mouseMoveEvent(QMouseEvent *event) {
   if (dragging && (event->buttons() & Qt::LeftButton)) {
     move_timer_->start();
     *target_position_ = event->globalPosition().toPoint() - *drag_position_;
@@ -139,7 +140,7 @@ void TopMenu::mouseMoveEvent(QMouseEvent *event) {
   }
 }
 
-void TopMenu::mouseReleaseEvent(QMouseEvent *event) {
+void BaseWindow::mouseReleaseEvent(QMouseEvent *event) {
   if (event->button() == Qt::LeftButton) {
     dragging = false;
     move_timer_->stop();
@@ -147,8 +148,8 @@ void TopMenu::mouseReleaseEvent(QMouseEvent *event) {
   }
 }
 
-void TopMenu::updatePosition() { move(*target_position_); }
+void BaseWindow::updatePosition() { move(*target_position_); }
 
-void TopMenu::closeWindow() { close(); }
+void BaseWindow::closeWindow() { close(); }
 
 }  // namespace s21
