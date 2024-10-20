@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstdint>
 #include <string>
 #include <utility>
 #include <vector>

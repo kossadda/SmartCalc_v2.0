@@ -266,7 +266,7 @@ std::string CalculatorModel::evaluate_str() {
   stream << std::fixed << std::setprecision(7) << result;
   std::string result_str{stream.str()};
 
-  while (result_str.back() == '0') {
+  while (result_str.back() == '0' || result_str.back() == '.') {
     result_str.pop_back();
   }
 
