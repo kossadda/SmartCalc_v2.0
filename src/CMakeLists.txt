@@ -8,8 +8,18 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+# Попытка найти Qt6
+find_package(Qt6 QUIET COMPONENTS Widgets)
+
+if(Qt6_FOUND)
+    set(QT_VERSION_MAJOR 6)
+    set(QT_LIBRARIES Qt6::Widgets)
+else()
+    # Если Qt6 не найден, попытка найти Qt5
+    find_package(Qt5 REQUIRED COMPONENTS Widgets)
+    set(QT_VERSION_MAJOR 5)
+    set(QT_LIBRARIES Qt5::Widgets)
+endif()
 
 set(MODELS
   ${CMAKE_SOURCE_DIR}/model/base_model.cc
@@ -78,13 +88,10 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wextra -g)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
   ${CMAKE_SOURCE_DIR}/modules/include
 )
 
-qt_finalize_executable(${PROJECT_NAME})
-
-# enable_testing()
-# add_subdirectory(tests)
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
